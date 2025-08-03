@@ -1,127 +1,138 @@
-<!-- Loading Spinner -->
-<div *ngIf="isLoading" class="loading-container">
-  <div class="spinner"></div>
+<div class="splash-screen" *ngIf="showSplashScreen">
+  <div class="splash-content">
+    <h1 class="glitch" data-text="MATGARAK">MATGARAK</h1>
+    <p class="splash-subtitle">Initializing Future-Tech...</p>
+  </div>
 </div>
 
-<!-- Main Container -->
-<main class="home-container" *ngIf="!isLoading">
-  <!-- Aurora Background -->
-  <div class="aurora-background">
-    <div class="aurora-dot"></div>
-    <div class="aurora-dot"></div>
-    <div class="aurora-dot"></div>
-  </div>
+<main class="home-container" [class.content-hidden]="showSplashScreen" *ngIf="!isLoading">
+    <div class="particle-background">
+    <div class="particle" *ngFor="let p of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]"></div>
+  </div>
 
-  <div class="main-content-wrapper">
-    <!-- Left Sidebar for Categories -->
-    <aside class="sidebar animate-on-scroll">
-      <h2 class="sidebar-title">Categories</h2>
-      <ul class="category-list">
-        <li *ngFor="let category of categories; let i = index"
-            class="category-item animate-on-scroll"
-            [style.transition-delay.s]="i * 0.08"
-            (click)="applyFilters(category.id); scrollToSection('products-list')">
-          <i [class]="category.icon"></i>
-          <span>{{ category.name }}</span>
-        </li>
-      </ul>
-    </aside>
+  <div class="main-content-wrapper">
+    <div class="content-area">
 
-    <!-- Right Content Area -->
-    <div class="content-area">
-      <!-- Hero Section -->
-      <header class="hero-section" id="hero-section">
-        <div class="hero-content animate-on-scroll">
-          <h1>Explore the Future</h1>
-          <p>Discover innovation at your fingertips.</p>
-          <div class="search-container">
-            <input type="text" placeholder="Search for innovation..." [(ngModel)]="searchTerm" (input)="applyFilters()">
-            <button class="search-btn" (click)="applyFilters()">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
-        </div>
-      </header>
+            <header class="hero-section" id="hero-section">
+        <div class="hero-content">
+          <span class="hero-subtitle animate-on-scroll" [style.transition-delay.s]="0.2">NEXT-GEN GEAR AWAITS</span>
+          <h1 class="animate-on-scroll" [style.transition-delay.s]="0.4">Explore the Future of Tech</h1>
+          <p class="hero-description animate-on-scroll" [style.transition-delay.s]="0.6">Discover innovation at your fingertips with our curated collection of high-performance gear.</p>
 
-      <!-- Featured Products Section -->
-      <section class="products-section">
-        <h2 class="section-title animate-on-scroll">Top Rated</h2>
-        <div class="products-grid">
-          <div *ngFor="let product of featuredProducts; let i = index; trackBy: trackByProductId" class="product-card animate-on-scroll" [style.transition-delay.s]="i * 0.1">
-            <div class="product-icon-wrapper">
-              <i [class]="product.icon"></i>
-              <span *ngIf="product.discount" class="discount-badge">{{ product.discount }}% OFF</span>
-            </div>
-            <div class="product-info">
-              <h3>{{ product.name }}</h3>
-              <p class="product-description">{{ product.description }}</p>
-              <div class="product-rating">
-                <!-- الكود الصحيح هنا -->
-                <ng-container *ngFor="let star of [1,2,3,4,5]">
-                  <i class="fas fa-star" [class.filled]="star <= product.rating"></i>
-                </ng-container>
-                <span class="review-count">({{ product.reviewCount }})</span>
-              </div>
-              <div class="product-price">
-                <span class="current-price">{{ formatPrice(product.price) }}</span>
-                <span *ngIf="product.originalPrice" class="original-price">{{ formatPrice(product.originalPrice) }}</span>
-              </div>
-              <button class="add-to-cart-btn" [disabled]="!product.inStock">
-                <i class="fas fa-shopping-cart"></i> Add to Cart
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+          <div class="product-icon-mosaic animate-on-scroll" [style.transition-delay.s]="0.8">
+            <i class="fas fa-mobile-alt"></i>
+            <i class="fas fa-laptop"></i>
+            <i class="fas fa-headphones"></i>
+            <i class="fas fa-camera"></i>
+            <i class="fas fa-watch"></i>
+            <i class="fas fa-gamepad"></i>
+            <i class="fas fa-tshirt"></i>
+            <i class="fas fa-shoe-sneaker"></i>
+            <i class="fas fa-blender"></i>
+            <i class="fas fa-lightbulb"></i>
+            <i class="fas fa-couch"></i>
+            <i class="fas fa-book"></i>
+          </div>
 
-      <!-- All Products Section -->
-      <section class="products-section" id="products-list">
-        <h2 class="section-title animate-on-scroll">All Products</h2>
-        <div class="products-grid" *ngIf="filteredProducts.length > 0; else noProducts">
-          <div *ngFor="let product of filteredProducts; let i = index; trackBy: trackByProductId" class="product-card animate-on-scroll" [style.transition-delay.s]="i * 0.05">
-            <div class="product-icon-wrapper">
-              <i [class]="product.icon"></i>
-              <span *ngIf="product.discount" class="discount-badge">{{ product.discount }}% OFF</span>
-            </div>
-            <div class="product-info">
-              <h3>{{ product.name }}</h3>
-              <p class="product-description">{{ product.description }}</p>
-              <div class="product-rating">
-                <!-- الكود الصحيح هنا أيضاً -->
-                <ng-container *ngFor="let star of [1,2,3,4,5]">
-                  <i class="fas fa-star" [class.filled]="star <= product.rating"></i>
-                </ng-container>
-                <span class="review-count">({{ product.reviewCount }})</span>
-              </div>
-              <div class="product-price">
-                <span class="current-price">{{ formatPrice(product.price) }}</span>
-                <span *ngIf="product.originalPrice" class="original-price">{{ formatPrice(product.originalPrice) }}</span>
-              </div>
-              <button class="add-to-cart-btn" [disabled]="!product.inStock">
-                <i class="fas fa-shopping-cart"></i> Add to Cart
-              </button>
-            </div>
-          </div>
-        </div>
-        <ng-template #noProducts>
-          <div class="empty-state animate-on-scroll">
-            <i class="fas fa-box-open"></i>
-            <h3>No Products Found</h3>
-            <p>Try a different search or category.</p>
-          </div>
-        </ng-template>
-      </section>
-    </div>
-  </div>
+          <div class="hero-actions animate-on-scroll" [style.transition-delay.s]="1.0">
+            <button class="cta-button" (click)="scrollToSection('products-list')">
+              <span>Shop All Products</span> <i class="fas fa-arrow-right"></i>
+            </button>
+            <button class="secondary-button" (click)="scrollToSection('deal-section')">
+              <i class="fas fa-fire"></i> View Today's Deal
+            </button>
+          </div>
+        </div>
+      </header>
 
-  <!-- FAB -->
-  <div class="fab-container">
-    <div class="fab-menu" [class.active]="fabMenuOpen">
-      <button (click)="scrollToSection('hero-section'); fabMenuOpen = false" title="Scroll to Top"><i class="fas fa-arrow-up"></i></button>
-      <button (click)="refreshData(); fabMenuOpen = false" title="Refresh Data"><i class="fas fa-sync-alt"></i></button>
-    </div>
-    <button class="fab-main" (click)="toggleFabMenu()" aria-label="Toggle menu">
-      <i class="fas" [class.fa-plus]="!fabMenuOpen" [class.fa-times]="fabMenuOpen"></i>
-    </button>
-  </div>
+            <section class="features-section">
+        <div class="features-grid">
+          <div *ngFor="let feature of features; let i = index"
+               class="feature-card animate-on-scroll"
+               [style.transition-delay.s]="i * 0.15">
+            <div class="feature-icon"><i [class]="feature.icon"></i></div>
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.description }}</p>
+          </div>
+        </div>
+      </section>
+
+            <section class="deal-section" id="deal-section" *ngIf="dealOfTheDay">
+        <div class="deal-content animate-on-scroll">
+          <div class="deal-info">
+            <h2 class="section-title">Deal of the Day</h2>
+            <h3>{{ dealOfTheDay.name }}</h3>
+            <p class="deal-description">{{ dealOfTheDay.description }}</p>
+            <div class="deal-price">
+              <span class="current-price">{{ formatPrice(dealOfTheDay.price) }}</span>
+              <span class="original-price">{{ formatPrice(dealOfTheDay.originalPrice || 0) }}</span>
+            </div>
+            <div class="countdown-timer">
+              <h4>Offer ends in:</h4>
+              <div class="timer-boxes">
+                <div class="timer-box"><span>{{ countdown.days }}</span>Days</div>
+                <div class="timer-box"><span>{{ countdown.hours }}</span>Hours</div>
+                <div class="timer-box"><span>{{ countdown.minutes }}</span>Mins</div>
+                <div class="timer-box"><span>{{ countdown.seconds }}</span>Secs</div>
+              </div>
+            </div>
+            <button class="cta-button large">
+              <span><i class="fas fa-bolt"></i> Claim This Deal</span>
+            </button>
+          </div>
+          <div class="deal-image">
+            <div class="deal-icon-wrapper animate-on-scroll" [style.transition-delay.s]="0.3">
+              <i [class]="dealOfTheDay.icon"></i>
+            </div>
+          </div>
+        </div>
+      </section>
+
+            <section class="products-section" id="products-list">
+        <h2 class="section-title animate-on-scroll">Our Full Catalog</h2>
+        <div class="products-grid">
+          <div *ngFor="let product of allProducts; let i = index; trackBy: trackByProductId"
+               class="product-card animate-on-scroll"
+               [style.transition-delay.s]="(i % 4) * 0.1">
+            <div class="product-icon-wrapper">
+              <i [class]="product.icon"></i>
+              <span *ngIf="product.discount" class="discount-badge">
+                <i class="fas fa-tag"></i> {{ product.discount }}% OFF
+              </span>
+            </div>
+            <div class="product-info">
+              <h3>{{ product.name }}</h3>
+              <div class="product-rating">
+                <ng-container *ngFor="let star of [1,2,3,4,5]"><i class="fas fa-star" [class.filled]="star <= product.rating"></i></ng-container>
+              </div>
+              <div class="product-price">
+                <span class="current-price">{{ formatPrice(product.price) }}</span>
+                <span *ngIf="product.originalPrice" class="original-price-small">{{ formatPrice(product.originalPrice) }}</span>
+              </div>
+              <div class="product-actions">
+                <button class="cta-button small"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                <button class="icon-button"><i class="fas fa-heart"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+            <section class="testimonials-section">
+          <h2 class="section-title animate-on-scroll">Trusted by the Community</h2>
+          <div class="testimonial-slider animate-on-scroll">
+              <div class="testimonial-wrapper" [style.transform]="'translateX(-' + currentTestimonialIndex * 100 + '%)'">
+                  <div *ngFor="let testimonial of testimonials" class="testimonial-slide">
+                      <img [src]="testimonial.avatar" [alt]="testimonial.name" class="testimonial-avatar">
+                      <p class="testimonial-quote">"{{ testimonial.quote }}"</p>
+                      <h4 class="testimonial-name">{{ testimonial.name }}</h4>
+                      <span class="testimonial-role">{{ testimonial.role }}</span>
+                  </div>
+              </div>
+              <button class="slider-btn prev" (click)="prevTestimonial()"><i class="fas fa-chevron-left"></i></button>
+              <button class="slider-btn next" (click)="nextTestimonial()"><i class="fas fa-chevron-right"></i></button>
+          </div>
+      </section>
+    </div>
+  </div>
 </main>
