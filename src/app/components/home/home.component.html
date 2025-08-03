@@ -1,166 +1,127 @@
-<main class="home-page">
+<!-- Loading Spinner -->
+<div *ngIf="isLoading" class="loading-container">
+  <div class="spinner"></div>
+</div>
 
-  <section class="hero-section">
-    <!-- CORRECTED TAG from ngx-particles to ng-particles -->
-    <ng-particles
-      id="tsparticles"
-      [options]="particlesOptions"
-      (particlesInit)="particlesInit($event)"
-    ></ng-particles>
-
-    <div class="container hero-content">
-      <div class="hero-text">
-        <h1>
-          Not Just a Store.<br>
-          It’s a <span class="highlight-animated">Discovery</span>.
-        </h1>
-        <p>
-          Where quality defines every detail. Discover curated gems that spark inspiration.
-        </p>
-        <div class="hero-buttons">
-          <a href="#" class="btn btn-primary">
-            Begin Your Journey <i class="fas fa-rocket"></i>
-          </a>
-          <a href="#" class="btn btn-secondary">
-            See What’s New <i class="fas fa-sparkles"></i>
-          </a>
-        </div>
-      </div>
-      <div class="hero-visual-animated">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Professional Section Divider -->
-  <div class="section-divider">
-    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill"></path>
-    </svg>
+<!-- Main Container -->
+<main class="home-container" *ngIf="!isLoading">
+  <!-- Aurora Background -->
+  <div class="aurora-background">
+    <div class="aurora-dot"></div>
+    <div class="aurora-dot"></div>
+    <div class="aurora-dot"></div>
   </div>
 
-  <section class="features-section">
-    <div class="container features-grid">
-      <div class="feature-card animate-on-scroll fade-in-up" style="animation-delay:0.1s">
-        <div class="feature-icon-wrapper">
-          <i class="fas fa-gem icon-main"></i>
-          <i class="fas fa-star icon-bg"></i>
+  <div class="main-content-wrapper">
+    <!-- Left Sidebar for Categories -->
+    <aside class="sidebar animate-on-scroll">
+      <h2 class="sidebar-title">Categories</h2>
+      <ul class="category-list">
+        <li *ngFor="let category of categories; let i = index"
+            class="category-item animate-on-scroll"
+            [style.transition-delay.s]="i * 0.08"
+            (click)="applyFilters(category.id); scrollToSection('products-list')">
+          <i [class]="category.icon"></i>
+          <span>{{ category.name }}</span>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Right Content Area -->
+    <div class="content-area">
+      <!-- Hero Section -->
+      <header class="hero-section" id="hero-section">
+        <div class="hero-content animate-on-scroll">
+          <h1>Explore the Future</h1>
+          <p>Discover innovation at your fingertips.</p>
+          <div class="search-container">
+            <input type="text" placeholder="Search for innovation..." [(ngModel)]="searchTerm" (input)="applyFilters()">
+            <button class="search-btn" (click)="applyFilters()">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
         </div>
-        <h3>Unmatched Quality</h3>
-        <p>Your products are masterpieces of excellence and design.</p>
-      </div>
-      <div class="feature-card animate-on-scroll fade-in-up" style="animation-delay:0.2s">
-        <div class="feature-icon-wrapper">
-          <i class="fas fa-shipping-fast icon-main"></i>
-          <i class="fas fa-truck icon-bg"></i>
+      </header>
+
+      <!-- Featured Products Section -->
+      <section class="products-section">
+        <h2 class="section-title animate-on-scroll">Top Rated</h2>
+        <div class="products-grid">
+          <div *ngFor="let product of featuredProducts; let i = index; trackBy: trackByProductId" class="product-card animate-on-scroll" [style.transition-delay.s]="i * 0.1">
+            <div class="product-icon-wrapper">
+              <i [class]="product.icon"></i>
+              <span *ngIf="product.discount" class="discount-badge">{{ product.discount }}% OFF</span>
+            </div>
+            <div class="product-info">
+              <h3>{{ product.name }}</h3>
+              <p class="product-description">{{ product.description }}</p>
+              <div class="product-rating">
+                <!-- الكود الصحيح هنا -->
+                <ng-container *ngFor="let star of [1,2,3,4,5]">
+                  <i class="fas fa-star" [class.filled]="star <= product.rating"></i>
+                </ng-container>
+                <span class="review-count">({{ product.reviewCount }})</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">{{ formatPrice(product.price) }}</span>
+                <span *ngIf="product.originalPrice" class="original-price">{{ formatPrice(product.originalPrice) }}</span>
+              </div>
+              <button class="add-to-cart-btn" [disabled]="!product.inStock">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
         </div>
-        <h3>Swift Delivery</h3>
-        <p>Your journey starts the moment you click “Order”.</p>
-      </div>
-      <div class="feature-card animate-on-scroll fade-in-up" style="animation-delay:0.3s">
-        <div class="feature-icon-wrapper">
-          <i class="fas fa-leaf icon-main"></i>
-          <i class="fas fa-recycle icon-bg"></i>
+      </section>
+
+      <!-- All Products Section -->
+      <section class="products-section" id="products-list">
+        <h2 class="section-title animate-on-scroll">All Products</h2>
+        <div class="products-grid" *ngIf="filteredProducts.length > 0; else noProducts">
+          <div *ngFor="let product of filteredProducts; let i = index; trackBy: trackByProductId" class="product-card animate-on-scroll" [style.transition-delay.s]="i * 0.05">
+            <div class="product-icon-wrapper">
+              <i [class]="product.icon"></i>
+              <span *ngIf="product.discount" class="discount-badge">{{ product.discount }}% OFF</span>
+            </div>
+            <div class="product-info">
+              <h3>{{ product.name }}</h3>
+              <p class="product-description">{{ product.description }}</p>
+              <div class="product-rating">
+                <!-- الكود الصحيح هنا أيضاً -->
+                <ng-container *ngFor="let star of [1,2,3,4,5]">
+                  <i class="fas fa-star" [class.filled]="star <= product.rating"></i>
+                </ng-container>
+                <span class="review-count">({{ product.reviewCount }})</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">{{ formatPrice(product.price) }}</span>
+                <span *ngIf="product.originalPrice" class="original-price">{{ formatPrice(product.originalPrice) }}</span>
+              </div>
+              <button class="add-to-cart-btn" [disabled]="!product.inStock">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
         </div>
-        <h3>Conscious Choices</h3>
-        <p>Ethical, sustainable, and thoughtfully sourced products.</p>
-      </div>
+        <ng-template #noProducts>
+          <div class="empty-state animate-on-scroll">
+            <i class="fas fa-box-open"></i>
+            <h3>No Products Found</h3>
+            <p>Try a different search or category.</p>
+          </div>
+        </ng-template>
+      </section>
     </div>
-  </section>
-
-  <section class="collections-section">
-     <div class="container-large">
-      <div class="section-header animate-on-scroll fade-in">
-        <span class="section-subtitle">Our World</span>
-        <h2>Explore Curated Collections</h2>
-        <p>Every collection is a unique narrative, crafted for those who appreciate the exceptional.</p>
-      </div>
-      <div class="collections-grid">
-        <a href="#" class="collection-item animate-on-scroll fade-in-up" style="animation-delay:0.1s">
-          <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1549429546-b68453457a41');"></div>
-          <div class="collection-overlay">
-            <h3>Modern Workspace</h3>
-            <span>Shop Now <i class="fas fa-arrow-right"></i></span>
-          </div>
-        </a>
-
-        <a href="#" class="collection-item wide animate-on-scroll fade-in-up" style="animation-delay:0.2s">
-           <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1528655079634-192534a2e5c8');"></div>
-          <div class="collection-overlay">
-            <h3>Adventure Gear</h3>
-            <span>Shop Now <i class="fas fa-arrow-right"></i></span>
-          </div>
-        </a>
-
-        <a href="#" class="collection-item wide animate-on-scroll fade-in-up" style="animation-delay:0.3s">
-           <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1579735930068-18e404b901a1');"></div>
-          <div class="collection-overlay">
-            <h3>Artisanal Kitchen</h3>
-            <span>Shop Now <i class="fas fa-arrow-right"></i></span>
-          </div>
-        </a>
-
-        <a href="#" class="collection-item animate-on-scroll fade-in-up" style="animation-delay:0.4s">
-           <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1517441864161-0b5c171d9d9b');"></div>
-          <div class="collection-overlay">
-            <h3>Sustainable Living</h3>
-            <span>Shop Now <i class="fas fa-arrow-right"></i></span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Professional Section Divider -->
-  <div class="section-divider-flip">
-    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
-    </svg>
   </div>
 
-
-  <section class="why-us-section">
-    <div class="container why-us-content">
-      <div class="why-us-image animate-on-scroll slide-in-left">
-        <i class="fas fa-handshake fa-6x" style="color: var(--primary-color);"></i>
-      </div>
-      <div class="why-us-text">
-        <span class="section-subtitle animate-on-scroll fade-in">The Matgarak Difference</span>
-        <h2 class="animate-on-scroll fade-in-up" style="animation-delay:0.1s">More Than a Transaction, It’s a Relationship</h2>
-        <p class="animate-on-scroll fade-in-up" style="animation-delay:0.2s">
-          Building trust, creativity, and value at every step.
-        </p>
-        <ul class="why-us-list">
-          <li class="animate-on-scroll fade-in-up" style="animation-delay:0.3s">
-            <i class="fas fa-search"></i>
-            <span><strong>Obsessive Curation:</strong> We handpick only the treasures.</span>
-          </li>
-          <li class="animate-on-scroll fade-in-up" style="animation-delay:0.4s">
-            <i class="fas fa-headset"></i>
-            <span><strong>Unwavering Support:</strong> Every query, instantly handled.</span>
-          </li>
-          <li class="animate-on-scroll fade-in-up" style="animation-delay:0.5s">
-            <i class="fas fa-seedling"></i>
-            <span><strong>Conscious Choices:</strong> Earth-first selections.</span>
-          </li>
-        </ul>
-        <a href="#" class="btn btn-secondary animate-on-scroll fade-in-up" style="animation-delay:0.6s">
-          Learn About Our Values
-        </a>
-      </div>
+  <!-- FAB -->
+  <div class="fab-container">
+    <div class="fab-menu" [class.active]="fabMenuOpen">
+      <button (click)="scrollToSection('hero-section'); fabMenuOpen = false" title="Scroll to Top"><i class="fas fa-arrow-up"></i></button>
+      <button (click)="refreshData(); fabMenuOpen = false" title="Refresh Data"><i class="fas fa-sync-alt"></i></button>
     </div>
-  </section>
-
-  <section class="cta-section">
-    <div class="container cta-content animate-on-scroll fade-in">
-      <h2>Your Next Great Find Awaits</h2>
-      <p>Step into a world of curated excellence. Your journey of discovery starts now.</p>
-      <a href="#" class="btn btn-primary btn-large">
-        Start Exploring Now
-      </a>
-    </div>
-  </section>
-
+    <button class="fab-main" (click)="toggleFabMenu()" aria-label="Toggle menu">
+      <i class="fas" [class.fa-plus]="!fabMenuOpen" [class.fa-times]="fabMenuOpen"></i>
+    </button>
+  </div>
 </main>
