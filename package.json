@@ -7,7 +7,11 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:Ecommerce.Frontend": "node dist/ecommerce.frontend/server/server.mjs"
+    "serve:ssr:Ecommerce.Frontend": "node dist/ecommerce.frontend/server/server.mjs",
+    "dev:ssr": "ng run Ecommerce.Frontend:serve-ssr",
+    "serve:ssr": "node dist/Ecommerce.Frontend/server/main.js",
+    "build:ssr": "ng build && ng run Ecommerce.Frontend:server",
+    "prerender": "ng run Ecommerce.Frontend:prerender"
   },
   "private": true,
   "dependencies": {

@@ -1,0 +1,52 @@
+<button class="open-menu-tab" (click)="toggleSidebar()" aria-label="Open Dashboard Menu">
+  <i class="fas fa-bars"></i>
+</button>
+
+<aside class="sidebar" [class.visible]="isSidebarVisible">
+  <div class="sidebar-header">
+    <h2 class="logo-text">Matgarak</h2>
+    <button class="close-btn" (click)="toggleSidebar()"><i class="fas fa-times"></i></button>
+  </div>
+
+  <div class="quick-stats">
+    <div class="stat-card">
+      <i class="fas fa-receipt"></i>
+      <div class="stat-details">
+        <span class="stat-value">12</span>
+        <span class="stat-label">New Orders</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-wallet"></i>
+      <div class="stat-details">
+        <span class="stat-value">$850</span>
+        <span class="stat-label">Revenue</span>
+      </div>
+    </div>
+  </div>
+
+  <ul class="menu-list">
+    <li *ngFor="let item of menuItems"
+        [class.active]="item.name === activeItem"
+        (click)="setActiveItem(item.name)">
+      <a [routerLink]="item.route">
+        <i [class]="item.icon + ' menu-icon'"></i>
+        <span>{{ item.name }}</span>
+        <span *ngIf="item.badge" class="menu-badge">{{ item.badge }}</span>
+      </a>
+    </li>
+  </ul>
+
+  <div class="sidebar-footer">
+    <a href="#" class="footer-link">
+      <i class="fas fa-life-ring"></i>
+      <span>Support</span>
+    </a>
+    <a href="#" class="footer-link logout">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </a>
+  </div>
+</aside>
+
+<div class="overlay" [class.visible]="isSidebarVisible" (click)="toggleSidebar()"></div>

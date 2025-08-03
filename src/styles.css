@@ -1,1 +1,87 @@
-/* You can add global styles to this file, and also import other style files */
+/*
+ * =====================================
+ * GLOBAL THEME & DESIGN SYSTEM
+ * (Applied to the entire application)
+ * =====================================
+ */
+
+/* 1. Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap');
+
+html, body {
+  overflow-x: hidden;
+}
+main-header,
+.top-bar,
+.middle-bar,
+.bottom-bar,
+.container {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+/* 2. Light Mode Variables (Default) */
+:root {
+  /* Core Palette - Vibrant and Modern */
+  --primary-color: #10b981;        /* Vibrant Green */
+  --primary-color-hover: #059669;  /* Darker Green */
+  --accent-color: #ef4444;         /* Hot Red for alerts/badges */
+
+  /* Page & Component Backgrounds */
+  --page-bg: #f9fafb;             /* Light Grayish Blue */
+  --component-bg: #ffffff;         /* Pure White */
+  --component-secondary-bg: #f3f4f6;/* Off-white for accents */
+  --sidebar-bg: #1f2937;           /* Deep Ocean Blue */
+
+  /* Text & Borders */
+  --text-color: #1f2937;           /* Deep Ocean Blue for text */
+  --text-color-secondary: #6b7280; /* Lighter gray for secondary text */
+  --border-color: #e5e7eb;
+
+  /* Shadows - Subtle and Elegant */
+  --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+
+  /* Font */
+  --font-family: 'Inter', sans-serif;
+  --font-family-arabic: 'Cairo', sans-serif;
+}
+
+/* 3. Dark Mode Variables */
+body.dark-mode {
+  /* Core Palette is consistent */
+  --primary-color: #10b981;
+  --primary-color-hover: #059669;
+  --accent-color: #ef4444;
+
+  /* Page & Component Backgrounds */
+  --page-bg: #111827;              /* Dark Blue/Gray */
+  --component-bg: #1f2937;         /* Same as sidebar for a unified look */
+  --component-secondary-bg: #374151;/* Lighter dark for accents */
+  --sidebar-bg: #1f2937;
+
+  /* Text & Borders */
+  --text-color: #f9fafb;           /* Off-white */
+  --text-color-secondary: #9ca3af; /* Light gray */
+  --border-color: #374151;
+
+  /* Shadows */
+  --header-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* 4. Global Body Styles */
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--page-bg);
+  color: var(--text-color);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* 5. Utility Classes */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
