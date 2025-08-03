@@ -3,9 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { Component, OnInit, AfterViewInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 
 // Interfaces
-interface Product { id: number; name: string; price: number; originalPrice?: number; discount?: number; description: string; icon: string; categoryId: number; categoryName: string; rating: number; reviewCount: number; inStock: boolean; quantity?: number; }
+interface Product { id: number; name: string; price: number; originalPrice?: number; description: string; categoryName: string; rating: number; reviewCount: number; inStock: boolean; quantity: number; image: string; tag?: 'Sale' | 'New'; }
 interface Testimonial { name: string; role: string; quote: string; avatar: string; }
-interface Feature { icon: string; title: string; description: string; }
+interface ShowcaseCategory { name: string; icon: string; productCount: number; }
+interface Brand { name: string; logoUrl: string; }
 
 @Component({
   selector: 'app-home',
@@ -16,22 +17,25 @@ interface Feature { icon: string; title: string; description: string; }
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   showSplashScreen = true;
-  allProducts: Product[] = [];
-  testimonials: Testimonial[] = [];
-  features: Feature[] = [];
-  dealOfTheDay?: Product;
-  countdown: { days: number; hours: number; minutes: number; seconds: number } = { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  private countdownInterval: any;
-  currentTestimonialIndex = 0;
-  private testimonialInterval: any;
   isLoading: boolean = true;
+
+  // Data Arrays
+  allProducts: Product[] = [];
+  filteredProducts: Product[] = [];
+  testimonials: Testimonial[] = [];
+  showcaseCategories: ShowcaseCategory[] = [];
+  featuredBrands: Brand[] = [];
+
+  // State
+  categories: string[] = [];
+  selectedCategory: string = 'Mobile';
   private intersectionObserver: IntersectionObserver | null = null;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      setTimeout(() => { this.showSplashScreen = false; }, 3000);
+      setTimeout(() => { this.showSplashScreen = false; }, 2000);
     } else {
       this.showSplashScreen = false;
     }
@@ -41,77 +45,68 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.initScrollAnimations();
-      this.startTestimonialSlider();
     }
   }
 
   ngOnDestroy(): void {
     if (this.intersectionObserver) this.intersectionObserver.disconnect();
-    if (this.countdownInterval) clearInterval(this.countdownInterval);
-    if (this.testimonialInterval) clearInterval(this.testimonialInterval);
   }
 
   private loadInitialData(): void {
     setTimeout(() => {
       this.allProducts = [
-        { id: 1, name: 'Quantum Laptop X1', price: 1499, originalPrice: 1799, discount: 17, description: 'Unleash hyperspeed performance.', icon: 'fas fa-laptop-code', categoryId: 1, categoryName: 'Electronics', rating: 5, reviewCount: 312, inStock: true, quantity: 15 },
-        { id: 2, name: 'Aura Gaming Headset', price: 175, originalPrice: 220, discount: 20, description: '7.1 surround sound for immersion.', icon: 'fas fa-headset', categoryId: 5, categoryName: 'Gaming', rating: 4.5, reviewCount: 450, inStock: true, quantity: 8 },
-        { id: 3, name: 'Cyberpunk Jacket', price: 89, description: 'Lightweight, durable, and stylish.', icon: 'fas fa-tshirt', categoryId: 2, categoryName: 'Apparel', rating: 4, reviewCount: 180, inStock: true, quantity: 5 },
-        { id: 4, name: 'The Art of Code', price: 35, description: 'A must-read for developers.', icon: 'fas fa-book-open', categoryId: 3, categoryName: 'Books', rating: 5, reviewCount: 150, inStock: true, quantity: 30 },
-        { id: 5, name: 'Chrono-Smartwatch V3', price: 299, originalPrice: 350, discount: 15, description: 'Your life, organized on your wrist.', icon: 'fas fa-stopwatch-20', categoryId: 4, categoryName: 'Gadgets', rating: 4, reviewCount: 255, inStock: false, quantity: 0 },
-        { id: 6, name: 'Nebula Wireless Controller', price: 65, description: 'Ergonomic design, zero latency.', icon: 'fas fa-gamepad', categoryId: 5, categoryName: 'Gaming', rating: 5, reviewCount: 620, inStock: true, quantity: 22 },
+        // Using local images directly
+        { id: 1, name: 'Galaxy Note20 Ultra 5G', price: 2780, description: '...', categoryName: 'Mobile', rating: 5, reviewCount: 51, inStock: true, quantity: 52, image: 'image1.png'},
+        { id: 2, name: 'iPad 10th Generation', price: 1780, originalPrice: 1980, description: '...', categoryName: 'Tablet', rating: 4, reviewCount: 33, inStock: true, quantity: 52, image: 'image2.png', tag: 'Sale' },
+        { id: 3, name: 'Galaxy S20 FE 5G', price: 2780, description: '...', categoryName: 'Mobile', rating: 5, reviewCount: 64, inStock: true, quantity: 52, image: 'image3.png' },
+        { id: 4, name: 'Samsung S21 Ultra', price: 2780, description: '...', categoryName: 'Mobile', rating: 5, reviewCount: 98, inStock: true, quantity: 52, image: 'image4.png', tag: 'New' },
+        { id: 5, name: 'Samsung Galaxy Note 20', price: 2780, description: '...', categoryName: 'Mobile', rating: 4, reviewCount: 45, inStock: true, quantity: 52, image: 'image5.png' },
+        { id: 6, name: 'Apple Watch Ultra', price: 3200, description: '...', categoryName: 'Watch', rating: 5, reviewCount: 120, inStock: true, quantity: 30, image: 'image6.png', tag: 'New' },
+        { id: 7, name: 'Sony Alpha 7 IV', price: 4500, originalPrice: 4800, description: '...', categoryName: 'Camera', rating: 5, reviewCount: 88, inStock: true, quantity: 15, image: 'image1.png', tag: 'Sale' },
+        { id: 8, name: 'Beats Studio Buds', price: 650, description: '...', categoryName: 'Accessories', rating: 4, reviewCount: 210, inStock: true, quantity: 100, image: 'image2.png' },
+        { id: 9, name: 'Apple HomePod Mini', price: 400, description: '...', categoryName: 'Speaker', rating: 5, reviewCount: 150, inStock: true, quantity: 60, image: 'image3.png' },
       ];
-      this.dealOfTheDay = this.allProducts.find(p => p.id === 2);
-      this.features = [
-        { icon: 'fas fa-shipping-fast', title: 'Lightning-Fast Shipping', description: 'Get your tech goodies delivered to your door in record time.' },
-        { icon: 'fas fa-headset', title: '24/7 Expert Support', description: 'Our dedicated support team is always here to help you out.' },
-        { icon: 'fas fa-check-circle', title: 'Premium Quality Guaranteed', description: 'We only source the best products, ensuring top-tier quality.' },
+
+      this.showcaseCategories = [
+          { name: 'Phones', icon: 'fas fa-mobile-alt', productCount: 120 },
+          { name: 'Laptops', icon: 'fas fa-laptop', productCount: 45 },
+          { name: 'Gaming', icon: 'fas fa-gamepad', productCount: 88 },
+          { name: 'Cameras', icon: 'fas fa-camera-retro', productCount: 32 },
+          { name: 'Headsets', icon: 'fas fa-headphones-alt', productCount: 95 },
+          { name: 'Drones', icon: 'fas fa-helicopter', productCount: 18 },
       ];
-      this.testimonials = [
-        { name: 'Alex Johnson', role: 'Developer', quote: 'The quality of the products is insane! My new setup has never looked better.', avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704d' },
-        { name: 'Maria Garcia', role: 'Gamer', quote: 'Fastest shipping I have ever experienced. The controller arrived in less than a day!', avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026705d' },
-        { name: 'Chris Lee', role: 'Designer', quote: 'A fantastic selection and the customer support was incredibly helpful. Highly recommend!', avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026706d' },
+
+      this.featuredBrands = [
+          { name: 'Apple', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg' },
+          { name: 'Samsung', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg' },
+          { name: 'Sony', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/ca/Sony_logo.svg' },
+          { name: 'Google', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg' },
+          { name: 'Bose', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Bose_logo.svg/1280px-Bose_logo.svg.png'},
+          { name: 'DJI', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Dji_logo_black.svg/1280px-Dji_logo_black.svg.png'}
       ];
+
+      this.categories = ['Mobile', 'Watch', 'Camera', 'Accessories', 'Speaker', 'Tablet'];
+      this.filterProducts(this.selectedCategory);
+
       this.isLoading = false;
       if (isPlatformBrowser(this.platformId)) {
-        this.startCountdown();
         setTimeout(() => this.reobserveElements(), 50);
       }
     }, 1000);
   }
 
-  private startCountdown(): void {
-    const target = new Date().getTime() + 24 * 3600 * 1000;
-    this.countdownInterval = setInterval(() => {
-      const d = target - new Date().getTime();
-      if (d < 0) {
-        clearInterval(this.countdownInterval);
-        return;
-      }
-      this.countdown = {
-        days: Math.floor(d / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((d % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((d % (1000 * 60)) / 1000)
-      };
-    }, 1000);
-  }
+  filterProducts(category: string): void {
+    this.selectedCategory = category;
+    this.filteredProducts = this.allProducts.filter(p => p.categoryName === category);
 
-  private startTestimonialSlider(): void {
-    this.testimonialInterval = setInterval(() => this.nextTestimonial(), 5000);
-  }
-
-  nextTestimonial(): void {
-    this.currentTestimonialIndex = (this.currentTestimonialIndex + 1) % this.testimonials.length;
-  }
-
-  prevTestimonial(): void {
-    this.currentTestimonialIndex = (this.currentTestimonialIndex - 1 + this.testimonials.length) % this.testimonials.length;
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => this.reobserveElements(), 50);
+    }
   }
 
   private initScrollAnimations(): void {
-    this.intersectionObserver = new IntersectionObserver((e) => {
-      e.forEach(entry => {
+    this.intersectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
           this.intersectionObserver?.unobserve(entry.target);
@@ -123,18 +118,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private reobserveElements(): void {
     if (!this.intersectionObserver) return;
-    document.querySelectorAll('.animate-on-scroll').forEach(el => this.intersectionObserver?.observe(el));
+    document.querySelectorAll('.animate-on-scroll:not(.visible)').forEach(el => {
+        this.intersectionObserver?.observe(el)
+    });
   }
 
   formatPrice(price: number): string {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(price);
   }
 
   trackByProductId(index: number, product: Product): number {
     return product.id;
-  }
-
-  scrollToSection(sectionId: string): void {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
 }
