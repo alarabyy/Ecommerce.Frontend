@@ -1,0 +1,40 @@
+<div class="login-page">
+  <div class="login-card">
+    <h1 class="title">Welcome back</h1>
+    <p class="subtitle">Sign in to continue</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>
+      <div class="form-field" [class.invalid]="email?.touched && email?.invalid">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+        <div class="error" *ngIf="email?.touched && email?.errors">
+          <span *ngIf="email?.errors?.['required']">Email is required</span>
+          <span *ngIf="email?.errors?.['email']">Enter a valid email</span>
+        </div>
+      </div>
+
+      <div class="form-field" [class.invalid]="password?.touched && password?.invalid">
+        <label for="password">Password</label>
+        <input id="password" [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="••••••••" />
+        <div class="error" *ngIf="password?.touched && password?.errors">
+          <span *ngIf="password?.errors?.['required']">Password is required</span>
+          <span *ngIf="password?.errors?.['minlength']">Minimum 6 characters</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="checkbox">
+          <input type="checkbox" formControlName="rememberMe" />
+          <span>Remember me</span>
+        </label>
+        <a class="link" href="#">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Signing in…' : 'Sign in' }}
+      </button>
+
+      <p class="helper">Don't have an account? <a class="link" href="#">Create one</a></p>
+    </form>
+  </div>
+</div>
