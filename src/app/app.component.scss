@@ -1,0 +1,22 @@
+.app-container {
+  display: flex;
+}
+
+.main-content {
+  flex-grow: 1;
+  transition: margin-left 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-content {
+  flex-grow: 1;
+}
+
+// عندما يكون الشريط الجانبي مفتوحًا على الشاشات الكبيرة
+@media (min-width: 992px) {
+  .main-content.sidebar-open {
+    margin-left: 250px; // نفس عرض الشريط الجانبي
+  }
+}

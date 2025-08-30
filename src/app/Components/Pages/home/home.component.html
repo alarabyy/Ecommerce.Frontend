@@ -1,0 +1,64 @@
+<div class="home-container">
+  <!-- قسم الفئات الشائعة -->
+  <section class="home-section">
+    <h2 class="section-title">Popular Categories</h2>
+    <div class="categories-grid">
+      <div *ngFor="let category of popularCategories" class="category-item">
+        <i [class]="category.icon"></i>
+        <span>{{ category.name }}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- قسم العروض الأسبوعية -->
+  <section class="home-section">
+    <h2 class="section-title">Best Weekly Deals <span class="deal-badge">HOT</span></h2>
+    <div class="deals-grid">
+      <div class="main-deal-card">
+        <img src="https://via.placeholder.com/400x400/6a0dad/ffffff?text=Main+Deal" alt="Main Deal">
+        <h3>Premium Coffee Machine</h3>
+        <div class="price">
+          <span class="new-price">$349.00</span>
+          <span class="old-price">$499.00</span>
+        </div>
+      </div>
+      <div class="side-deals-grid">
+        <div *ngFor="let product of weeklyDeals" class="product-card-small">
+          <img [src]="product.image" [alt]="product.name">
+          <div class="product-info">
+            <h4>{{ product.name }}</h4>
+            <div class="price">
+              <span class="new-price">${{ product.newPrice.toFixed(2) }}</span>
+              <span class="old-price">${{ product.oldPrice.toFixed(2) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- قسم الأكثر مبيعًا -->
+  <section class="home-section">
+    <h2 class="section-title">Best Seller</h2>
+    <div class="products-grid">
+      <div *ngFor="let product of bestSellers" class="product-card">
+        <div class="product-image">
+          <img [src]="product.image" [alt]="product.name">
+          <span class="product-badge" [class.hot]="product.badge === 'HOT'">{{ product.badge }}</span>
+        </div>
+        <div class="product-details">
+          <span class="product-category">{{ product.category }}</span>
+          <h3 class="product-title">{{ product.name }}</h3>
+          <div class="product-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+          </div>
+          <p class="product-price">${{ product.price.toFixed(2) }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,16 @@
+<aside class="sidebar" [class.open]="isOpen">
+  <div class="sidebar-header">
+    <h3>Categories</h3>
+  </div>
+  <ul class="nav-list">
+    <li><a href="#" class="nav-item active"><i class="fas fa-home"></i> Home</a></li>
+    <li><a href="#" class="nav-item"><i class="fas fa-tags"></i> Best Deals</a></li>
+    <li><a href="#" class="nav-item"><i class="fas fa-laptop"></i> Laptops & PCs</a></li>
+    <li><a href="#" class="nav-item"><i class="fas fa-mobile-alt"></i> Smartphones</a></li>
+    <li><a href="#" class="nav-item"><i class="fas fa-camera"></i> Cameras</a></li>
+    <li><a href="#" class="nav-item"><i class="fas fa-headphones"></i> Headphones</a></li>
+    <li><a href="#" class="nav-item"><i class="fas fa-tv"></i> TVs & Audio</a></li>
+    <li><a href="#" class="nav-item"><i class="fas fa-cog"></i> Accessories</a></li>
+  </ul>
+</aside>
+<div class="sidebar-overlay" [class.show]="isOpen" (click)="closeSidebar()"></div>

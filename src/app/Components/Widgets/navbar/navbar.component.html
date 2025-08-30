@@ -1,0 +1,37 @@
+<nav class="navbar">
+  <!-- زر القائمة للأجهزة الصغيرة -->
+  <button class="menu-toggle" (click)="onToggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- شعار الموقع -->
+  <div class="logo">
+    <i class="fas fa-bolt"></i>
+    <span>Electro</span>
+  </div>
+
+  <!-- شريط البحث -->
+  <div class="search-container">
+    <i class="fas fa-search search-icon"></i>
+    <input type="text" placeholder="Search for products...">
+    <button class="search-button">Search</button>
+  </div>
+
+  <!-- أيقونات المستخدم -->
+  <div class="user-actions">
+    <a href="#" class="action-icon">
+      <i class="fas fa-user"></i>
+      <span>Account</span>
+    </a>
+    <a href="#" class="action-icon">
+      <i class="fas fa-heart"></i>
+      <span class="badge">3</span>
+      <span>Wishlist</span>
+    </a>
+    <a href="#" class="action-icon">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="badge">5</span>
+      <span>Cart</span>
+    </a>
+  </div>
+</nav>

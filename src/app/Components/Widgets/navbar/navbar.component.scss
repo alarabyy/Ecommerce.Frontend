@@ -1,0 +1,134 @@
+:host {
+  display: block;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.menu-toggle {
+  display: none; // يظهر فقط على الشاشات الصغيرة
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  i {
+    color: #6a0dad; // بنفسجي
+  }
+}
+
+.search-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+  max-width: 600px;
+
+  .search-icon {
+    position: absolute;
+    left: 15px;
+    color: #888;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.5rem;
+    border: 1px solid #ccc;
+    border-radius: 25px 0 0 25px;
+    font-size: 1rem;
+    &:focus {
+      outline: none;
+      border-color: #6a0dad;
+    }
+  }
+
+  .search-button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    background-color: #6a0dad;
+    color: white;
+    border-radius: 0 25px 25px 0;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    &:hover {
+      background-color: darken(#6a0dad, 10%);
+    }
+  }
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.action-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: #555;
+  position: relative;
+  transition: color 0.2s;
+
+  i {
+    font-size: 1.4rem;
+  }
+
+  span {
+    font-size: 0.9rem;
+  }
+
+  .badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+
+  &:hover {
+    color: #6a0dad;
+  }
+}
+
+// Responsive Design
+@media (max-width: 992px) {
+  .menu-toggle {
+    display: block; // يظهر زر القائمة
+  }
+  .action-icon span, .search-container {
+    display: none; // إخفاء البحث والنصوص بجانب الأيقونات
+  }
+  .logo {
+    flex-grow: 1; // الشعار يأخذ مساحة أكبر
+  }
+}
