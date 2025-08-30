@@ -1,1 +1,76 @@
-/* You can add global styles to this file, and also import other style files */
+/* --- GLOBAL STYLES & THEME DEFINITIONS --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  // Light Theme (Default)
+  --primary-color: #007bff;
+  --accent-color: #fd7e14;
+  --bg-color: #f4f7fc;
+  --bg-color-light: #ffffff;
+  --text-color: #5f6c7b; // Lighter text
+  --text-color-dark: #1a202c; // Darker text
+  --border-color: #e6e9f0;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+body[data-theme='dark'] {
+  // Dark Theme
+  --primary-color: #0d8cff;
+  --accent-color: #ff8c33;
+  --bg-color: #121829;
+  --bg-color-light: #1a2238;
+  --text-color: #a0aec0;
+  --text-color-dark: #f0f3f6;
+  --border-color: #2d3748;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Helper classes
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  @media(max-width: 576px) {
+    padding: 0 1rem;
+  }
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+  }
+}

@@ -1,16 +1,15 @@
 <aside class="sidebar" [class.open]="isOpen">
   <div class="sidebar-header">
-    <h3>Categories</h3>
+    <h3>Menu</h3>
+    <button class="close-btn" (click)="closeSidebar()"><i class="fas fa-times"></i></button>
   </div>
   <ul class="nav-list">
-    <li><a href="#" class="nav-item active"><i class="fas fa-home"></i> Home</a></li>
-    <li><a href="#" class="nav-item"><i class="fas fa-tags"></i> Best Deals</a></li>
-    <li><a href="#" class="nav-item"><i class="fas fa-laptop"></i> Laptops & PCs</a></li>
-    <li><a href="#" class="nav-item"><i class="fas fa-mobile-alt"></i> Smartphones</a></li>
-    <li><a href="#" class="nav-item"><i class="fas fa-camera"></i> Cameras</a></li>
-    <li><a href="#" class="nav-item"><i class="fas fa-headphones"></i> Headphones</a></li>
-    <li><a href="#" class="nav-item"><i class="fas fa-tv"></i> TVs & Audio</a></li>
-    <li><a href="#" class="nav-item"><i class="fas fa-cog"></i> Accessories</a></li>
+    <li><a routerLink="/home" routerLinkActive="active" (click)="closeSidebar()" class="nav-item"><i class="fas fa-home"></i> <span>Home</span></a></li>
+    <li><a routerLink="/products" routerLinkActive="active" (click)="closeSidebar()" class="nav-item"><i class="fas fa-th-large"></i> <span>All Products</span></a></li>
+    <li><a href="#" class="nav-item"><i class="fas fa-fire"></i> <span>Trending</span></a></li>
+    <li><a href="#" class="nav-item"><i class="fas fa-tag"></i> <span>Best Deals</span></a></li>
+    <li><a href="#" class="nav-item"><i class="fas fa-user-circle"></i> <span>My Account</span></a></li>
+    <li><a href="#" class="nav-item"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
   </ul>
 </aside>
 <div class="sidebar-overlay" [class.show]="isOpen" (click)="closeSidebar()"></div>

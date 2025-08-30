@@ -1,14 +1,19 @@
 .footer {
-  background-color: #212121;
+  background-color: var(--text-color-dark);
   color: #a0a0a0;
-  padding: 3rem 2rem 1rem;
+  padding: 4rem 0 1rem;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 .footer-main {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
-  margin-bottom: 2rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid #444;
 }
@@ -17,30 +22,26 @@
   h3 {
     color: #fff;
     margin-bottom: 1.5rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
   }
   ul {
     list-style: none;
     padding: 0;
     li {
       margin-bottom: 0.8rem;
-      a {
-        color: #a0a0a0;
-        text-decoration: none;
-        transition: color 0.2s;
-        &:hover {
-          color: #fff;
-        }
+    }
+    a {
+      color: #a0a0a0;
+      text-decoration: none;
+      transition: color 0.2s;
+      &:hover {
+        color: #fff;
       }
     }
   }
   p {
     line-height: 1.7;
-    margin-bottom: 1rem;
-    i {
-      margin-right: 0.5rem;
-      color: #6a0dad;
-    }
   }
 }
 
@@ -49,7 +50,11 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 1.8rem;
-  font-weight: bold;
+  font-weight: 700;
+  color: #fff;
+  i {
+    color: var(--primary-color);
+  }
 }
 
 .social-icons {
@@ -59,10 +64,32 @@
   a {
     color: #a0a0a0;
     font-size: 1.2rem;
-    transition: color 0.2s;
+    transition: color 0.2s, transform 0.2s;
     &:hover {
       color: #fff;
+      transform: translateY(-2px);
     }
+  }
+}
+
+.subscribe-form {
+  display: flex;
+  margin-top: 1rem;
+  input {
+    flex-grow: 1;
+    border: 1px solid #555;
+    background: #333;
+    padding: 0.75rem;
+    border-radius: 5px 0 0 5px;
+    color: #fff;
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+  }
+  button {
+    border-radius: 0 5px 5px 0;
+    padding: 0.75rem 1rem;
   }
 }
 
@@ -72,7 +99,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  padding-top: 1rem;
+  padding-top: 2rem;
   font-size: 0.9rem;
 }
 

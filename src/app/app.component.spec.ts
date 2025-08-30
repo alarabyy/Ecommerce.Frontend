@@ -1,29 +1,41 @@
-import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { ThemeService } from './Service/theme.service';
+import { SidebarComponent } from "./Components/Widgets/sidebar/sidebar.component";
+import { NavbarComponent } from "./Components/Widgets/navbar/navbar.component";
+import { RouterOutlet } from "../../node_modules/@angular/router/router_module.d-Bx9ArA6K";
+import { FooterComponent } from "./Components/Widgets/footer/footer.component";
 
-describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
-  });
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  imports: [SidebarComponent, NavbarComponent, RouterOutlet, FooterComponent]
+})
+export class AppComponent implements OnInit {
+  isSidebarOpen = true;
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+  constructor(private themeService: ThemeService) {
+    this.checkWindowSize(window.innerWidth);
+  }
 
-  it(`should have the 'Ecommerce.Frontend' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('Ecommerce.Frontend');
-  });
+  ngOnInit() {
+    this.themeService.initializeTheme();
+  }
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, Ecommerce.Frontend');
-  });
-});
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkWindowSize((event.target as Window).innerWidth);
+  }
+
+  private checkWindowSize(width: number) {
+    if (width < 992 && this.isSidebarOpen) {
+      this.isSidebarOpen = false;
+    } else if (width >= 992 && !this.isSidebarOpen) {
+      this.isSidebarOpen = true;
+    }
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+}

@@ -1,19 +1,10 @@
 <div class="app-container">
-  <!-- الشريط الجانبي -->
-  <app-sidebar [isOpen]="isSidebarOpen"></app-sidebar>
-
-  <!-- المحتوى الرئيسي (يشمل الشريط العلوي والمحتوى والفوتر) -->
+  <app-sidebar [isOpen]="isSidebarOpen" (close)="isSidebarOpen = false"></app-sidebar>
   <div class="main-content" [class.sidebar-open]="isSidebarOpen">
-    <!-- الشريط العلوي مع زر التحكم في الشريط الجانبي -->
     <app-navbar (sidebarToggle)="toggleSidebar()"></app-navbar>
-
-    <!-- هنا سيتم عرض الصفحات مثل الصفحة الرئيسية -->
     <div class="page-content">
-      <app-home></app-home>
-      <!-- في المستقبل، ستستخدم <router-outlet> هنا لعرض صفحات مختلفة -->
+      <router-outlet></router-outlet>
     </div>
-
-    <!-- التذييل -->
     <app-footer></app-footer>
   </div>
 </div>

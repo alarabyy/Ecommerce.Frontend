@@ -2,12 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>EcommerceFrontend</title>
+  <title>ProStore - Professional E-Commerce</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-  <app-root></app-root>
+  <app-root>
+    <!-- Professional Loading Screen -->
+    <style>
+      .app-loader { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f7fc; }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+      .app-loader .spinner { border: 4px solid #e0e0e0; border-top: 4px solid #007bff; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+    </style>
+    <div class="app-loader">
+      <div class="spinner"></div>
+    </div>
+  </app-root>
 </body>
 </html>

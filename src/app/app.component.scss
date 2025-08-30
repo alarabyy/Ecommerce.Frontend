@@ -1,22 +1,24 @@
 .app-container {
   display: flex;
+  background-color: var(--bg-color);
 }
 
 .main-content {
   flex-grow: 1;
-  transition: margin-left 0.3s ease-in-out;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: 100%;
 }
 
 .page-content {
   flex-grow: 1;
 }
 
-// عندما يكون الشريط الجانبي مفتوحًا على الشاشات الكبيرة
 @media (min-width: 992px) {
   .main-content.sidebar-open {
-    margin-left: 250px; // نفس عرض الشريط الجانبي
+    margin-left: 260px;
+    width: calc(100% - 260px);
   }
 }

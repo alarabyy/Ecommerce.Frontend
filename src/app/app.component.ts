@@ -1,22 +1,38 @@
-import { Component } from '@angular/core';
-import { SidebarComponent } from "./Components/Widgets/sidebar/sidebar.component";
-import { HomeComponent } from "./Components/Pages/home/home.component";
-import { NavbarComponent } from "./Components/Widgets/navbar/navbar.component";
-import { FooterComponent } from "./Components/Widgets/footer/footer.component";
+import { Component, OnInit, HostListener } from '@angular/core';
+import { ThemeService } from './Service/theme.service';
+import { NavbarComponent } from './Components/Widgets/navbar/navbar.component';
+import { FooterComponent } from './Components/Widgets/footer/footer.component';
+import { SidebarComponent } from './Components/Widgets/sidebar/sidebar.component';
+import { HomeComponent } from './Components/Pages/home/home.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [SidebarComponent, HomeComponent, NavbarComponent, FooterComponent]
+  imports: [NavbarComponent , FooterComponent ,  SidebarComponent , RouterModule ]
 })
-export class AppComponent {
-  isSidebarOpen = true; // الشريط الجانبي مفتوح بشكل افتراضي على الشاشات الكبيرة
+export class AppComponent implements OnInit {
+  isSidebarOpen = true;
 
-  constructor() {
-    // إغلاق الشريط الجانبي تلقائيًا على الشاشات الصغيرة عند التحميل
-    if (window.innerWidth < 992) {
+  constructor(private themeService: ThemeService) {
+    this.checkWindowSize(window.innerWidth);
+  }
+
+  ngOnInit() {
+    this.themeService.initializeTheme();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkWindowSize((event.target as Window).innerWidth);
+  }
+
+  private checkWindowSize(width: number) {
+    if (width < 992) {
       this.isSidebarOpen = false;
+    } else {
+      this.isSidebarOpen = true;
     }
   }
 

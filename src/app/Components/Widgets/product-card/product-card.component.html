@@ -1,0 +1,22 @@
+<div class="product-card" *ngIf="product">
+  <div class="product-image">
+    <img [src]="product.image" [alt]="product.name">
+    <div class="badge" *ngIf="product.badge" [ngClass]="product.badge.toLowerCase()">{{ product.badge }}</div>
+    <div class="actions-overlay">
+      <button class="action-btn" title="Add to Wishlist"><i class="fas fa-heart"></i></button>
+      <button class="action-btn" title="Add to Cart"><i class="fas fa-shopping-bag"></i></button>
+      <button class="action-btn" title="Quick View"><i class="fas fa-eye"></i></button>
+    </div>
+  </div>
+  <div class="product-info">
+    <span class="category">{{ product.category }}</span>
+    <h3 class="title">{{ product.name }}</h3>
+    <div class="rating">
+      <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+    </div>
+    <p class="price">
+      ${{ product.price.toFixed(2) }}
+      <span *ngIf="product.oldPrice" class="old-price">${{ product.oldPrice.toFixed(2) }}</span>
+    </p>
+  </div>
+</div>

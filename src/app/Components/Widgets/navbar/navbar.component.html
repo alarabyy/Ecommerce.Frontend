@@ -1,37 +1,27 @@
-<nav class="navbar">
-  <!-- زر القائمة للأجهزة الصغيرة -->
+<nav class="navbar" [class.scrolled]="isScrolled">
   <button class="menu-toggle" (click)="onToggleSidebar()">
     <i class="fas fa-bars"></i>
   </button>
 
-  <!-- شعار الموقع -->
   <div class="logo">
-    <i class="fas fa-bolt"></i>
-    <span>Electro</span>
+    <a routerLink="/home"><i class="fas fa-bolt"></i><span>ProStore</span></a>
   </div>
 
-  <!-- شريط البحث -->
-  <div class="search-container">
-    <i class="fas fa-search search-icon"></i>
-    <input type="text" placeholder="Search for products...">
-    <button class="search-button">Search</button>
+  <div class="nav-links">
+    <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+    <a routerLink="/products" routerLinkActive="active">Products</a>
+    <a href="#">Deals</a>
+    <a href="#">Contact</a>
   </div>
 
-  <!-- أيقونات المستخدم -->
   <div class="user-actions">
-    <a href="#" class="action-icon">
-      <i class="fas fa-user"></i>
-      <span>Account</span>
-    </a>
-    <a href="#" class="action-icon">
-      <i class="fas fa-heart"></i>
-      <span class="badge">3</span>
-      <span>Wishlist</span>
-    </a>
-    <a href="#" class="action-icon">
-      <i class="fas fa-shopping-cart"></i>
-      <span class="badge">5</span>
-      <span>Cart</span>
-    </a>
+    <div class="theme-switcher">
+      <button (click)="setTheme('light')" [class.active]="currentTheme === 'light'" title="Light Mode"><i class="fas fa-sun"></i></button>
+      <button (click)="setTheme('dark')" [class.active]="currentTheme === 'dark'" title="Dark Mode"><i class="fas fa-moon"></i></button>
+      <button (click)="setTheme('auto')" [class.active]="currentTheme === 'auto'" title="System Default"><i class="fas fa-desktop"></i></button>
+    </div>
+    <a href="#" class="action-icon" title="My Account"><i class="fas fa-user-circle"></i></a>
+    <a href="#" class="action-icon" title="Wishlist"><i class="fas fa-heart"></i><span class="badge">3</span></a>
+    <a href="#" class="action-icon" title="Shopping Cart"><i class="fas fa-shopping-bag"></i><span class="badge">5</span></a>
   </div>
 </nav>

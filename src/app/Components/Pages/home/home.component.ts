@@ -1,13 +1,18 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
+import { Product, ProductService } from '../../../Service/product.service';
+import { ProductCardComponent } from '../../Widgets/product-card/product-card.component';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule, ProductCardComponent],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  imports: [CommonModule]
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  featuredProducts$: Observable<Product[]>;
 
   popularCategories = [
     { name: 'Phones', icon: 'fas fa-mobile-alt' },
@@ -15,23 +20,17 @@ export class HomeComponent {
     { name: 'Cameras', icon: 'fas fa-camera' },
     { name: 'Headphones', icon: 'fas fa-headphones' },
     { name: 'Gaming', icon: 'fas fa-gamepad' },
-    { name: 'Watches', icon: 'fas fa-clock' },
-    { name: 'TV & Audio', icon: 'fas fa-tv' },
-    { name: 'Drones', icon: 'fas fa-paper-plane' }
+    { name: 'Watches', icon: 'fas fa-clock' }
   ];
 
   weeklyDeals = [
-    { name: 'Latest Smartphone', oldPrice: 799, newPrice: 649, image: 'https://via.placeholder.com/80' },
-    { name: 'Smartwatch Series 8', oldPrice: 450, newPrice: 399, image: 'https://via.placeholder.com/80' },
-    { name: 'Air Pods Pro', oldPrice: 249, newPrice: 199, image: 'https://via.placeholder.com/80' },
-    { name: '4K Android TV', oldPrice: 999, newPrice: 799, image: 'https://via.placeholder.com/80' }
+    { name: 'Latest Smartphone', oldPrice: 799, newPrice: 649, image: 'https://i.imgur.com/3bdc63g.png' },
+    { name: 'Smartwatch Series 8', oldPrice: 450, newPrice: 399, image: 'https://i.imgur.com/N7aG3c0.png' },
+    { name: 'Air Pods Pro', oldPrice: 249, newPrice: 199, image: 'https://i.imgur.com/Jz2q4xP.png' },
+    { name: '4K Android TV', oldPrice: 999, newPrice: 799, image: 'https://i.imgur.com/4Jp1hYJ.png' }
   ];
 
-  bestSellers = [
-    { name: 'Gaming PC Tower', category: 'Computers', price: 1899.00, image: 'https://via.placeholder.com/300', badge: 'HOT' },
-    { name: 'Curved Monitor 32"', category: 'Monitors', price: 549.50, image: 'https://via.placeholder.com/300', badge: 'SALE' },
-    { name: 'Wireless Mouse', category: 'Accessories', price: 79.00, image: 'https://via.placeholder.com/300', badge: 'NEW' },
-    { name: 'Espresso Machine', category: 'Kitchen', price: 499.00, image: 'https://via.placeholder.com/300', badge: 'SALE' }
-  ];
-
+  constructor(private productService: ProductService) {
+    this.featuredProducts$ = this.productService.getFeaturedProducts();
+  }
 }
