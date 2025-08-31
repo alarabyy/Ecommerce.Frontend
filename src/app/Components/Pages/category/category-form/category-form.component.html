@@ -1,0 +1,39 @@
+<div class="container page-fade-in">
+  <header class="page-header">
+    <h1>{{ isEditMode ? 'Edit Category' : 'Add New Category' }}</h1>
+    <a routerLink="/dashboard/categories" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to List
+    </a>
+  </header>
+
+  <div class="form-container">
+    <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="name">Category Name</label>
+        <input type="text" id="name" formControlName="name" placeholder="e.g., Electronics">
+        <!-- Add validation messages later -->
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" rows="4" placeholder="Describe the category..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="image">Category Image</label>
+        <input type="file" id="image" (change)="onFileChange($event)">
+        <div *ngIf="imagePreview" class="image-preview">
+          <img [src]="imagePreview" alt="Image Preview">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="categoryForm.invalid">
+          {{ isEditMode ? 'Update Category' : 'Create Category' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

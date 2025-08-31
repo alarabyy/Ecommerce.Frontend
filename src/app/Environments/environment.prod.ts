@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: '',
+  apiUrl: 'https://ecommerce-nezamak.runasp.net/api',
 
 
 
