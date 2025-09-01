@@ -11,6 +11,8 @@
   --text-color-dark: #1a202c; // Darker text
   --border-color: #e6e9f0;
   --shadow-color: rgba(0, 0, 0, 0.05);
+  --danger-color: #dc3545;
+  --success-color: #28a745;
 }
 
 body[data-theme='dark'] {
@@ -38,7 +40,6 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-// Helper classes
 .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -73,4 +74,12 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
   }
+}
+
+.page-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

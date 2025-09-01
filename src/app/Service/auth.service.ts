@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../Environments/environment.prod';
 
-// Define the shape of the login response
 export interface AuthResponse {
   success: boolean;
   token: string;
@@ -14,23 +14,19 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://ecommerce-nezamak.runasp.net/api/auth';
+  private apiUrl = `${environment.apiUrl}/auth`; // <-- 2. استخدام متغير البيئة
 
-  // BehaviorSubject to hold the current authentication state
   private _isAuthenticated = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this._isAuthenticated.asObservable();
-
   private tokenKey = 'auth_token';
 
   constructor(private http: HttpClient, private router: Router) {
-    // Check for token in localStorage on service initialization
     this.checkToken();
   }
 
   private checkToken() {
     const token = this.getToken();
     if (token) {
-      // Here you might want to decode the token to check for expiration in a real app
       this._isAuthenticated.next(true);
     }
   }

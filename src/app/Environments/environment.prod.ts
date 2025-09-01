@@ -3,5 +3,4 @@ export const environment = {
   apiUrl: 'https://ecommerce-nezamak.runasp.net/api',
 
 
-
 };

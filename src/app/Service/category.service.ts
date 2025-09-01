@@ -1,43 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../Environments/environment.prod';
 
 export interface Category {
-  id: number; name: string; description: string;
-  imageUrl: string; createdAt: string;
+  id: number;
+  name: string;
+  description: string;
+  imageUrl: string;
+  createdAt: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class CategoryService {
-  private apiUrl = 'https://ecommerce-nezamak.runasp.net/api';
+  private apiUrl = environment.apiUrl; // <-- 2. استخدام متغير البيئة
 
   constructor(private http: HttpClient) { }
 
-  // Public endpoints - no token needed
+  // Public endpoint
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.apiUrl}/categories`);
   }
 
+  // Dashboard endpoints (Interceptor will add token)
   getCategoryById(id: number): Observable<Category> {
-    return this.http.get<Category>(`${this.apiUrl}/categories/${id}`);
+    return this.http.get<Category>(`${this.apiUrl}/dashboard/categories/${id}`); // Assuming this is a dashboard route
   }
 
-  // Dashboard endpoints - Interceptor will add the token automatically
-  addCategory(name: string, description: string, image: File): Observable<Category> {
-    const formData = new FormData();
-    formData.append('Name', name);
-    formData.append('Description', description);
-    formData.append('Image', image);
+  addCategory(formData: FormData): Observable<Category> {
     return this.http.post<Category>(`${this.apiUrl}/dashboard/categories`, formData);
   }
 
-  updateCategory(id: number, name: string, description: string, image?: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('Name', name);
-    formData.append('Description', description);
-    if (image) {
-      formData.append('Image', image);
-    }
+  updateCategory(id: number, formData: FormData): Observable<any> {
     return this.http.put(`${this.apiUrl}/dashboard/categories/${id}`, formData);
   }
 

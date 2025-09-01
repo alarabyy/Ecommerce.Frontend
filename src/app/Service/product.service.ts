@@ -1,30 +1,56 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../Environments/environment.prod';
 
 export interface Product {
-  id: number; name: string; category: string; price: number;
-  image: string; badge: 'HOT' | 'SALE' | 'NEW' | null;
-  rating: number; oldPrice?: number;
+  id: number;
+  name: string;
+  description: string;
+  imageUrl: string;
+  price?: number;
+  category?: string;
+  badge?: string | null;
+  rating?: number;
+  oldPrice?: number;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class ProductService {
-  private products: Product[] = [
-    { id: 1, name: 'Gaming PC Tower', category: 'Computers', price: 1899.00, image: 'https://i.imgur.com/sYv3iC7.png', badge: 'HOT', rating: 5 },
-    { id: 2, name: 'Curved Monitor 32"', category: 'Monitors', price: 549.50, image: 'https://i.imgur.com/tTIZp14.png', badge: 'SALE', rating: 4, oldPrice: 699.00 },
-    { id: 3, name: 'Wireless Mouse', category: 'Accessories', price: 79.00, image: 'https://i.imgur.com/VQKfJ5W.png', badge: 'NEW', rating: 5 },
-    { id: 4, name: 'VR Headset Pro', category: 'Gaming', price: 499.00, image: 'https://i.imgur.com/nJm3h1y.png', badge: 'NEW', rating: 4 },
-    { id: 5, name: 'Premium Espresso Machine', category: 'Kitchen', price: 349.00, image: 'https://i.imgur.com/8QpJa7k.png', badge: 'SALE', rating: 5, oldPrice: 499.00 },
-    { id: 6, name: 'Latest Smartphone', category: 'Phones', price: 649.00, image: 'https://i.imgur.com/3bdc63g.png', badge: 'HOT', rating: 4, oldPrice: 799.00 },
-    { id: 7, name: 'Smartwatch Series 8', category: 'Watches', price: 399.00, image: 'https://i.imgur.com/N7aG3c0.png', badge: null, rating: 5 },
-    { id: 8, name: 'Air Pods Pro', category: 'Headphones', price: 199.00, image: 'https://i.imgur.com/Jz2q4xP.png', badge: 'SALE', rating: 4, oldPrice: 249.00 },
-  ];
+  private apiUrl = `${environment.apiUrl}/products`; // <-- 2. استخدام متغير البيئة
 
+  constructor(private http: HttpClient) { }
+
+  // GET /api/products
   getProducts(): Observable<Product[]> {
-    return of(this.products);
+    return this.http.get<Product[]>(this.apiUrl);
   }
 
-  getFeaturedProducts(): Observable<Product[]> {
-    return of(this.products.slice(0, 4));
+  // GET /api/products/{id}
+  getProductById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  }
+
+  // POST /api/products (Interceptor adds token)
+  addProduct(formData: FormData): Observable<Product> {
+    return this.http.post<Product>(this.apiUrl, formData);
+  }
+
+  // PUT /api/products/{id} (Interceptor adds token)
+  updateProduct(id: number, formData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, formData);
+  }
+
+  // DELETE /api/products/{id} (Interceptor adds token)
+  deleteProduct(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  // GET /api/products/search?name={name}
+  searchProducts(name: string): Observable<Product[]> {
+    const params = new HttpParams().set('name', name);
+    return this.http.get<Product[]>(`${this.apiUrl}/search`, { params });
   }
 }

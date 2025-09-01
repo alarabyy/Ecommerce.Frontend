@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { Product, ProductService } from '../../../Service/product.service';
-import { ProductCardComponent } from '../../Widgets/product-card/product-card.component';
 
 @Component({
   selector: 'app-products',
