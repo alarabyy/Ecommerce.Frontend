@@ -1,0 +1,78 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2 class="title">Create an Account</h2>
+      <p class="subtitle">Join our community and start shopping!</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
+
+      <!-- Username Field -->
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" formControlName="username" placeholder="e.g., johndoe"
+               [class.is-invalid]="f['username'].touched && f['username'].invalid">
+        <div *ngIf="f['username'].touched && f['username'].invalid" class="validation-error">
+          <small *ngIf="f['username'].errors?.['required']">Username is required.</small>
+          <small *ngIf="f['username'].errors?.['whitespace']">Username cannot be empty.</small>
+          <small *ngIf="f['username'].errors?.['invalidUsername']">Username must contain only letters and numbers (no spaces or symbols).</small>
+        </div>
+      </div>
+
+      <!-- Email Address Field -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" formControlName="email" placeholder="you@example.com"
+               [class.is-invalid]="f['email'].touched && f['email'].invalid">
+        <div *ngIf="f['email'].touched && f['email'].invalid" class="validation-error">
+          <small *ngIf="f['email'].errors?.['required']">Email is required.</small>
+          <small *ngIf="f['email'].errors?.['email']">Please enter a valid email address.</small>
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group password-group">
+        <label for="password">Password</label>
+        <input [type]="passwordFieldType" id="password" formControlName="password" placeholder="••••••••"
+               [class.is-invalid]="f['password'].touched && f['password'].invalid">
+        <button type="button" class="password-toggle-btn" (click)="togglePasswordVisibility()" tabindex="-1">
+          <i class="fas" [ngClass]="passwordFieldType === 'password' ? 'fa-eye' : 'fa-eye-slash'"></i>
+        </button>
+        <div *ngIf="f['password'].touched && f['password'].invalid" class="validation-error">
+          <small *ngIf="f['password'].errors?.['required']">Password is required.</small>
+          <small *ngIf="f['password'].errors?.['minlength']">Password must be at least 6 characters long.</small>
+        </div>
+      </div>
+
+      <!-- Gender and Birth Date in one row -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" formControlName="gender" [class.is-invalid]="f['gender'].touched && f['gender'].invalid">
+            <option [value]="0">Male</option>
+            <option [value]="1">Female</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="birthDate">Birth Date</label>
+          <input type="date" id="birthDate" formControlName="birthDate" [class.is-invalid]="f['birthDate'].touched && f['birthDate'].invalid">
+        </div>
+      </div>
+
+      <!-- Success and Error Messages -->
+      <div *ngIf="successMessage" class="success-message">
+        <i class="fas fa-check-circle"></i> {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage" class="error-message">
+        <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn btn-primary auth-btn">Create Account</button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Already have an account? <a routerLink="/login">Sign in</a></p>
+    </div>
+  </div>
+</div>

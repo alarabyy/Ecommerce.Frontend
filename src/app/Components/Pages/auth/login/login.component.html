@@ -1,0 +1,46 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2 class="title">Welcome Back!</h2>
+      <p class="subtitle">Sign in to continue to your dashboard.</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" formControlName="email" placeholder="you@example.com">
+        <div *ngIf="f['email'].touched && f['email'].invalid" class="validation-error">
+          <small *ngIf="f['email'].errors?.['required']">Email is required.</small>
+          <small *ngIf="f['email'].errors?.['email']">Please enter a valid email.</small>
+        </div>
+      </div>
+
+      <!-- ** Password Field Updated ** -->
+      <div class="form-group password-group">
+        <label for="password">Password</label>
+        <input [type]="passwordFieldType" id="password" formControlName="password" placeholder="••••••••">
+        <button type="button" class="password-toggle-btn" (click)="togglePasswordVisibility()">
+          <i class="fas" [ngClass]="passwordFieldType === 'password' ? 'fa-eye' : 'fa-eye-slash'"></i>
+        </button>
+        <div *ngIf="f['password'].touched && f['password'].invalid" class="validation-error">
+          <small *ngIf="f['password'].errors?.['required']">Password is required.</small>
+        </div>
+      </div>
+
+      <div class="form-options">
+        <label class="checkbox-label"><input type="checkbox" formControlName="rememberMe"> Remember me</label>
+        <a href="#" class="forgot-password">Forgot password?</a>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn btn-primary auth-btn" [disabled]="loginForm.invalid">Sign In</button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Don't have an account? <a routerLink="/register">Sign up</a></p>
+    </div>
+  </div>
+</div>
