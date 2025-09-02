@@ -1,1 +1,54 @@
-<p>product-details works!</p>
+<div class="container page-fade-in">
+  <ng-container *ngIf="product$ | async as product; else loading">
+    <div class="product-details-layout">
+
+      <!-- عمود الصور -->
+      <div class="product-gallery">
+        <img [src]="product.imageUrl" [alt]="product.name" (error)="onImageError($event)" class="main-image">
+      </div>
+
+      <!-- عمود المعلومات -->
+      <div class="product-info">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/products">Products</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+          </ol>
+        </nav>
+
+        <h1 class="product-title">{{ product.name }}</h1>
+
+        <div class="product-meta">
+          <!-- ** تم تصحيح هذا السطر ** -->
+          <span class="meta-item">Category ID: <strong>{{ product.categoryId || 'N/A' }}</strong></span>
+          <span class="meta-item stock-status in-stock"><i class="fas fa-check-circle"></i> In Stock</span>
+        </div>
+
+        <p class="product-description">{{ product.description }}</p>
+
+        <div class="product-price-container">
+          <span class="product-price">${{ product.price || 'N/A' }}</span>
+        </div>
+
+        <div class="product-actions">
+          <div class="quantity-selector">
+            <button class="quantity-btn" aria-label="Decrease quantity">-</button>
+            <input type="text" value="1" readonly class="quantity-input">
+            <button class="quantity-btn" aria-label="Increase quantity">+</button>
+          </div>
+          <button class="btn btn-primary add-to-cart-btn">
+            <i class="fas fa-shopping-bag"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="state-message">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>Loading Product Details...</p>
+    </div>
+  </ng-template>
+</div>

@@ -4,14 +4,16 @@ import { CategoriesListComponent } from './Components/Pages/category/categories-
 import { LoginComponent } from './Components/Pages/auth/login/login.component';
 import { RegisterComponent } from './Components/Pages/auth/register/register.component';
 import { authGuard } from './guards/auth.guard';
-import { ProductsListComponent } from './Components/Pages/Product/products-list/products-list.component';
-import { ProductFormComponent } from './Components/Pages/Product/product-form/product-form.component';
 import { AddCategoryComponent } from './Components/Pages/category/add-category/add-category.component';
 import { EditCategoryComponent } from './Components/Pages/category/edit-category/edit-category.component';
 import { ViewBrandsComponent } from './Components/Pages/brands/view-brands/view-brands.component';
 import { AddBrandComponent } from './Components/Pages/brands/add-brand/add-brand.component';
 import { EditBrandComponent } from './Components/Pages/brands/edit-brand/edit-brand.component';
 import { NotFoundComponent } from './Components/Pages/not-found/not-found.component';
+import { ProductDetailsComponent } from './Components/Pages/Product/product-details/product-details.component';
+import { ViewProductsComponent } from './Components/Pages/Product/view-products/view-products.component';
+import { AddProductComponent } from './Components/Pages/Product/add-product/add-product.component';
+import { EditProductComponent } from './Components/Pages/Product/edit-product/edit-product.component';
 
 export const routes: Routes = [
   // == Public Routes ==
@@ -26,15 +28,16 @@ export const routes: Routes = [
   { path: 'categories/new', component: AddCategoryComponent, canActivate: [authGuard] },
   { path: 'categories/edit/:id', component: EditCategoryComponent, canActivate: [authGuard] },
 
-  // --- Product Management ---
-  { path: 'products', component: ProductsListComponent, canActivate: [authGuard] },
-  { path: 'products/new', component: ProductFormComponent, canActivate: [authGuard] },
-  { path: 'products/edit/:id', component: ProductFormComponent, canActivate: [authGuard] },
-
   // --- Brand Management ---
   { path: 'brands', component: ViewBrandsComponent, canActivate: [authGuard] },
   { path: 'brands/add', component: AddBrandComponent, canActivate: [authGuard] },
   { path: 'brands/edit/:id', component: EditBrandComponent, canActivate: [authGuard] },
+
+  // --- Product Details and Management ---
+  { path: 'product/:id', component: ProductDetailsComponent },
+  { path: 'products', component: ViewProductsComponent },
+  { path: 'products/add', component: AddProductComponent },
+  { path: 'products/edit/:id', component: EditProductComponent },
 
   // == Default and Wildcard Routes ==
   { path: '', redirectTo: '/home', pathMatch: 'full' },

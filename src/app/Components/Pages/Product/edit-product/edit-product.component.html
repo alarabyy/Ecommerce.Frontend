@@ -1,0 +1,42 @@
+<div class="container page-fade-in">
+  <header class="page-header">
+    <h1>Edit Product</h1>
+    <a routerLink="/products" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to Products
+    </a>
+  </header>
+
+  <div class="form-container">
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Product Name</label>
+        <input type="text" id="name" formControlName="name">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" rows="5"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="categoryId">Category</label>
+        <select id="categoryId" formControlName="categoryId">
+          <option [ngValue]="null" disabled>-- Select a Category --</option>
+          <option *ngFor="let cat of categories$ | async" [value]="cat.id">{{ cat.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="image">Change Product Image (Optional)</label>
+        <input type="file" id="image" (change)="onFileChange($event)" accept="image/png, image/jpeg">
+        <div *ngIf="imagePreview" class="image-preview">
+          <p>Current Image:</p>
+          <img [src]="imagePreview" alt="Preview">
+        </div>
+      </div>
+      <div *ngIf="errorMessage" class="error-message">
+        <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="productForm.invalid">Update Product</button>
+      </div>
+    </form>
+  </div>
+</div>
