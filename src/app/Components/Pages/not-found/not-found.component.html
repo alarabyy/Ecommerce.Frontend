@@ -1,0 +1,41 @@
+<div class="not-found-container">
+  <div class="content-wrapper">
+
+    <!-- Animated SVG Graphic -->
+    <div class="graphic-container">
+      <svg class="graphic" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background elements -->
+        <circle class="bg-circle-1" cx="300" cy="200" r="180" />
+        <circle class="bg-circle-2" cx="300" cy="200" r="150" />
+
+        <!-- Floating "404" Text -->
+        <text class="text-404" x="50%" y="55%" dominant-baseline="middle" text-anchor="middle">404</text>
+
+        <!-- Floating ghost -->
+        <g class="ghost">
+          <path d="M 220 280 C 220 240, 280 240, 280 280 L 280 340 L 265 325 L 250 340 L 235 325 L 220 340 Z" fill="rgba(255,255,255,0.8)"/>
+          <circle cx="240" cy="280" r="7" fill="#1a2238" class="eye"/>
+          <circle cx="260" cy="280" r="7" fill="#1a2238" class="eye"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Text Content -->
+    <div class="text-content">
+      <h1 class="title">Oops! Page Not Found</h1>
+      <p class="description">
+        It seems the page you are looking for has vanished into thin air. Don't worry, even the best explorers get lost sometimes.
+      </p>
+      <a routerLink="/home" class="btn btn-primary btn-lg">
+        <i class="fas fa-home"></i> Go Back to Homepage
+      </a>
+
+      <div class="quick-links">
+        <p>Or, maybe you were looking for:</p>
+        <a routerLink="/products">All Products</a>
+        <a routerLink="/login">My Account</a>
+        <a routerLink="/contact">Contact Support</a>
+      </div>
+    </div>
+  </div>
+</div>

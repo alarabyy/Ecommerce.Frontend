@@ -1,10 +1,26 @@
+// Reusable form styles for both Add and Edit pages
+.container {
+    max-width: 900px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+h1 {
+  color: var(--text-color-dark);
+}
+
 .form-container {
   background-color: var(--bg-color-light);
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px var(--shadow-color);
-  max-width: 700px;
-  margin: 0 auto;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px var(--shadow-color);
 }
 
 .form-group {
@@ -19,9 +35,9 @@
 
   input[type="text"], textarea {
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 0.8rem 1rem;
     border: 1px solid var(--border-color);
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: var(--bg-color);
     color: var(--text-color-dark);
     font-size: 1rem;
@@ -30,7 +46,7 @@
     &:focus {
       outline: none;
       border-color: var(--primary-color);
-      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
     }
   }
 
@@ -41,6 +57,7 @@
 
 .image-preview {
   margin-top: 1rem;
+  p { margin-bottom: 0.5rem; font-weight: 500; }
   img {
     max-width: 150px;
     max-height: 150px;
@@ -54,7 +71,7 @@
   margin-top: 2rem;
 }
 
-.btn-secondary { // For the "Back" button
+.btn-secondary {
   background-color: var(--bg-color);
   color: var(--text-color);
   border: 1px solid var(--border-color);

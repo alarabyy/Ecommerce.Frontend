@@ -1,0 +1,57 @@
+<div class="container page-fade-in">
+  <header class="page-header">
+    <h1>Add New Brand</h1>
+    <a routerLink="/dashboard/brands" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to Brands
+    </a>
+  </header>
+
+  <div class="form-container">
+    <form *ngIf="brandForm" [formGroup]="brandForm" (ngSubmit)="onSubmit()" novalidate>
+
+      <!-- حقل اسم الماركة -->
+      <div class="form-group">
+        <label for="name">Brand Name</label>
+        <!-- ** تم تصحيح formControlName ** -->
+        <input type="text" id="name" formControlName="Name" placeholder="e.g., Apple, Samsung"
+               [class.is-invalid]="f['Name']?.touched && f['Name']?.invalid">
+        <div *ngIf="f['Name']?.touched && f['Name']?.invalid" class="validation-error">
+          <small *ngIf="f['Name']?.errors?.['required']">Brand name is required.</small>
+        </div>
+      </div>
+
+      <!-- حقل الوصف -->
+      <div class="form-group">
+        <label for="description">Description</label>
+        <!-- ** تم تصحيح formControlName ** -->
+        <textarea id="description" formControlName="Description" rows="4" placeholder="Describe the brand..."></textarea>
+      </div>
+
+      <!-- حقل رفع اللوجو -->
+      <div class="form-group">
+        <label for="logo">Brand Logo</label>
+        <input type="file" id="logo" (change)="onFileChange($event)" accept="image/png, image/jpeg">
+        <!-- ** تم تصحيح formControlName ** -->
+        <div *ngIf="f['Logo']?.touched && f['Logo']?.invalid" class="validation-error">
+          <small *ngIf="f['Logo']?.errors?.['required']">A logo is required.</small>
+        </div>
+        <div *ngIf="imagePreview" class="image-preview">
+          <img [src]="imagePreview" alt="Logo Preview">
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+      </div>
+
+      <div class="form-actions">
+        <div *ngIf="isSubmitting" class="submitting-indicator">
+          <i class="fas fa-spinner fa-spin"></i> Submitting...
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="brandForm.invalid || isSubmitting">
+          {{ isSubmitting ? 'Creating...' : 'Create Brand' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

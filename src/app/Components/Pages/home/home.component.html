@@ -1,50 +1,85 @@
+<!-- Section 1: Hero -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">Experience the Future of Shopping</h1>
+    <p class="hero-subtitle">Discover premium electronics and gadgets, delivered with exceptional service.</p>
+    <div class="hero-actions">
+      <a routerLink="/products" class="btn btn-primary btn-lg">
+        <i class="fas fa-store"></i> Explore Products
+      </a>
+      <a routerLink="/register" class="btn btn-secondary btn-lg">
+        <i class="fas fa-user-plus"></i> Create Account
+      </a>
+    </div>
+  </div>
+</section>
+
 <div class="container page-fade-in">
-  <!-- Section: Popular Categories -->
-  <section class="home-section popular-categories">
-    <h2 class="section-title">Popular Categories</h2>
-    <div class="categories-grid">
-      <div *ngFor="let category of popularCategories" class="category-item">
-        <div class="icon-wrapper"><i [class]="category.icon"></i></div>
-        <span>{{ category.name }}</span>
+  <!-- Section 2: Why Choose Us -->
+  <section class="home-section text-center">
+    <h2 class="section-title">Why ProStore is Your Best Choice</h2>
+    <div class="features-grid">
+      <div *ngFor="let feature of features" class="feature-card">
+        <div class="feature-icon">
+          <i [class]="feature.icon"></i>
+        </div>
+        <h3 class="feature-title">{{ feature.title }}</h3>
+        <p class="feature-description">{{ feature.description }}</p>
       </div>
     </div>
   </section>
 
-  <!-- Section: Weekly Deals -->
-  <section class="home-section weekly-deals">
-    <h2 class="section-title">Best Weekly Deals</h2>
-    <div class="deals-grid">
-      <div class="main-deal-card">
-        <div class="badge hot">30% OFF</div>
-        <img src="https://i.imgur.com/8QpJa7k.png" alt="Espresso Machine">
-        <h3>Premium Espresso Machine</h3>
-        <p>Your personal barista at home.</p>
-        <div class="price">
-          <span class="new-price">$349.00</span>
-          <span class="old-price">$499.00</span>
-        </div>
-        <button class="btn btn-primary">Shop Now <i class="fas fa-arrow-right"></i></button>
+  <!-- Section 3: How It Works -->
+  <section class="home-section">
+    <h2 class="section-title">Get Your Gadgets in 3 Easy Steps</h2>
+    <div class="how-it-works-grid">
+      <div class="step-card">
+        <div class="step-icon"><i class="fas fa-search"></i></div>
+        <div class="step-number">01</div>
+        <h3 class="step-title">Browse & Discover</h3>
+        <p>Explore our vast collection of curated products and find what you love.</p>
       </div>
-      <div class="side-deals-grid">
-        <div *ngFor="let product of weeklyDeals" class="product-card-small">
-          <img [src]="product.image" [alt]="product.name">
-          <div class="info">
-            <h4>{{ product.name }}</h4>
-            <div class="price">
-              <span class="new-price">${{ product.newPrice.toFixed(2) }}</span>
-              <span class="old-price">${{ product.oldPrice.toFixed(2) }}</span>
-            </div>
-          </div>
+      <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
+      <div class="step-card">
+        <div class="step-icon"><i class="fas fa-shopping-bag"></i></div>
+        <div class="step-number">02</div>
+        <h3 class="step-title">Add to Cart</h3>
+        <p>Easily add your chosen items to your cart and proceed to a secure checkout.</p>
+      </div>
+      <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
+      <div class="step-card">
+        <div class="step-icon"><i class="fas fa-truck"></i></div>
+        <div class="step-number">03</div>
+        <h3 class="step-title">Receive & Enjoy</h3>
+        <p>Get your order delivered quickly to your doorstep and enjoy your new gadgets.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Testimonials -->
+  <section class="home-section testimonials-section">
+    <h2 class="section-title">What Our Customers Say</h2>
+    <div class="testimonials-grid">
+      <div *ngFor="let testimonial of testimonials" class="testimonial-card">
+        <i class="fas fa-quote-left quote-icon"></i>
+        <p class="testimonial-quote">{{ testimonial.quote }}</p>
+        <div class="testimonial-author">
+          <span class="author-name">{{ testimonial.author }}</span>
+          <span class="author-role">{{ testimonial.role }}</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Section: Featured Products -->
-  <section class="home-section featured-products">
-    <h2 class="section-title">Featured Products</h2>
-    <div class="products-grid">
-      <app-product-card *ngFor="let product of (featuredProducts$ | async)" [product]="product"></app-product-card>
+  <!-- Section 5: Newsletter CTA -->
+  <section class="home-section cta-section">
+    <div class="cta-content">
+      <h2>Join Our Community</h2>
+      <p>Subscribe to our newsletter to get the latest deals, updates, and exclusive offers delivered straight to your inbox.</p>
+      <form class="subscribe-form">
+        <input type="email" placeholder="Enter your email address...">
+        <button class="btn btn-primary">Subscribe Now</button>
+      </form>
     </div>
   </section>
 </div>

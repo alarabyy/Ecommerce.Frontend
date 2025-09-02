@@ -1,0 +1,52 @@
+<div class="container page-fade-in">
+  <header class="page-header">
+    <h1>Add New Category</h1>
+    <a routerLink="/dashboard/categories" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to List
+    </a>
+  </header>
+
+  <div class="form-container">
+    <form *ngIf="categoryForm" [formGroup]="categoryForm" (ngSubmit)="onSubmit()" novalidate>
+
+      <div class="form-group">
+        <label for="name">Category Name</label>
+        <input type="text" id="name" formControlName="Name" placeholder="e.g., Electronics"
+               [class.is-invalid]="f['Name']?.touched && f['Name']?.invalid">
+        <div *ngIf="f['Name']?.touched && f['Name']?.invalid" class="validation-error">
+          <small *ngIf="f['Name']?.errors?.['required']">Category name is required.</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="Description" rows="4" placeholder="Describe the category..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="image">Category Image</label>
+        <input type="file" id="image" (change)="onFileChange($event)" accept="image/png, image/jpeg">
+        <div *ngIf="f['Image']?.touched && f['Image']?.invalid" class="validation-error">
+          <small *ngIf="f['Image']?.errors?.['required']">An image is required.</small>
+        </div>
+        <div *ngIf="imagePreview" class="image-preview">
+          <img [src]="imagePreview" alt="Image Preview">
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+      </div>
+
+      <div class="form-actions">
+        <div *ngIf="isSubmitting" class="submitting-indicator">
+          <i class="fas fa-spinner fa-spin"></i> Submitting...
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="categoryForm.invalid || isSubmitting">
+          {{ isSubmitting ? 'Creating...' : 'Create Category' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

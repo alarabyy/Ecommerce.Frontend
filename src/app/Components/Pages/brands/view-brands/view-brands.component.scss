@@ -1,0 +1,130 @@
+// Uses global styles for .container and .btn
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+h1 {
+  color: var(--text-color-dark);
+}
+
+.table-container {
+  background-color: var(--bg-color-light);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px var(--shadow-color);
+  overflow-x: auto; // For responsiveness on small tables
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background-color: var(--bg-color);
+  }
+
+  th, td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  th {
+    font-weight: 600;
+    color: var(--text-color-dark);
+  }
+
+  tbody tr {
+    transition: background-color 0.2s;
+    &:hover {
+      background-color: var(--bg-color);
+    }
+  }
+}
+
+.category-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 1rem;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+
+  &.edit {
+    color: var(--primary-color);
+    &:hover { transform: scale(1.2); }
+  }
+
+  &.delete {
+    color: #e53935;
+    &:hover { transform: scale(1.2); }
+  }
+}
+
+.loading-state, .empty-state {
+  padding: 3rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+// Responsive Table for Mobile
+@media (max-width: 768px) {
+  thead {
+    display: none; // Hide table header
+  }
+
+  tr {
+    display: block;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    overflow: hidden;
+  }
+
+  td {
+    display: block;
+    text-align: right; // Align content to the right
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+    padding-left: 50%; // Make space for the label
+
+    &::before {
+      content: attr(data-label); // Use data-label as the pseudo-element content
+      position: absolute;
+      left: 1.5rem;
+      font-weight: 600;
+      color: var(--text-color-dark);
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .actions-cell {
+    justify-content: flex-end;
+  }
+}
+
+.item-image {
+  width: 50px;
+  height: 50px;
+  object-fit: contain; // Logos are better with contain
+  border-radius: 8px;
+}

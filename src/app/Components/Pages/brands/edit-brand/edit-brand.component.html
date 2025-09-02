@@ -1,0 +1,54 @@
+<div class="container page-fade-in">
+  <header class="page-header">
+    <h1>Edit Brand</h1>
+    <a routerLink="/dashboard/brands" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to Brands
+    </a>
+  </header>
+
+  <div class="form-container">
+    <form *ngIf="brandForm" [formGroup]="brandForm" (ngSubmit)="onSubmit()" novalidate>
+
+      <!-- حقل اسم الماركة -->
+      <div class="form-group">
+        <label for="name">Brand Name</label>
+        <input type="text" id="name" formControlName="name" placeholder="e.g., Apple, Samsung"
+               [class.is-invalid]="f['name']?.touched && f['name']?.invalid">
+        <div *ngIf="f['name']?.touched && f['name']?.invalid" class="validation-error">
+          <small *ngIf="f['name']?.errors?.['required']">Brand name is required.</small>
+        </div>
+      </div>
+
+      <!-- حقل الوصف -->
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" rows="4" placeholder="Describe the brand..."></textarea>
+      </div>
+
+      <!-- حقل تغيير اللوجو -->
+      <div class="form-group">
+        <label for="logo">Change Brand Logo (Optional)</label>
+        <input type="file" id="logo" (change)="onFileChange($event)" accept="image/png, image/jpeg">
+        <div *ngIf="imagePreview" class="image-preview">
+          <p>Current Logo:</p>
+          <img [src]="imagePreview" alt="Logo Preview">
+        </div>
+      </div>
+
+      <!-- مكان عرض رسائل الخطأ من السيرفر -->
+      <div *ngIf="errorMessage" class="error-message">
+        <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+      </div>
+
+      <!-- زر الإرسال -->
+      <div class="form-actions">
+        <div *ngIf="isSubmitting" class="submitting-indicator">
+          <i class="fas fa-spinner fa-spin"></i> Submitting...
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="brandForm.invalid || isSubmitting">
+          {{ isSubmitting ? 'Updating...' : 'Update Brand' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
