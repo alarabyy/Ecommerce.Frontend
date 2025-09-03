@@ -1,0 +1,55 @@
+<div class="container page-fade-in">
+  <header class="page-header">
+    <h1>Message Details</h1>
+    <a routerLink="/dashboard/mails" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to Inbox
+    </a>
+  </header>
+
+  <ng-container *ngIf="mail$ | async as mail; else loading">
+    <div class="mail-details-container">
+      <!-- Original Message -->
+      <div class="message-card original-message">
+        <div class="card-header">
+          <h2>{{ mail.subject }}</h2>
+          <span class="timestamp">{{ mail.createdAt | date:'full' }}</span>
+        </div>
+        <div class="sender-info">
+          From: <strong>{{ mail.name }}</strong> &lt;{{ mail.email }}&gt;
+        </div>
+        <div class="card-body">
+          <p>{{ mail.body }}</p>
+        </div>
+      </div>
+
+      <!-- Previous Reply (if exists) -->
+      <div *ngIf="mail.isReplied" class="message-card replied-message">
+        <div class="card-header">
+          <h3><i class="fas fa-reply"></i> Your Reply</h3>
+          <span class="timestamp">{{ mail.repliedAt | date:'full' }}</span>
+        </div>
+        <div class="card-body">
+          <p>{{ mail.replyBody }}</p>
+        </div>
+      </div>
+
+      <!-- Reply Form (if not replied yet) -->
+      <div *ngIf="!mail.isReplied" class="reply-card">
+        <h3><i class="fas fa-pen"></i> Write a Reply</h3>
+        <form [formGroup]="replyForm" (ngSubmit)="onSendReply()">
+          <textarea formControlName="replyBody" rows="8" placeholder="Type your reply here..."></textarea>
+          <div *ngIf="replyMessage" class="form-message" [ngClass]="replyStatus">
+            {{ replyMessage }}
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" [disabled]="replyForm.invalid">Send Reply</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="loading-state"><i class="fas fa-spinner fa-spin"></i></div>
+  </ng-template>
+</div>

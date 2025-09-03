@@ -1,0 +1,39 @@
+<div class="container page-fade-in">
+  <header class="page-header">
+    <h1>Customer Messages (Inbox)</h1>
+  </header>
+
+  <div class="inbox-container">
+    <ng-container *ngIf="mails$ | async as mails; else loading">
+      <div *ngIf="mails.length > 0; else noItems" class="mails-list">
+        <a *ngFor="let mail of mails"
+           [routerLink]="['/dashboard/mails/reply', mail.id]"
+           class="mail-item"
+           [class.replied]="mail.isReplied">
+
+          <div class="status-indicator">
+            <i *ngIf="mail.isReplied" class="fas fa-check-circle replied-icon" title="Replied"></i>
+            <i *ngIf="!mail.isReplied" class="fas fa-envelope new-mail-icon" title="New Message"></i>
+          </div>
+          <div class="sender-info">
+            <div class="sender-name">{{ mail.name }}</div>
+            <div class="sender-email">{{ mail.email }}</div>
+          </div>
+          <div class="message-preview">
+            <div class="subject">{{ mail.subject }}</div>
+            <div class="body">{{ (mail.body | slice:0:80) + (mail.body.length > 80 ? '...' : '') }}</div>
+          </div>
+          <div class="timestamp">{{ mail.createdAt | date:'short' }}</div>
+        </a>
+      </div>
+    </ng-container>
+
+    <ng-template #loading>
+      <div class="loading-state"><i class="fas fa-spinner fa-spin"></i><p>Loading messages...</p></div>
+    </ng-template>
+
+    <ng-template #noItems>
+      <div class="empty-state"><i class="fas fa-inbox"></i><p>Your inbox is empty.</p></div>
+    </ng-template>
+  </div>
+</div>

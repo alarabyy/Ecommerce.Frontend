@@ -1,0 +1,54 @@
+.mail-details-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.message-card, .reply-card {
+  background-color: var(--bg-color-light);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  h2, h3 { color: var(--text-color-dark); }
+  .timestamp { font-size: 0.9rem; }
+}
+
+.original-message .sender-info {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+}
+
+.card-body {
+  padding: 1.5rem;
+  line-height: 1.8;
+  white-space: pre-wrap; // Preserve line breaks from user message
+}
+
+.reply-card {
+  h3 { padding: 1rem 1.5rem; }
+  textarea {
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+    background-color: var(--bg-color);
+    color: var(--text-color-dark);
+    &:focus { outline: none; }
+  }
+  .form-actions { padding: 1.5rem; text-align: right; }
+}
+
+.form-message { /* Styles from footer.component.scss */ }

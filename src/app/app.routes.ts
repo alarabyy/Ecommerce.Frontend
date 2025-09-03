@@ -14,6 +14,8 @@ import { ProductDetailsComponent } from './Components/Pages/Product/product-deta
 import { ViewProductsComponent } from './Components/Pages/Product/view-products/view-products.component';
 import { AddProductComponent } from './Components/Pages/Product/add-product/add-product.component';
 import { EditProductComponent } from './Components/Pages/Product/edit-product/edit-product.component';
+import { MailsListComponent } from './Components/Pages/mails/mails-list/mails-list.component';
+import { MailDetailsComponent } from './Components/Pages/mails/mail-details/mail-details.component';
 
 export const routes: Routes = [
   // == Public Routes ==
@@ -38,6 +40,11 @@ export const routes: Routes = [
   { path: 'products', component: ViewProductsComponent },
   { path: 'products/add', component: AddProductComponent },
   { path: 'products/edit/:id', component: EditProductComponent },
+
+
+      // --- Mail Management ---
+  { path: 'mails', component: MailsListComponent },
+  { path: 'mails/reply/:id', component: MailDetailsComponent },
 
   // == Default and Wildcard Routes ==
   { path: '', redirectTo: '/home', pathMatch: 'full' },

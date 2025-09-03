@@ -1,110 +1,149 @@
 .footer {
-  background-color: var(--text-color-light);
+  position: relative;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color: #a0a0a0;
   padding: 4rem 0 1rem;
-}
+  overflow: hidden;
 
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.footer-main {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid #444;
-}
-
-.footer-column {
-  h3 {
-    color: #3a3ae1;
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
-    font-weight: 600;
+  .footer-overlay {
+    position: relative;
+    z-index: 2;
   }
-  ul {
-    list-style: none;
-    padding: 0;
-    li {
-      margin-bottom: 0.8rem;
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .footer-main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .footer-column {
+    h3 {
+      color: #fff;
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      position: relative;
     }
-    a {
-      color: #a0a0a0;
-      text-decoration: none;
-      transition: color 0.2s;
-      &:hover {
-        color: #fff;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      li {
+        margin-bottom: 0.8rem;
+      }
+      a {
+        color: #ccc;
+        text-decoration: none;
+        transition: all 0.3s;
+        &:hover {
+          color: #3a9dfc;
+          padding-left: 4px;
+        }
       }
     }
   }
-  p {
-    line-height: 1.7;
-  }
-}
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #fff;
-  i {
-    color: var(--primary-color);
-  }
-}
-
-.social-icons {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  a {
-    color: #a0a0a0;
-    font-size: 1.2rem;
-    transition: color 0.2s, transform 0.2s;
-    &:hover {
-      color: #fff;
-      transform: translateY(-2px);
-    }
-  }
-}
-
-.subscribe-form {
-  display: flex;
-  margin-top: 1rem;
-  input {
-    flex-grow: 1;
-    border: 1px solid #555;
-    background: #333;
-    padding: 0.75rem;
-    border-radius: 5px 0 0 5px;
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.8rem;
+    font-weight: 700;
     color: #fff;
-    &:focus {
-      outline: none;
-      border-color: var(--primary-color);
+
+    i {
+      color: #3a9dfc;
+      font-size: 2rem;
     }
   }
-  button {
-    border-radius: 0 5px 5px 0;
-    padding: 0.75rem 1rem;
+
+  .social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    a {
+      color: #ccc;
+      font-size: 1.3rem;
+      transition: all 0.3s;
+      &:hover {
+        color: #fff;
+        transform: scale(1.2);
+      }
+    }
   }
-}
 
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding-top: 2rem;
-  font-size: 0.9rem;
-}
+  .subscribe-form {
+    display: flex;
+    margin-top: 1rem;
+    input {
+      flex-grow: 1;
+      border: 1px solid #555;
+      background: #222;
+      padding: 0.75rem;
+      border-radius: 5px 0 0 5px;
+      color: #fff;
+    }
+    button {
+      border-radius: 0 5px 5px 0;
+      padding: 0.75rem 1.2rem;
+    }
+  }
 
-.payment-icons {
-  display: flex;
-  gap: 1rem;
-  font-size: 2rem;
+  .contact-form-section {
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #555;
+      background: #222;
+      border-radius: 5px;
+      color: #fff;
+      font-family: inherit;
+    }
+
+    .form-message {
+      padding: 0.75rem;
+      border-radius: 5px;
+      text-align: center;
+      color: #fff;
+      &.success {
+        background-color: rgba(40, 167, 69, 0.6);
+      }
+      &.error {
+        background-color: rgba(220, 53, 69, 0.6);
+      }
+    }
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: 2rem;
+    font-size: 0.9rem;
+    color: #ccc;
+
+    .payment-icons {
+      display: flex;
+      gap: 1rem;
+      font-size: 2rem;
+      color: #fff;
+    }
+  }
 }
