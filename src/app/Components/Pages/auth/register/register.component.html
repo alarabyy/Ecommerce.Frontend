@@ -63,6 +63,10 @@
       <!-- Success and Error Messages -->
       <div *ngIf="successMessage" class="success-message">
         <i class="fas fa-check-circle"></i> {{ successMessage }}
+        <div class="email-confirmation-info">
+          <p><i class="fas fa-envelope"></i> We've sent you a confirmation email. Please check your inbox and click the confirmation link to activate your account.</p>
+          <p><i class="fas fa-info-circle"></i> You won't be able to log in until you confirm your email address.</p>
+        </div>
       </div>
       <div *ngIf="errorMessage" class="error-message">
         <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}

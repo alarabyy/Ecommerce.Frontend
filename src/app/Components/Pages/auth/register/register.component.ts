@@ -75,8 +75,8 @@ export class RegisterComponent implements OnInit {
 
     this.authService.register(apiPayload).subscribe({
       next: (response) => {
-        this.successMessage = response.message || 'Registration successful! Please log in.';
-        setTimeout(() => this.router.navigate(['/login']), 2000);
+        this.successMessage = response.message || 'Registration successful! Please check your email to confirm your account before logging in.';
+        // Don't redirect automatically, let user read the message
       },
       error: (err) => {
         // Handle detailed validation errors if the backend sends them
