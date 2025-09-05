@@ -5,40 +5,164 @@
       <p class="subtitle">Sign in to continue to your dashboard.</p>
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" formControlName="email" placeholder="you@example.com">
-        <div *ngIf="f['email'].touched && f['email'].invalid" class="validation-error">
-          <small *ngIf="f['email'].errors?.['required']">Email is required.</small>
-          <small *ngIf="f['email'].errors?.['email']">Please enter a valid email.</small>
-        </div>
-      </div>
 
-      <!-- ** Password Field Updated ** -->
-      <div class="form-group password-group">
-        <label for="password">Password</label>
-        <input [type]="passwordFieldType" id="password" formControlName="password" placeholder="••••••••">
-        <button type="button" class="password-toggle-btn" (click)="togglePasswordVisibility()">
-          <i class="fas" [ngClass]="passwordFieldType === 'password' ? 'fa-eye' : 'fa-eye-slash'"></i>
+    <!-- Step 1: Email Input -->
+    <div *ngIf="!currentStep" class="auth-step">
+      <form [formGroup]="emailForm" (ngSubmit)="onEmailSubmit()" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email" 
+            placeholder="you@example.com"
+            [class.is-invalid]="emailFormControls['email'].touched && emailFormControls['email'].invalid">
+          <div *ngIf="emailFormControls['email'].touched && emailFormControls['email'].invalid" class="validation-error">
+            <small *ngIf="emailFormControls['email'].errors?.['required']">Email is required.</small>
+            <small *ngIf="emailFormControls['email'].errors?.['email']">Please enter a valid email address.</small>
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+          <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+        </div>
+
+        <button type="submit" class="btn btn-primary auth-btn" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Continue</span>
+          <span *ngIf="isLoading">Loading...</span>
         </button>
-        <div *ngIf="f['password'].touched && f['password'].invalid" class="validation-error">
-          <small *ngIf="f['password'].errors?.['required']">Password is required.</small>
+      </form>
+    </div>
+
+    <!-- Step 2: Password Input -->
+    <div *ngIf="currentStep === 0" class="auth-step">
+      <div class="step-indicator">
+        <span class="step-number">1</span>
+        <span class="step-text">Email</span>
+        <span class="step-arrow">→</span>
+        <span class="step-number active">2</span>
+        <span class="step-text active">Password</span>
+      </div>
+
+      <form [formGroup]="passwordForm" (ngSubmit)="onPasswordSubmit()" class="auth-form" novalidate>
+        <div class="form-group password-group">
+          <label for="password">Password</label>
+          <input 
+            [type]="passwordFieldType" 
+            id="password" 
+            formControlName="password" 
+            placeholder="••••••••"
+            [class.is-invalid]="passwordFormControls['password'].touched && passwordFormControls['password'].invalid">
+          <button type="button" class="password-toggle-btn" (click)="togglePasswordVisibility()" tabindex="-1">
+            <i class="fas" [ngClass]="passwordFieldType === 'password' ? 'fa-eye' : 'fa-eye-slash'"></i>
+          </button>
+          <div *ngIf="passwordFormControls['password'].touched && passwordFormControls['password'].invalid" class="validation-error">
+            <small *ngIf="passwordFormControls['password'].errors?.['required']">Password is required.</small>
+            <small *ngIf="passwordFormControls['password'].errors?.['minlength']">Password must be at least 6 characters long.</small>
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+          <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+            <span *ngIf="!isLoading">Login</span>
+            <span *ngIf="isLoading">Loading...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Step 3: OTP Input -->
+    <div *ngIf="currentStep === 1" class="auth-step">
+      <div class="step-indicator">
+        <span class="step-number">1</span>
+        <span class="step-text">Email</span>
+        <span class="step-arrow">→</span>
+        <span class="step-number">2</span>
+        <span class="step-text">Password</span>
+        <span class="step-arrow">→</span>
+        <span class="step-number active">3</span>
+        <span class="step-text active">OTP Code</span>
+      </div>
+
+      <div class="otp-info">
+        <i class="fas fa-shield-alt"></i>
+        <p>We've sent a 6-digit verification code to your email. Please enter it below.</p>
+      </div>
+
+      <form [formGroup]="otpForm" (ngSubmit)="onOtpSubmit()" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="otpCode">Verification Code</label>
+          <input 
+            type="text" 
+            id="otpCode" 
+            formControlName="otpCode" 
+            placeholder="123456"
+            maxlength="6"
+            [class.is-invalid]="otpFormControls['otpCode'].touched && otpFormControls['otpCode'].invalid">
+          <div *ngIf="otpFormControls['otpCode'].touched && otpFormControls['otpCode'].invalid" class="validation-error">
+            <small *ngIf="otpFormControls['otpCode'].errors?.['required']">OTP code is required.</small>
+            <small *ngIf="otpFormControls['otpCode'].errors?.['pattern']">Please enter a valid 6-digit code.</small>
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+          <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+        </div>
+
+        <div *ngIf="showResendOtp" class="resend-otp">
+          <p>Didn't receive the code?</p>
+          <button 
+            type="button" 
+            class="btn btn-link" 
+            (click)="resendOtp()" 
+            [disabled]="resendOtpCountdown > 0">
+            <span *ngIf="resendOtpCountdown === 0">Resend Code</span>
+            <span *ngIf="resendOtpCountdown > 0">Resend in {{ resendOtpCountdown }}s</span>
+          </button>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+            <span *ngIf="!isLoading">Verify</span>
+            <span *ngIf="isLoading">Loading...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Email Confirmation Step -->
+    <div *ngIf="currentStep === 2" class="auth-step">
+      <div class="email-confirmation-step">
+        <div class="confirmation-icon">
+          <i class="fas fa-envelope-open"></i>
+        </div>
+        <h3>Check Your Email</h3>
+        <p>We've sent you a confirmation link. Please check your inbox and click the link to confirm your email address before logging in.</p>
+        
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i> Back to Login
+          </button>
         </div>
       </div>
+    </div>
 
-      <div class="form-options">
-        <label class="checkbox-label"><input type="checkbox" formControlName="rememberMe"> Remember me</label>
-        <a href="#" class="forgot-password">Forgot password?</a>
-      </div>
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="success-message">
+      <i class="fas fa-check-circle"></i> {{ successMessage }}
+    </div>
 
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
-
-      <button type="submit" class="btn btn-primary auth-btn" [disabled]="loginForm.invalid">Sign In</button>
-    </form>
-
+    <!-- Auth Footer -->
     <div class="auth-footer">
       <p>Don't have an account? <a routerLink="/register">Sign up</a></p>
     </div>

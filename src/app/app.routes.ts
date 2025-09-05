@@ -3,6 +3,7 @@ import { HomeComponent } from './Components/Pages/home/home.component';
 import { CategoriesListComponent } from './Components/Pages/category/categories-list/categories-list.component';
 import { LoginComponent } from './Components/Pages/auth/login/login.component';
 import { RegisterComponent } from './Components/Pages/auth/register/register.component';
+import { EmailConfirmationComponent } from './Components/Pages/auth/email-confirmation/email-confirmation.component';
 import { authGuard } from './guards/auth.guard';
 import { AddCategoryComponent } from './Components/Pages/category/add-category/add-category.component';
 import { EditCategoryComponent } from './Components/Pages/category/edit-category/edit-category.component';
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'confirm-email', component: EmailConfirmationComponent },
 
   // == Dashboard Routes (Protected Individually) ==
 

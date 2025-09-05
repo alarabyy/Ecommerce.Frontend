@@ -1,0 +1,48 @@
+<div class="email-confirmation-container">
+  <div class="confirmation-card">
+    <div class="card-header">
+      <h2>Email Confirmation</h2>
+    </div>
+
+    <div class="card-body">
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Confirming your email...</p>
+      </div>
+
+      <!-- Success State -->
+      <div *ngIf="!isLoading && isSuccess" class="success-state">
+        <div class="success-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Email Confirmed!</h3>
+        <p class="message">{{ message }}</p>
+        <button class="btn btn-primary" (click)="goToLogin()">
+          Go to Login
+        </button>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="!isLoading && !isSuccess" class="error-state">
+        <div class="error-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 9V13M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Confirmation Failed</h3>
+        <p class="message">{{ message }}</p>
+        <div class="action-buttons">
+          <button class="btn btn-secondary" (click)="goToRegister()">
+            Try Again
+          </button>
+          <button class="btn btn-outline" (click)="goToLogin()">
+            Go to Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
