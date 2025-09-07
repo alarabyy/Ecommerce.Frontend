@@ -18,12 +18,12 @@ export interface Product {
 })
 export class ProductService {
   private apiUrl = `${environment.apiUrl}/products`;
-  private serverStaticFilesUrl = 'https://ecommerce-nezamak.runasp.net';
+  private serverStaticFilesUrl = 'https://ecommerce-nezamak.runasp.net/images/products';
 
   constructor(private http: HttpClient) { }
 
   private buildFullImageUrl(imageName: string | null): string {
-    if (!imageName || imageName.startsWith('http')) {
+    if (!imageName ) {
       return imageName || 'https://via.placeholder.com/300';
     }
     // Assuming product images are stored at the root of a specific folder

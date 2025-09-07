@@ -1,44 +1,40 @@
 <div class="container page-fade-in">
   <header class="page-header">
     <h1>Manage Brands</h1>
-    <!-- Corrected routerLink -->
     <a routerLink="/brands/add" class="btn btn-primary">
       <i class="fas fa-plus"></i> Add New Brand
     </a>
   </header>
 
-  <div class="table-container">
-    <ng-container *ngIf="brands$ | async as brands; else loading">
-      <table *ngIf="brands.length > 0; else noItems">
-        <thead>
-          <tr>
-            <th>Logo</th>
-            <th>Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let brand of brands">
-            <td><img [src]="brand.imageUrl" [alt]="brand.name" (error)="onImageError($event)" class="item-image"></td>
-            <td data-label="Name">{{ brand.name }}</td>
-            <td data-label="Actions" class="actions-cell">
-              <!-- Corrected routerLink -->
-              <a [routerLink]="['/brands/edit', brand.id]" class="action-btn edit" title="Edit"><i class="fas fa-edit"></i></a>
-              <button (click)="openDeleteConfirmation(brand.id)" class="action-btn delete" title="Delete"><i class="fas fa-trash"></i></button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </ng-container>
+  <ng-container *ngIf="brands$ | async as brands; else loading">
+    <div *ngIf="brands.length > 0; else noItems" class="items-grid">
+      <!-- Brand Card -->
+      <div *ngFor="let brand of brands" class="item-card">
+        <div class="item-image-container">
+          <img [src]="brand.imageUrl" [alt]="brand.name" (error)="onImageError($event)" class="item-image">
+        </div>
+        <div class="item-info">
+          <h3 class="item-name">{{ brand.name }}</h3>
+        </div>
+        <div class="item-actions">
+          <a [routerLink]="['/brands/edit', brand.id]" class="action-btn edit" title="Edit">
+            <i class="fas fa-edit"></i> Edit
+          </a>
+          <button (click)="openDeleteConfirmation(brand.id)" class="action-btn delete" title="Delete">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 
-    <ng-template #loading>
-      <div class="loading-state"><i class="fas fa-spinner fa-spin"></i><p>Loading brands...</p></div>
-    </ng-template>
+  <ng-template #loading>
+    <div class="state-message"><i class="fas fa-spinner fa-spin"></i><p>Loading brands...</p></div>
+  </ng-template>
 
-    <ng-template #noItems>
-      <div class="empty-state"><i class="fas fa-tags"></i><p>No brands found.</p></div>
-    </ng-template>
-  </div>
+  <ng-template #noItems>
+    <div class="state-message"><i class="fas fa-tags"></i><p>No brands found. Start by adding a new one!</p></div>
+  </ng-template>
 </div>
 
 <app-confirmation-modal

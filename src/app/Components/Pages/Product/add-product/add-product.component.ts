@@ -61,7 +61,9 @@ export class AddProductComponent implements OnInit {
     });
 
     this.productService.addProduct(formData).subscribe({
-      next: () => this.router.navigate(['/products']),
+      // --- *** هذا هو التعديل المطلوب *** ---
+      next: () => this.router.navigate(['/home']), // Correct path is '/home'
+      // ------------------------------------
       error: (err) => this.errorMessage = err.error?.message || 'An error occurred.'
     });
   }

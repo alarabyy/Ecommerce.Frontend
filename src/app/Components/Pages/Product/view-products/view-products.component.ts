@@ -28,7 +28,7 @@ export class ViewProductsComponent implements OnInit {
   }
 
   onImageError(event: Event) {
-    (event.target as HTMLImageElement).src = 'https://via.placeholder.com/50';
+    (event.target as HTMLImageElement).src = 'https://via.placeholder.com/150';
   }
 
   openDeleteConfirmation(id: number) {

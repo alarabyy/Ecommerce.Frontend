@@ -19,9 +19,17 @@ export class ViewBrandsComponent implements OnInit {
 
   constructor(private brandService: BrandService) {}
 
-  ngOnInit(): void { this.loadBrands(); }
-  loadBrands(): void { this.brands$ = this.brandService.getBrands(); }
-  onImageError(event: Event) { (event.target as HTMLImageElement).src = 'https://via.placeholder.com/50'; }
+  ngOnInit(): void {
+    this.loadBrands();
+  }
+
+  loadBrands(): void {
+    this.brands$ = this.brandService.getBrands();
+  }
+
+  onImageError(event: Event) {
+    (event.target as HTMLImageElement).src = 'https://via.placeholder.com/150';
+  }
 
   openDeleteConfirmation(id: number) {
     this.itemToDeleteId = id;

@@ -1,56 +1,42 @@
 <div class="container page-fade-in">
   <header class="page-header">
     <h1>Manage Categories</h1>
-    <!-- ** تصحيح المسار هنا ** -->
     <a routerLink="/categories/new" class="btn btn-primary">
       <i class="fas fa-plus"></i> Add New Category
     </a>
   </header>
 
-  <div class="table-container">
-    <ng-container *ngIf="categories$ | async as categories; else loading">
-      <table *ngIf="categories.length > 0; else noCategories">
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Created At</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let category of categories">
-            <td>
-              <img [src]="category.imageUrl"
-                   [alt]="category.name"
-                   (error)="onImageError($event)"
-                   class="category-image">
-            </td>
-            <td data-label="Name">{{ category.name }}</td>
-            <td data-label="Description">{{ category.description || 'No description' }}</td>
-            <td data-label="Created At">{{ category.createdAt | date:'medium' }}</td>
-            <td data-label="Actions" class="actions-cell">
-              <!-- ** تصحيح المسار هنا ** -->
-              <a [routerLink]="['/categories/edit', category.id]" class="action-btn edit" title="Edit">
-                <i class="fas fa-edit"></i>
-              </a>
-              <button (click)="openDeleteConfirmation(category.id)" class="action-btn delete" title="Delete">
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </ng-container>
+  <ng-container *ngIf="categories$ | async as categories; else loading">
+    <div *ngIf="categories.length > 0; else noItems" class="items-grid">
+      <!-- Category Card -->
+      <div *ngFor="let category of categories" class="item-card">
+        <div class="item-image-container">
+          <img [src]="category.imageUrl" [alt]="category.name" (error)="onImageError($event)" class="item-image">
+        </div>
+        <div class="item-info">
+          <h3 class="item-name">{{ category.name }}</h3>
+          <p class="item-description">{{ (category.description | slice:0:100) + (category.description && category.description.length > 100 ? '...' : '') || 'No description available.' }}</p>
+          <small class="item-timestamp">Created: {{ category.createdAt | date:'shortDate' }}</small>
+        </div>
+        <div class="item-actions">
+          <a [routerLink]="['/categories/edit', category.id]" class="action-btn edit" title="Edit">
+            <i class="fas fa-edit"></i> Edit
+          </a>
+          <button (click)="openDeleteConfirmation(category.id)" class="action-btn delete" title="Delete">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 
-    <ng-template #loading>
-      <div class="loading-state"><i class="fas fa-spinner fa-spin"></i><p>Loading...</p></div>
-    </ng-template>
-    <ng-template #noCategories>
-      <div class="empty-state"><i class="fas fa-folder-open"></i><p>No categories found.</p></div>
-    </ng-template>
-  </div>
+  <ng-template #loading>
+    <div class="state-message"><i class="fas fa-spinner fa-spin"></i><p>Loading categories...</p></div>
+  </ng-template>
+
+  <ng-template #noItems>
+    <div class="state-message"><i class="fas fa-folder-open"></i><p>No categories found. Start by adding a new one!</p></div>
+  </ng-template>
 </div>
 
 <app-confirmation-modal

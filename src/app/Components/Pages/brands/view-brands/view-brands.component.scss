@@ -1,5 +1,4 @@
-// Uses global styles for .container and .btn
-
+// Header Styles
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -13,118 +12,105 @@ h1 {
   color: var(--text-color-dark);
 }
 
-.table-container {
+// Grid Layout for Cards
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+// Card Design
+.item-card {
   background-color: var(--bg-color-light);
-  border-radius: 10px;
-  box-shadow: 0 4px 15px var(--shadow-color);
-  overflow-x: auto; // For responsiveness on small tables
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-
-  thead {
-    background-color: var(--bg-color);
-  }
-
-  th, td {
-    padding: 1rem 1.5rem;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  th {
-    font-weight: 600;
-    color: var(--text-color-dark);
-  }
-
-  tbody tr {
-    transition: background-color 0.2s;
-    &:hover {
-      background-color: var(--bg-color);
-    }
-  }
-}
-
-.category-image {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.actions-cell {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px var(--shadow-color);
   display: flex;
-  gap: 1rem;
-}
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-.action-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: color 0.2s, transform 0.2s;
-
-  &.edit {
-    color: var(--primary-color);
-    &:hover { transform: scale(1.2); }
-  }
-
-  &.delete {
-    color: #e53935;
-    &:hover { transform: scale(1.2); }
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   }
 }
 
-.loading-state, .empty-state {
-  padding: 3rem;
-  text-align: center;
-  font-size: 1.2rem;
-}
-
-// Responsive Table for Mobile
-@media (max-width: 768px) {
-  thead {
-    display: none; // Hide table header
-  }
-
-  tr {
-    display: block;
-    margin-bottom: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px var(--shadow-color);
-    overflow: hidden;
-  }
-
-  td {
-    display: block;
-    text-align: right; // Align content to the right
-    border-bottom: 1px solid var(--border-color);
-    position: relative;
-    padding-left: 50%; // Make space for the label
-
-    &::before {
-      content: attr(data-label); // Use data-label as the pseudo-element content
-      position: absolute;
-      left: 1.5rem;
-      font-weight: 600;
-      color: var(--text-color-dark);
-    }
-
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-
-  .actions-cell {
-    justify-content: flex-end;
-  }
+.item-image-container {
+  width: 100%;
+  padding-top: 60%; // Aspect ratio for the image container
+  position: relative;
+  background-color: var(--bg-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .item-image {
-  width: 50px;
-  height: 50px;
-  object-fit: contain; // Logos are better with contain
-  border-radius: 8px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; // 'contain' is better for logos
+  padding: 1rem; // Add some padding around the logo
+}
+
+.item-info {
+  padding: 1.5rem;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.item-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-color-dark);
+  margin: 0;
+}
+
+.item-actions {
+  display: flex;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+}
+
+.action-btn {
+  flex: 1;
+  padding: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s, color 0.2s;
+
+  &:first-child {
+    border-right: 1px solid var(--border-color);
+  }
+
+  &.edit {
+    color: var(--primary-color);
+    &:hover { background-color: rgba(0, 123, 255, 0.05); }
+  }
+
+  &.delete {
+    color: var(--danger-color);
+    &:hover { background-color: rgba(220, 53, 69, 0.05); }
+  }
+}
+
+// State Messages
+.state-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: var(--text-color);
+  grid-column: 1 / -1;
+  i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.7; }
+  p { font-size: 1.2rem; font-weight: 500; }
 }

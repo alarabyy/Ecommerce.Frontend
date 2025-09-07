@@ -6,20 +6,22 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.getToken();
 
-  // Define protected URL segments
-  const protectedSegments = ['/dashboard/categories', '/dashboard/products', '/dashboard/brands'];
+  // --- *** هذا هو الشرط الصحيح والنهائي *** ---
+  // A simple, robust, and future-proof condition:
+  // If the API URL includes '/dashboard/', it's a protected route.
+  const isDashboardApiUrl = req.url.includes('/dashboard/');
 
-  // Check if the URL is for a protected resource
-  const isProtectedAction = protectedSegments.some(segment => req.url.includes(segment));
-
-  if (token && isProtectedAction) {
+  if (token && isDashboardApiUrl) {
     const clonedReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
       }
     });
+    // For debugging: This will confirm in the console that the token is being added.
+    console.log('%c Interceptor: Adding Auth Header to ', 'background: #222; color: #bada55', req.url);
     return next(clonedReq);
   }
 
+  // For all other public requests, pass them through without changes.
   return next(req);
 };

@@ -9,25 +9,21 @@
   <div class="form-container">
     <form *ngIf="brandForm" [formGroup]="brandForm" (ngSubmit)="onSubmit()" novalidate>
 
-      <!-- حقل اسم الماركة -->
       <div class="form-group">
         <label for="name">Brand Name</label>
         <!-- ** تم تصحيح formControlName ** -->
-        <input type="text" id="name" formControlName="Name" placeholder="e.g., Apple, Samsung"
-               [class.is-invalid]="f['Name']?.touched && f['Name']?.invalid">
+        <input type="text" id="name" formControlName="Name" placeholder="e.g., Apple, Samsung">
         <div *ngIf="f['Name']?.touched && f['Name']?.invalid" class="validation-error">
           <small *ngIf="f['Name']?.errors?.['required']">Brand name is required.</small>
         </div>
       </div>
 
-      <!-- حقل الوصف -->
       <div class="form-group">
         <label for="description">Description</label>
         <!-- ** تم تصحيح formControlName ** -->
         <textarea id="description" formControlName="Description" rows="4" placeholder="Describe the brand..."></textarea>
       </div>
 
-      <!-- حقل رفع اللوجو -->
       <div class="form-group">
         <label for="logo">Brand Logo</label>
         <input type="file" id="logo" (change)="onFileChange($event)" accept="image/png, image/jpeg">

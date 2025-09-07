@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Mail, MailService } from '../../../../Service/mail.service';
+import { Mail, MailService } from '../../../../Service/mail.service'; // تأكد من المسار
 
 @Component({
   selector: 'app-mails-list',

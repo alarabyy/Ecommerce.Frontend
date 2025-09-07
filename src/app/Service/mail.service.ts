@@ -35,7 +35,6 @@ export class MailService {
     return this.http.post(`${this.apiUrl}/mails`, contactForm, { responseType: 'text' });
   }
 
-  // --- *** هذا هو الإصلاح الحاسم *** ---
 
   // GET /api/mails (Public endpoint according to docs)
   getMails(): Observable<Mail[]> {

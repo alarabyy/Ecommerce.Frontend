@@ -51,7 +51,7 @@ export class MailDetailsComponent implements OnInit {
       next: () => {
         this.replyStatus = 'success';
         this.replyMessage = 'Reply sent successfully!';
-        setTimeout(() => this.router.navigate(['/dashboard/mails']), 1500);
+        setTimeout(() => this.router.navigate(['/home']), 1500);
       },
       error: (err) => {
         this.replyStatus = 'error';

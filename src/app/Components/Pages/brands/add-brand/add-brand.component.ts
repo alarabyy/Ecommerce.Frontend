@@ -9,7 +9,7 @@ import { BrandService } from '../../../../Service/brand.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './add-brand.component.html',
-  styleUrls: ['./add-brand.component.scss']
+  styleUrls: ['./add-brand.component.scss'] // تأكد من المسار الصحيح
 })
 export class AddBrandComponent implements OnInit {
   brandForm!: FormGroup;
@@ -24,7 +24,7 @@ export class AddBrandComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // ** تم تصحيح أسماء الحقول هنا لتطابق الـ API **
+    // ** تم تصحيح أسماء الحقول هنا لتطابق الـ HTML والـ API **
     this.brandForm = this.fb.group({
       Name: ['', Validators.required],
       Description: [''],
@@ -52,13 +52,12 @@ export class AddBrandComponent implements OnInit {
     this.isSubmitting = true;
     this.errorMessage = null;
 
-    // ** الآن الأسماء متطابقة تمامًا **
     const name = this.brandForm.get('Name')?.value;
     const description = this.brandForm.get('Description')?.value;
     const logo = this.brandForm.get('Logo')?.value;
 
     this.brandService.addBrand(name, description, logo).subscribe({
-      next: () => this.router.navigate(['/dashboard/brands']),
+      next: () => this.router.navigate(['/home']),
       error: (err) => {
         this.errorMessage = err.error?.message || 'An error occurred.';
         this.isSubmitting = false;

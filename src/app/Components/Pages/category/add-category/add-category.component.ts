@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { CategoryService } from '../../../../Service/category.service'; // تأكد من المسار
+import { CategoryService } from '../../../../Service/category.service'; 
 
 @Component({
   selector: 'app-add-category',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './add-category.component.html',
-  styleUrls: ['./add-category.component.scss'] // تأكد من المسار
+  styleUrls: ['./add-category.component.scss']
 })
 export class AddCategoryComponent implements OnInit {
   categoryForm!: FormGroup;
@@ -24,7 +24,6 @@ export class AddCategoryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // ** تم تصحيح أسماء الحقول هنا لتطابق الـ HTML والـ API **
     this.categoryForm = this.fb.group({
       Name: ['', Validators.required],
       Description: [''],
@@ -52,14 +51,13 @@ export class AddCategoryComponent implements OnInit {
     this.isSubmitting = true;
     this.errorMessage = null;
 
-    // الآن سنرسل البيانات كمتغيرات منفصلة كما تتوقع الخدمة
     const name = this.categoryForm.get('Name')?.value;
     const description = this.categoryForm.get('Description')?.value;
     const image = this.categoryForm.get('Image')?.value;
 
     this.categoryService.addCategory(name, description, image).subscribe({
       next: () => {
-        this.router.navigate(['/dashboard/categories']);
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         console.error('Category creation failed:', err);

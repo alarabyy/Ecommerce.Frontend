@@ -1,7 +1,3 @@
-// Reusing category list styles for a consistent look
-// You can create a shared _tables.scss file and import it in both
-// For simplicity, we are duplicating styles here.
-
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -15,60 +11,125 @@ h1 {
   color: var(--text-color-dark);
 }
 
-.table-container {
-  background-color: var(--bg-color-light);
-  border-radius: 10px;
-  box-shadow: 0 4px 15px var(--shadow-color);
-  overflow-x: auto;
+.products-grid {
+  display: grid;
+  // Creates a responsive grid that adjusts the number of columns automatically
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  thead { background-color: var(--bg-color); }
-  th, td { padding: 1rem 1.5rem; text-align: left; border-bottom: 1px solid var(--border-color); }
-  th { font-weight: 600; color: var(--text-color-dark); }
-  tbody tr {
-    transition: background-color 0.2s;
-    &:hover { background-color: var(--bg-color); }
+.product-card {
+  background-color: var(--bg-color-light);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   }
 }
 
-.item-image {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 8px;
+.product-image-container {
+  width: 100%;
+  padding-top: 75%; // Creates a 4:3 aspect ratio
+  position: relative;
   background-color: var(--bg-color);
 }
 
-.actions-cell { display: flex; gap: 1rem; }
+.product-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; // Ensures the image covers the area without distortion
+}
+
+.product-info {
+  padding: 1.5rem;
+  flex-grow: 1; // Allows this section to take up available space
+}
+
+.product-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color-dark);
+  margin-bottom: 0.5rem;
+  // Truncate long names
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-description {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-color);
+  // Limit description to 3 lines
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-actions {
+  display: flex;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+}
 
 .action-btn {
-  background: none; border: none; font-size: 1.2rem; cursor: pointer;
-  transition: color 0.2s, transform 0.2s;
-  &.edit { color: var(--primary-color); &:hover { transform: scale(1.2); } }
-  &.delete { color: var(--danger-color); &:hover { transform: scale(1.2); } }
-}
+  flex: 1;
+  padding: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s, color 0.2s;
 
-.loading-state, .empty-state {
-  padding: 3rem; text-align: center; font-size: 1.2rem;
-}
-
-@media (max-width: 768px) {
-  thead { display: none; }
-  tr {
-    display: block; margin-bottom: 1.5rem; border-radius: 8px;
-    box-shadow: 0 2px 8px var(--shadow-color); overflow: hidden;
+  &:first-child {
+    border-right: 1px solid var(--border-color);
   }
-  td {
-    display: block; text-align: right; border-bottom: 1px solid var(--border-color);
-    position: relative; padding-left: 50%;
-    &::before {
-      content: attr(data-label); position: absolute; left: 1.5rem;
-      font-weight: 600; color: var(--text-color-dark);
+
+  &.edit {
+    color: var(--primary-color);
+    &:hover {
+      background-color: rgba(0, 123, 255, 0.05);
     }
-    &:last-child { border-bottom: none; }
   }
-  .actions-cell { justify-content: flex-end; }
+
+  &.delete {
+    color: var(--danger-color);
+    &:hover {
+      background-color: rgba(220, 53, 69, 0.05);
+    }
+  }
+}
+
+.state-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: var(--text-color);
+  i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+  p {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
 }

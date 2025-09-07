@@ -1,27 +1,43 @@
 <nav class="navbar" [class.scrolled]="isScrolled">
-  <button class="menu-toggle" (click)="onToggleSidebar()">
-    <i class="fas fa-bars"></i>
-  </button>
-
-  <div class="logo">
-    <a routerLink="/home"><i class="fas fa-bolt"></i><span>ProStore</span></a>
-  </div>
-
-  <div class="nav-links">
-    <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-    <a routerLink="/products" routerLinkActive="active">Products</a>
-    <a href="#">Deals</a>
-    <a href="#">Contact</a>
-  </div>
-
-  <div class="user-actions">
-    <div class="theme-switcher">
-      <button (click)="setTheme('light')" [class.active]="currentTheme === 'light'" title="Light Mode"><i class="fas fa-sun"></i></button>
-      <button (click)="setTheme('dark')" [class.active]="currentTheme === 'dark'" title="Dark Mode"><i class="fas fa-moon"></i></button>
-      <button (click)="setTheme('auto')" [class.active]="currentTheme === 'auto'" title="System Default"><i class="fas fa-desktop"></i></button>
+  <!-- الجزء الأيسر: زر القائمة وأزرار الهيستوري -->
+  <div class="nav-section nav-start">
+    <button class="menu-toggle" (click)="onToggleSidebar()" aria-label="Toggle Sidebar">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="history-nav">
+      <button class="history-btn" (click)="goBack()" title="Go Back" aria-label="Go Back">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <button class="history-btn" (click)="goForward()" title="Go Forward" aria-label="Go Forward">
+        <i class="fas fa-arrow-right"></i>
+      </button>
     </div>
-    <a href="#" class="action-icon" title="My Account"><i class="fas fa-user-circle"></i></a>
-    <a href="#" class="action-icon" title="Wishlist"><i class="fas fa-heart"></i><span class="badge">3</span></a>
-    <a href="#" class="action-icon" title="Shopping Cart"><i class="fas fa-shopping-bag"></i><span class="badge">5</span></a>
+  </div>
+
+  <!-- الجزء الأوسط: الشعار والروابط الرئيسية -->
+  <div class="nav-section nav-center">
+    <div class="logo">
+      <a routerLink="/home"><i class="fas fa-bolt"></i><span>ProStore</span></a>
+    </div>
+    <div class="nav-links">
+      <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a routerLink="/products" routerLinkActive="active">Products</a>
+      <a href="#">Deals</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+
+  <!-- الجزء الأيمن: أيقونات المستخدم والثيم -->
+  <div class="nav-section nav-end">
+    <div class="user-actions">
+      <div class="theme-switcher">
+        <button (click)="setTheme('light')" [class.active]="currentTheme === 'light'" title="Light Mode" aria-label="Switch to light mode"><i class="fas fa-sun"></i></button>
+        <button (click)="setTheme('dark')" [class.active]="currentTheme === 'dark'" title="Dark Mode" aria-label="Switch to dark mode"><i class="fas fa-moon"></i></button>
+        <button (click)="setTheme('auto')" [class.active]="currentTheme === 'auto'" title="System Default" aria-label="Switch to system theme"><i class="fas fa-desktop"></i></button>
+      </div>
+      <a href="#" class="action-icon" title="My Account"><i class="fas fa-user-circle"></i></a>
+      <a href="#" class="action-icon" title="Wishlist"><i class="fas fa-heart"></i><span class="badge">3</span></a>
+      <a href="#" class="action-icon" title="Shopping Cart"><i class="fas fa-shopping-bag"></i><span class="badge">5</span></a>
+    </div>
   </div>
 </nav>
