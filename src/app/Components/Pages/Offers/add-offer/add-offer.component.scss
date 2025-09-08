@@ -1,0 +1,196 @@
+// General Layout Styles
+.container {
+    max-width: 900px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+h1 {
+  color: var(--text-color-dark);
+}
+
+.form-container {
+  background-color: var(--bg-color-light);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px var(--shadow-color);
+}
+
+// Form Group Styles
+.form-group {
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+  }
+
+  input[type="text"],
+  input[type="number"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-color);
+    color: var(--text-color-dark);
+    font-size: 1rem;
+    transition: all 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+}
+
+// Validation and Message Styles
+input.is-invalid, textarea.is-invalid, select.is-invalid {
+  border-color: var(--danger-color);
+}
+
+input.is-invalid:focus, textarea.is-invalid:focus, select.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+}
+
+.validation-error {
+  color: var(--danger-color);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.error-message {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: var(--danger-color);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+// Dynamic Items Section Styles
+.form-divider {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 2rem 0;
+}
+
+.items-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-color-dark);
+  margin-bottom: 1.5rem;
+}
+
+.item-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto; // ProductID, Price, Actions
+  gap: 1.5rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px dashed var(--border-color);
+
+  &:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+
+.product-id-group {
+  flex-grow: 1;
+}
+
+.price-group {
+  max-width: 200px;
+}
+
+.item-actions {
+  .remove-btn {
+    background: none;
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: var(--danger-color);
+      color: #fff;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: none;
+      color: var(--danger-color);
+    }
+  }
+}
+
+.add-item-container {
+  text-align: center;
+  margin: 1rem 0 2rem;
+}
+
+.btn-add-item {
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+  border: 1px dashed var(--primary-color);
+  font-weight: 600;
+  &:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+  }
+}
+
+// Action Buttons
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.btn-secondary {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  &:hover {
+    background-color: var(--border-color);
+  }
+}
+
+// Responsive adjustments for the item row
+@media (max-width: 576px) {
+  .item-row {
+    grid-template-columns: 1fr; // Stack all fields
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .price-group {
+    max-width: none;
+  }
+  .item-actions {
+    text-align: right;
+  }
+}

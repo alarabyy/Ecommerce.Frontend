@@ -181,7 +181,7 @@
     display: none;
   }
   .nav-center {
-    flex-grow: 0; // Don't let the logo take all the space
+    flex-grow: 0;
   }
 }
 
@@ -197,7 +197,10 @@
 
 // For Mobile Phones
 @media (max-width: 768px) {
-  .history-nav, .theme-switcher {
+  // ** تم إزالة السطر الذي كان يخفي أزرار الهيستوري **
+  // .history-nav { display: none; }
+
+  .theme-switcher {
     display: none; // Hide less critical icons on small screens
   }
   .nav-center {

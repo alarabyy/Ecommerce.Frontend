@@ -17,6 +17,10 @@ import { AddProductComponent } from './Components/Pages/Product/add-product/add-
 import { EditProductComponent } from './Components/Pages/Product/edit-product/edit-product.component';
 import { MailsListComponent } from './Components/Pages/mails/mails-list/mails-list.component';
 import { MailDetailsComponent } from './Components/Pages/mails/mail-details/mail-details.component';
+import { AllOfferComponent } from './Components/Pages/Offers/all-offer/all-offer.component';
+import { AddOfferItemComponent } from './Components/Pages/Offers/add-offer-item/add-offer-item.component';
+import { AddOfferComponent } from './Components/Pages/Offers/add-offer/add-offer.component';
+import { AllOfferItemComponent } from './Components/Pages/Offers/all-offer-item/all-offer-item.component';
 
 export const routes: Routes = [
   // == Public Routes ==
@@ -38,15 +42,22 @@ export const routes: Routes = [
   { path: 'brands/edit/:id', component: EditBrandComponent, canActivate: [authGuard] },
 
   // --- Product Details and Management ---
-  { path: 'product/:id', component: ProductDetailsComponent },
-  { path: 'products', component: ViewProductsComponent },
-  { path: 'products/add', component: AddProductComponent },
-  { path: 'products/edit/:id', component: EditProductComponent },
+  { path: 'product/:id', component: ProductDetailsComponent , canActivate: [authGuard] },
+  { path: 'products', component: ViewProductsComponent , canActivate: [authGuard] },
+  { path: 'products/add', component: AddProductComponent , canActivate: [authGuard] },
+  { path: 'products/edit/:id', component: EditProductComponent , canActivate: [authGuard] },
 
 
-      // --- Mail Management ---
-  { path: 'mails', component: MailsListComponent },
-  { path: 'mails/reply/:id', component: MailDetailsComponent },
+// --- Offer Management ---
+{ path: 'AllOffer', component: AllOfferComponent , canActivate: [authGuard] },
+{ path: 'AddOffer', component: AddOfferComponent , canActivate: [authGuard] },
+{ path: 'AllOfferItem', component: AllOfferItemComponent , canActivate: [authGuard] },
+{ path: 'AddOfferItem', component: AddOfferItemComponent , canActivate: [authGuard] },
+
+
+ // --- Mail Management ---
+  { path: 'mails', component: MailsListComponent , canActivate: [authGuard] },
+  { path: 'mails/reply/:id', component: MailDetailsComponent , canActivate: [authGuard] },
 
   // == Default and Wildcard Routes ==
   { path: '', redirectTo: '/home', pathMatch: 'full' },
