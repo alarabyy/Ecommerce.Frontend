@@ -42,7 +42,7 @@ export const routes: Routes = [
   { path: 'brands/edit/:id', component: EditBrandComponent, canActivate: [authGuard] },
 
   // --- Product Details and Management ---
-  { path: 'product/:id', component: ProductDetailsComponent , canActivate: [authGuard] },
+{ path: 'products/details/:id', component: ProductDetailsComponent, canActivate: [authGuard] },
   { path: 'products', component: ViewProductsComponent , canActivate: [authGuard] },
   { path: 'products/add', component: AddProductComponent , canActivate: [authGuard] },
   { path: 'products/edit/:id', component: EditProductComponent , canActivate: [authGuard] },

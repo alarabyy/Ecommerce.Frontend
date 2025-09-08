@@ -9,14 +9,18 @@
   <ng-container *ngIf="products$ | async as products; else loading">
     <div *ngIf="products.length > 0; else noItems" class="products-grid">
       <!-- Product Card -->
-      <div *ngFor="let product of products" class="product-card">
+      <div *ngFor="let product of products" class="product-card"
+           [routerLink]="['/products/details', product.id]">
         <div class="product-image-container">
-          <img [src]="product.imageUrl" [alt]="product.name" (error)="onImageError($event)" class="product-image">
+          <img [src]="product.imageUrl" [alt]="product.name"
+               (error)="onImageError($event)" class="product-image">
         </div>
         <div class="product-info">
           <h3 class="product-name">{{ product.name }}</h3>
           <h6 class="product-name">ID: {{ product.id }}</h6>
-          <p class="product-description">{{ (product.description | slice:0:100) + (product.description.length > 100 ? '...' : '') }}</p>
+          <p class="product-description">
+            {{ (product.description | slice:0:100) + (product.description.length > 100 ? '...' : '') }}
+          </p>
         </div>
         <div class="product-actions">
           <a [routerLink]="['/products/edit', product.id]" class="action-btn edit" title="Edit">
