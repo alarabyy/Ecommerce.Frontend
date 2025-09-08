@@ -15,6 +15,7 @@
     <li><a routerLink="/brands" class="nav-item"><i class="fas fa-tag"></i> <span>AllWishlists</span></a></li>
     <li><a routerLink="/register" class="nav-item"><i class="fas fa-user-circle"></i> <span>register</span></a></li>
     <li><a routerLink="/login" class="nav-item"><i class="fas fa-cog"></i> <span>login</span></a></li>
+    <li><a class="btn btn-danger" (click)="logout()" class="nav-item"><i class="fas fa-sign-out-alt"></i><span>logout</span></a></li>
   </ul>
 </aside>
 <div class="sidebar-overlay" [class.show]="isOpen" (click)="closeSidebar()"></div>

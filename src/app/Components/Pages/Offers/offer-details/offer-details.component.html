@@ -1,0 +1,40 @@
+<div class="container page-fade-in">
+  <ng-container *ngIf="offer$ | async as offer; else loading">
+    <div class="offer-details-header">
+      <h1 class="offer-title">{{ offer.title }}</h1>
+      <div class="header-meta">
+        <span>Sold by: <strong>{{ offer.seller.name }}</strong></span>
+        <span>Created: <strong>{{ offer.createdAt | date:'longDate' }}</strong></span>
+      </div>
+      <p class="offer-description">{{ offer.description }}</p>
+    </div>
+
+    <div class="items-section">
+      <h2 class="section-title">Items Included in this Offer</h2>
+      <div class="items-list">
+        <!-- Offer Item -->
+        <div *ngFor="let item of offer.items" class="offer-item">
+          <div class="item-image-container">
+            <!-- Assuming product object has imageUrl in the future -->
+            <img src="https://i.imgur.com/sYv3iC7.png" [alt]="item.product.name" class="item-image">
+          </div>
+          <div class="item-info">
+            <h3 class="item-name">{{ item.product.name }}</h3>
+            <p class="item-description">{{ item.product.description }}</p>
+          </div>
+          <div class="item-price-info">
+            <span class="item-price">${{ item.price.toFixed(2) }}</span>
+            <span class="price-label">Offer Price</span>
+          </div>
+          <div class="item-action">
+            <a [routerLink]="['/product', item.product.id]" class="btn btn-secondary">View Product</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="state-message"><i class="fas fa-spinner fa-spin"></i></div>
+  </ng-template>
+</div>

@@ -1,4 +1,114 @@
 .page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-color-dark);
+  }
+  p {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    max-width: 600px;
+    margin: 0.5rem auto 0;
+  }
+}
+
+.offers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.offer-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color-light);
+  border-radius: 12px;
+  box-shadow: 0 5px 25px var(--shadow-color);
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+    .view-deal-btn {
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+  }
+}
+
+.offer-image-container {
+  position: relative;
+  .offer-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+  .item-count-badge {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    backdrop-filter: blur(5px);
+  }
+}
+
+.offer-info {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.offer-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-color-dark);
+  margin-bottom: 0.5rem;
+}
+
+.offer-description {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-color);
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
+
+.offer-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.seller-info {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.view-deal-btn {
+  font-weight: 600;
+  color: var(--primary-color);
+  transition: all 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  i { margin-left: 0.5rem; }
+}
+
+.state-message {
+  // Styles for loading/empty messages
+}
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;

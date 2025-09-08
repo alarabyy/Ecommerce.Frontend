@@ -137,4 +137,10 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
+
+
+  // لو عايز تتحقق هل المستخدم لسه مسجل دخول
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
 }

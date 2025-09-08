@@ -20,7 +20,7 @@ import { MailDetailsComponent } from './Components/Pages/mails/mail-details/mail
 import { AllOfferComponent } from './Components/Pages/Offers/all-offer/all-offer.component';
 import { AddOfferItemComponent } from './Components/Pages/Offers/add-offer-item/add-offer-item.component';
 import { AddOfferComponent } from './Components/Pages/Offers/add-offer/add-offer.component';
-import { AllOfferItemComponent } from './Components/Pages/Offers/all-offer-item/all-offer-item.component';
+import { OfferDetailsComponent } from './Components/Pages/Offers/offer-details/offer-details.component';
 
 export const routes: Routes = [
   // == Public Routes ==
@@ -51,9 +51,9 @@ export const routes: Routes = [
 // --- Offer Management ---
 { path: 'AllOffer', component: AllOfferComponent , canActivate: [authGuard] },
 { path: 'AddOffer', component: AddOfferComponent , canActivate: [authGuard] },
-{ path: 'AllOfferItem', component: AllOfferItemComponent , canActivate: [authGuard] },
 { path: 'AddOfferItem', component: AddOfferItemComponent , canActivate: [authGuard] },
-
+{ path: 'offers', component: AllOfferComponent , canActivate: [authGuard] },
+{ path: 'offer/:id', component: OfferDetailsComponent , canActivate: [authGuard] },
 
  // --- Mail Management ---
   { path: 'mails', component: MailsListComponent , canActivate: [authGuard] },

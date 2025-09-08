@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { switchMap } from 'rxjs';
 import { OfferService } from '../../../../Service/offer.service';
 
 @Component({
@@ -13,6 +14,8 @@ import { OfferService } from '../../../../Service/offer.service';
 })
 export class AddOfferComponent implements OnInit {
   offerForm!: FormGroup;
+  imagePreview: string | ArrayBuffer | null = null;
+  imageFile: File | null = null;
   errorMessage: string | null = null;
   isSubmitting = false;
 
@@ -26,7 +29,8 @@ export class AddOfferComponent implements OnInit {
     this.offerForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      items: this.fb.array([])
+      image: [null, Validators.required], // For the file input
+      items: this.fb.array([], Validators.required)
     });
     this.addItem();
   }
@@ -37,8 +41,8 @@ export class AddOfferComponent implements OnInit {
 
   newItem(): FormGroup {
     return this.fb.group({
-      productId: [null, Validators.required],
-      price: [0, [Validators.required, Validators.min(0.01)]]
+      productId: [null, [Validators.required, Validators.min(1)]],
+      price: [null, [Validators.required, Validators.min(0.01)]]
     });
   }
 
@@ -52,9 +56,18 @@ export class AddOfferComponent implements OnInit {
     }
   }
 
-  // --- *** هذا هو الجزء الذي تم تعديله بالكامل *** ---
+  onFileChange(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.imageFile = file;
+      const reader = new FileReader();
+      reader.onload = () => this.imagePreview = reader.result;
+      reader.readAsDataURL(file);
+    }
+  }
+
   onSubmit() {
-    if (this.offerForm.invalid) {
+    if (this.offerForm.invalid || !this.imageFile) {
       this.offerForm.markAllAsTouched();
       return;
     }
@@ -68,13 +81,21 @@ export class AddOfferComponent implements OnInit {
       items: this.offerForm.get('items')?.value
     };
 
-    this.offerService.addOffer(offerPayload).subscribe({
+    this.offerService.addOffer(offerPayload).pipe(
+      switchMap(response => {
+        if (response.success && response.data.id && this.imageFile) {
+          // If offer is created, upload the image
+          return this.offerService.uploadOfferImage(response.data.id, this.imageFile);
+        } else {
+          throw new Error(response.message || 'Failed to create offer.');
+        }
+      })
+    ).subscribe({
       next: () => {
-        // Navigate to the offers list page (assuming it exists)
-        this.router.navigate(['/home']);
+        this.router.navigate(['/admin/offers']);
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'An error occurred while creating the offer.';
+        this.errorMessage = err.message || 'An error occurred.';
         this.isSubmitting = false;
       }
     });

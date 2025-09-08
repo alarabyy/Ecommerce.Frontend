@@ -29,6 +29,7 @@ export class SidebarComponent implements OnInit {
 
   logout() {
     this.authService.logout();
-    this.closeSidebar(); // إغلاق الشريط الجانبي بعد الخروج
   }
+
+
 }

@@ -1,15 +1,52 @@
-<div class="container page-fade-in">
+<div class.bind="'container page-fade-in'" class="container page-fade-in">
 
-  <header class="page-header">
+
     <h1>Manage Offers</h1>
     <a routerLink="/AddOffer" class="btn btn-primary">
       <i class="fas fa-plus"></i> Add New Offer
     </a>
-    <a routerLink="/AllOfferItem" class="btn btn-primary">
-      <i class="fas fas fa-tag"></i> All OfferItem
+    <a routerLink="/AddOfferItem" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Add New OfferItem
     </a>
+
+
+
+
+
+  <header class="page-header">
+    <h1>Special Offers & Bundles</h1>
+    <p>Don't miss out on these exclusive deals, available for a limited time!</p>
   </header>
 
+  <main class="offers-main-content">
+    <ng-container *ngIf="offers$ | async as offers; else loading">
+      <div *ngIf="offers.length > 0; else noItems" class="offers-grid">
+        <!-- Offer Card -->
+        <a *ngFor="let offer of offers" [routerLink]="['/offer', offer.id]" class="offer-card">
+          <div class="offer-image-container">
+            <img [src]="getOfferImage(offer)" [alt]="offer.title" class="offer-image">
+            <div class="item-count-badge">
+              <i class="fas fa-box-open"></i> {{ offer.items.length }} Items
+            </div>
+          </div>
+          <div class="offer-info">
+            <h3 class="offer-title">{{ offer.title }}</h3>
+            <p class="offer-description">{{ (offer.description | slice:0:100) + (offer.description.length > 100 ? '...' : '') }}</p>
+            <div class="offer-footer">
+              <span class="seller-info">By {{ offer.seller.name }}</span>
+              <span class="view-deal-btn">View Deal <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </ng-container>
 
+    <ng-template #loading>
+      <div class="state-message"><i class="fas fa-spinner fa-spin"></i><p>Loading offers...</p></div>
+    </ng-template>
 
-  </div>
+    <ng-template #noItems>
+      <div class="state-message"><i class="fas fa-tags"></i><p>No special offers available right now.</p></div>
+    </ng-template>
+  </main>
+</div>

@@ -1,62 +1,60 @@
 <div class="container page-fade-in">
   <header class="page-header">
     <h1>Create New Offer</h1>
-
+    <a routerLink="/admin/offers" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to Offers
+    </a>
   </header>
 
   <div class="form-container">
-    <form [formGroup]="offerForm" (ngSubmit)="onSubmit()" novalidate>
+    <form [formGroup]="offerForm" (ngSubmit)="onSubmit()">
 
-      <!-- Offer Details -->
       <div class="form-group">
         <label for="title">Offer Title</label>
-        <input type="text" id="title" formControlName="title" placeholder="e.g., Summer Sale Bundle">
+        <input type="text" id="title" formControlName="title">
       </div>
 
       <div class="form-group">
         <label for="description">Offer Description</label>
-        <textarea id="description" formControlName="description" rows="4" placeholder="Describe the offer..."></textarea>
+        <textarea id="description" formControlName="description" rows="4"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="image">Main Offer Image</label>
+        <input type="file" id="image" (change)="onFileChange($event)" formControlName="image" accept="image/*">
+        <div *ngIf="imagePreview" class="image-preview">
+          <img [src]="imagePreview" alt="Image Preview" width="200">
+        </div>
       </div>
 
       <hr class="form-divider">
 
-      <!-- Dynamic Items Section -->
       <div formArrayName="items">
         <h3 class="items-title">Products in this Offer</h3>
-
-        <!-- Loop through each item in the FormArray -->
         <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="item-row">
-
-          <div class="form-group product-id-group">
+          <div class="form-group">
             <label for="productId-{{i}}">Product ID</label>
-            <input type="number" id="productId-{{i}}" formControlName="productId" placeholder="Product ID">
+            <input type="number" id="productId-{{i}}" formControlName="productId">
           </div>
-
-          <div class="form-group price-group">
+          <div class="form-group">
             <label for="price-{{i}}">Offer Price</label>
-            <input type="number" id="price-{{i}}" formControlName="price" placeholder="Price">
+            <input type="number" id="price-{{i}}" formControlName="price">
           </div>
-
           <div class="item-actions">
-            <!-- Disable remove button for the last item -->
-            <button type="button" class="remove-btn" (click)="removeItem(i)" [disabled]="items.length === 1" title="Remove Product">
+            <button type="button" class="remove-btn" (click)="removeItem(i)" [disabled]="items.length === 1">
               <i class="fas fa-trash"></i>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Button to Add More Items -->
       <div class="add-item-container">
         <button type="button" class="btn btn-add-item" (click)="addItem()">
           <i class="fas fa-plus-circle"></i> Add Another Product
         </button>
       </div>
 
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
-
+      <div *ngIf="errorMessage" class="error-message"> {{ errorMessage }} </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-primary" [disabled]="offerForm.invalid || isSubmitting">
           {{ isSubmitting ? 'Creating...' : 'Create Offer' }}
