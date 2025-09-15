@@ -8,7 +8,7 @@ import { ConfirmationModalComponent } from '../../../Widgets/confirmation-modal/
 @Component({
   selector: 'app-view-products',
   standalone: true,
-  imports: [CommonModule, RouterModule, ConfirmationModalComponent],
+  imports: [CommonModule, RouterModule , ConfirmationModalComponent],
   templateUrl: './view-products.component.html',
   styleUrls: ['./view-products.component.scss']
 })

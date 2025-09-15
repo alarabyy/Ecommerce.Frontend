@@ -1,7 +1,7 @@
 <div class="container page-fade-in">
   <header class="page-header">
     <h1>Manage Categories</h1>
-    <a routerLink="/categories/new" class="btn btn-primary">
+    <a routerLink="/admin/categories/new" class="btn btn-primary">
       <i class="fas fa-plus"></i> Add New Category
     </a>
   </header>
@@ -19,7 +19,7 @@
           <small class="item-timestamp">Created: {{ category.createdAt | date:'shortDate' }}</small>
         </div>
         <div class="item-actions">
-          <a [routerLink]="['/categories/edit', category.id]" class="action-btn edit" title="Edit">
+          <a [routerLink]="['/admin/categories/edit', category.id]" class="action-btn edit" title="Edit">
             <i class="fas fa-edit"></i> Edit
           </a>
           <button (click)="openDeleteConfirmation(category.id)" class="action-btn delete" title="Delete">

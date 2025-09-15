@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [NavbarComponent , FooterComponent ,  SidebarComponent , RouterModule ]
+  imports: [  RouterModule ]
 })
 export class AppComponent implements OnInit {
   isSidebarOpen = true;

@@ -1,7 +1,7 @@
 <div class="container page-fade-in">
   <header class="page-header">
     <h1>Manage Brands</h1>
-    <a routerLink="/brands/add" class="btn btn-primary">
+    <a routerLink="/admin/brands/add" class="btn btn-primary">
       <i class="fas fa-plus"></i> Add New Brand
     </a>
   </header>
@@ -17,7 +17,7 @@
           <h3 class="item-name">{{ brand.name }}</h3>
         </div>
         <div class="item-actions">
-          <a [routerLink]="['/brands/edit', brand.id]" class="action-btn edit" title="Edit">
+          <a [routerLink]="['/admin/brands/edit', brand.id]" class="action-btn edit" title="Edit">
             <i class="fas fa-edit"></i> Edit
           </a>
           <button (click)="openDeleteConfirmation(brand.id)" class="action-btn delete" title="Delete">

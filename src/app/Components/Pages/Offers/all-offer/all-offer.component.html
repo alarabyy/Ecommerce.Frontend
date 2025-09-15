@@ -1,30 +1,30 @@
-<div class.bind="'container page-fade-in'" class="container page-fade-in">
-
-
-    <h1>Manage Offers</h1>
-    <a routerLink="/AddOffer" class="btn btn-primary">
-      <i class="fas fa-plus"></i> Add New Offer
-    </a>
-    <a routerLink="/AddOfferItem" class="btn btn-primary">
-      <i class="fas fa-plus"></i> Add New OfferItem
-    </a>
-
-
-
-
-
+<div class="container page-fade-in">
   <header class="page-header">
     <h1>Special Offers & Bundles</h1>
     <p>Don't miss out on these exclusive deals, available for a limited time!</p>
   </header>
-
+     <a routerLink="/admin/offers/new" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Add New offer
+    </a>
+    <br>
+    <br>
   <main class="offers-main-content">
     <ng-container *ngIf="offers$ | async as offers; else loading">
       <div *ngIf="offers.length > 0; else noItems" class="offers-grid">
+
         <!-- Offer Card -->
-        <a *ngFor="let offer of offers" [routerLink]="['/offer', offer.id]" class="offer-card">
+        <a *ngFor="let offer of offers" [routerLink]="['/admin/offer', offer.id]" class="offer-card">
           <div class="offer-image-container">
             <img [src]="getOfferImage(offer)" [alt]="offer.title" class="offer-image">
+
+            <!-- Wishlist Icon Button -->
+            <button class="wishlist-btn"
+                    (click)="toggleWishlist($event, offer)"
+                    [class.active]="isInWishlist(offer.id)"
+                    [title]="isInWishlist(offer.id) ? 'Remove from Wishlist' : 'Add to Wishlist'">
+              <i class="fas fa-heart"></i>
+            </button>
+
             <div class="item-count-badge">
               <i class="fas fa-box-open"></i> {{ offer.items.length }} Items
             </div>

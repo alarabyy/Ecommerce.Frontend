@@ -20,13 +20,12 @@
       <a routerLink="/home"><i class="fas fa-bolt"></i><span>ProStore</span></a>
     </div>
     <div class="nav-links">
-      <!-- <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a> -->
+      <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
       <!-- <a routerLink="/products" routerLinkActive="active">Products</a> -->
-
+      <a routerLink="/admin/offers" routerLinkActive="active">offers</a>
     </div>
   </div>
 
-  <!-- الجزء الأيمن: أيقونات المستخدم والثيم -->
   <div class="nav-section nav-end">
     <div class="user-actions">
       <div class="theme-switcher">
@@ -34,9 +33,17 @@
         <button (click)="setTheme('dark')" [class.active]="currentTheme === 'dark'" title="Dark Mode" aria-label="Switch to dark mode"><i class="fas fa-moon"></i></button>
         <button (click)="setTheme('auto')" [class.active]="currentTheme === 'auto'" title="System Default" aria-label="Switch to system theme"><i class="fas fa-desktop"></i></button>
       </div>
-      <a href="#" class="action-icon" title="My Account"><i class="fas fa-user-circle"></i></a>
-      <a href="#" class="action-icon" title="Wishlist"><i class="fas fa-heart"></i><span class="badge">3</span></a>
-      <a href="#" class="action-icon" title="Shopping Cart"><i class="fas fa-shopping-bag"></i><span class="badge">5</span></a>
+
+      <ng-container *ngIf="isAuthenticated$ | async; else guestActions">
+        <a routerLink="/admin" class="action-icon" title="Dashboard"><i class="fas fa-tachometer-alt"></i></a>
+        <a href="#" class="action-icon" title="My Account"><i class="fas fa-user-circle"></i></a>
+      </ng-container>
+
+      <ng-template #guestActions>
+        <a routerLink="/login" class="btn btn-primary login-btn">Login</a>
+      </ng-template>
+      <!-- **************************************** -->
+
     </div>
   </div>
 </nav>

@@ -1,40 +1,82 @@
 <div class="container page-fade-in">
   <ng-container *ngIf="offer$ | async as offer; else loading">
-    <div class="offer-details-header">
-      <h1 class="offer-title">{{ offer.title }}</h1>
-      <div class="header-meta">
-        <span>Sold by: <strong>{{ offer.seller.name }}</strong></span>
-        <span>Created: <strong>{{ offer.createdAt | date:'longDate' }}</strong></span>
-      </div>
-      <p class="offer-description">{{ offer.description }}</p>
-    </div>
+    <div class="details-layout">
 
-    <div class="items-section">
-      <h2 class="section-title">Items Included in this Offer</h2>
-      <div class="items-list">
-        <!-- Offer Item -->
-        <div *ngFor="let item of offer.items" class="offer-item">
-          <div class="item-image-container">
-            <!-- Assuming product object has imageUrl in the future -->
-            <img src="https://i.imgur.com/sYv3iC7.png" [alt]="item.product.name" class="item-image">
+      <!-- Image Gallery Column -->
+      <div class="gallery-container">
+        <div class="main-image-wrapper">
+          <img [src]="selectedImage" [alt]="offer.title" (error)="onImageError($event)" class="main-image">
+          <button class="share-btn" title="Share Offer"><i class="fas fa-share-alt"></i></button>
+        </div>
+        <div class="thumbnail-strip">
+          <div *ngFor="let img of offer.images"
+               class="thumbnail-wrapper"
+               [class.active]="img === selectedImage"
+               (click)="selectImage(img)">
+            <img [src]="img" [alt]="'Thumbnail of ' + offer.title" class="thumbnail-image">
           </div>
-          <div class="item-info">
-            <h3 class="item-name">{{ item.product.name }}</h3>
-            <p class="item-description">{{ item.product.description }}</p>
+        </div>
+      </div>
+
+      <!-- Information & Actions Column -->
+      <div class="info-container">
+        <h1 class="offer-title">{{ offer.title }}</h1>
+        <p class="price">{{ (totalPrice$ | async) | currency }}</p>
+
+        <!-- Items in Offer Section -->
+        <div class="options-section">
+          <label class="section-label">Items in this Bundle:</label>
+          <div class="items-list">
+            <div *ngFor="let item of offer.items" class="item-tag">
+              <span>{{ item.product?.name || 'Product ' + item.id }}</span>
+              <span class="item-price">{{ item.price | currency }}</span>
+            </div>
           </div>
-          <div class="item-price-info">
-            <span class="item-price">${{ item.price.toFixed(2) }}</span>
-            <span class="price-label">Offer Price</span>
+        </div>
+
+        <p class="status-message">This offer is available for a limited time!</p>
+
+        <!-- Add to Cart Section -->
+        <div class="actions-section">
+            <label class="section-label">Quantity</label>
+            <div class="actions-row">
+              <div class="quantity-selector">
+                <button>-</button>
+                <input type="text" value="1" readonly>
+                <button>+</button>
+              </div>
+              <button class="btn btn-primary add-to-cart-btn">
+                Add to Cart
+              </button>
+            </div>
+        </div>
+
+        <!-- Trust Badges & Info -->
+        <div class="trust-info">
+          <div class="info-item">
+            <i class="fas fa-undo-alt"></i>
+            <span>30 days return policy. <a href="#">See details</a></span>
           </div>
-          <div class="item-action">
-            <a [routerLink]="['/product', item.product.id]" class="btn btn-secondary">View Product</a>
+          <div class="payment-icons">
+            <i class="fab fa-cc-visa"></i>
+            <i class="fab fa-cc-mastercard"></i>
+            <i class="fab fa-cc-amex"></i>
+            <i class="fab fa-cc-paypal"></i>
+            <i class="fab fa-apple-pay"></i>
+            <i class="fab fa-google-pay"></i>
           </div>
+        </div>
+
+        <!-- About Section -->
+        <div class="about-section">
+          <h3>About this Offer</h3>
+          <p>{{ offer.description }}</p>
         </div>
       </div>
     </div>
   </ng-container>
 
   <ng-template #loading>
-    <div class="state-message"><i class="fas fa-spinner fa-spin"></i></div>
+    <div class="state-message"><i class="fas fa-spinner fa-spin"></i><p>Loading Offer Details...</p></div>
   </ng-template>
 </div>

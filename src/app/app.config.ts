@@ -10,10 +10,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
 
-    // ** 2. تأكد من أن هذا السطر موجود وصحيح **
     provideHttpClient(
       withFetch(),
-      withInterceptors([authInterceptor]) // تفعيل الـ Interceptor هنا
+      withInterceptors([authInterceptor])
     )
   ]
 };

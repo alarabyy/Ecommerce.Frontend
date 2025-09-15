@@ -1,85 +1,90 @@
-<!-- Section 1: Hero -->
+
+ <app-welcome-popup></app-welcome-popup>
+<!-- Hero Section -->
 <section class="hero-section">
-  <div class="hero-content">
-    <h1 class="hero-title">Experience the Future of Shopping</h1>
-    <p class="hero-subtitle">Discover premium electronics and gadgets, delivered with exceptional service.</p>
-    <div class="hero-actions">
-      <a routerLink="/products" class="btn btn-primary btn-lg">
-        <i class="fas fa-store"></i> Explore Products
-      </a>
-      <a routerLink="/register" class="btn btn-secondary btn-lg">
-        <i class="fas fa-user-plus"></i> Create Account
-      </a>
+  <div class="video-background" aria-hidden="true">
+    <video playsinline autoplay muted loop poster="https://via.placeholder.com/1600x900">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-circuit-board-close-up-3379-large.mp4" type="video/mp4">
+    </video>
+    <div [ngClass]="'video-overlay'" class="video-overlay"></div>
+  </div>
+
+  <div class="hero-left">
+    <div class="kicker"><span class="dot"></span><span>ProStore — The Ultimate Experience</span></div>
+    <h1 class="hero-title" id="heroTitle">
+      <span>Where</span> <span>Innovation</span> <span>Meets</span> <span>Desire.</span>
+    </h1>
+    <p class="hero-subtitle" id="heroSubtitle">
+      A curated world of premium electronics. Seamless user experience, lightning-fast shipping, and 24/7 support.
+    </p>
+    <div class="hero-actions" id="heroActions">
+      <a routerLink="/products" class="btn btn-primary" aria-label="Start Exploring"><i class="fas fa-store"></i> Start Exploring</a>
+      <a routerLink="/register" class="btn btn-ghost" aria-label="Join the Future">Join the Future <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+
+  <div class="hero-right" aria-hidden="true">
+    <div class="floating-icons" role="presentation">
+        <div class="icon i1"><i class="fas fa-bolt"></i></div>
+        <div class="icon i2"><i class="fas fa-shield-alt"></i></div>
+        <div class="icon i3"><i class="fas fa-headset"></i></div>
+        <div class="icon i4"><i class="fas fa-box-open"></i></div>
     </div>
   </div>
 </section>
 
-<div class="container page-fade-in">
-  <!-- Section 2: Why Choose Us -->
-  <section class="home-section text-center">
-    <h2 class="section-title">Why ProStore is Your Best Choice</h2>
+<!-- Main container for sections -->
+<div class="container">
+  <!-- Features Section -->
+  <section id="features" class="home-section features-section">
+    <h2 class="section-title">An Unmatched Experience</h2>
     <div class="features-grid">
       <div *ngFor="let feature of features" class="feature-card">
-        <div class="feature-icon">
-          <i [class]="feature.icon"></i>
-        </div>
+        <div class="feature-icon"><i [class]="feature.icon"></i></div>
         <h3 class="feature-title">{{ feature.title }}</h3>
         <p class="feature-description">{{ feature.description }}</p>
       </div>
     </div>
   </section>
 
-  <!-- Section 3: How It Works -->
-  <section class="home-section">
-    <h2 class="section-title">Get Your Gadgets in 3 Easy Steps</h2>
+  <!-- How It Works Section -->
+  <section class="home-section how-it-works-section">
+    <h2 class="section-title">Your Journey in 3 Simple Steps</h2>
     <div class="how-it-works-grid">
       <div class="step-card">
         <div class="step-icon"><i class="fas fa-search"></i></div>
-        <div class="step-number">01</div>
-        <h3 class="step-title">Browse & Discover</h3>
-        <p>Explore our vast collection of curated products and find what you love.</p>
+        <h3 class="step-title">1. Discover</h3>
+        <p>Explore curated collections and find what sparks your passion.</p>
       </div>
-      <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
       <div class="step-card">
         <div class="step-icon"><i class="fas fa-shopping-bag"></i></div>
-        <div class="step-number">02</div>
-        <h3 class="step-title">Add to Cart</h3>
-        <p>Easily add your chosen items to your cart and proceed to a secure checkout.</p>
+        <h3 class="step-title">2. Checkout</h3>
+        <p>A seamless and secure checkout process that takes only seconds.</p>
       </div>
-      <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
       <div class="step-card">
-        <div class="step-icon"><i class="fas fa-truck"></i></div>
-        <div class="step-number">03</div>
-        <h3 class="step-title">Receive & Enjoy</h3>
-        <p>Get your order delivered quickly to your doorstep and enjoy your new gadgets.</p>
+        <div class="step-icon"><i class="fas fa-truck-rocket"></i></div>
+        <h3 class="step-title">3. Enjoy</h3>
+        <p>Fast delivery and easy returns — unbox and enjoy the experience.</p>
       </div>
     </div>
   </section>
 
-  <!-- Section 4: Testimonials -->
+  <!-- Testimonials Section -->
   <section class="home-section testimonials-section">
-    <h2 class="section-title">What Our Customers Say</h2>
-    <div class="testimonials-grid">
-      <div *ngFor="let testimonial of testimonials" class="testimonial-card">
-        <i class="fas fa-quote-left quote-icon"></i>
-        <p class="testimonial-quote">{{ testimonial.quote }}</p>
-        <div class="testimonial-author">
-          <span class="author-name">{{ testimonial.author }}</span>
-          <span class="author-role">{{ testimonial.role }}</span>
+    <h2 class="section-title">Voices of Our Community</h2>
+    <div class="testimonial-carousel-wrapper">
+      <div class="testimonial-carousel" id="testiCarousel" (mouseenter)="pauseCarousel()" (mouseleave)="resumeCarousel()">
+        <div *ngFor="let t of testimonials" class="testimonial-card">
+          <div class="quote">“{{ t.quote }}”</div>
+          <div class="author">— {{ t.author }}, <span>{{ t.role }}</span></div>
+        </div>
+        <!-- Duplicating for infinite scroll effect -->
+        <div *ngFor="let t of testimonials" class="testimonial-card" aria-hidden="true">
+            <div class="quote">“{{ t.quote }}”</div>
+            <div class="author">— {{ t.author }}, <span>{{ t.role }}</span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Section 5: Newsletter CTA -->
-  <section class="home-section cta-section">
-    <div class="cta-content">
-      <h2>Join Our Community</h2>
-      <p>Subscribe to our newsletter to get the latest deals, updates, and exclusive offers delivered straight to your inbox.</p>
-      <form class="subscribe-form">
-        <input type="email" placeholder="Enter your email address...">
-        <button class="btn btn-primary">Subscribe Now</button>
-      </form>
-    </div>
-  </section>
-</div>
+

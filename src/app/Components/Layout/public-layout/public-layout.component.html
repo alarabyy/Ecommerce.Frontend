@@ -1,0 +1,12 @@
+<!-- هذا هو الإطار الذي يراه الزائر العادي -->
+<app-navbar (sidebarToggle)="toggleSidebar()"></app-navbar>
+
+<!-- يمكنك إضافة الشريط الجانبي العام هنا إذا أردت -->
+<!-- <app-sidebar [isOpen]="isSidebarOpen" (close)="isSidebarOpen = false"></app-sidebar> -->
+
+<div class="page-content">
+  <!-- هنا سيتم وضع الصفحات العامة مثل Home, Products, etc. -->
+  <router-outlet></router-outlet>
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,40 @@
+<div class="container page-fade-in">
+  <header class="page-header">
+    <h1>My Wishlist</h1>
+    <p>The offers you've saved for later.</p>
+  </header>
+
+  <main class="wishlist-main-content">
+    <ng-container *ngIf="wishlistItems$ | async as items; else loading">
+      <div *ngIf="items.length > 0; else noItems" class="offers-grid">
+        <!-- Reusing the offer-card design -->
+        <a *ngFor="let item of items" [routerLink]="['/offer', item.id]" class="offer-card">
+          <div class="offer-image-container">
+            <img [src]="getOfferImage(item)" [alt]="item.title" class="offer-image">
+            <button class="wishlist-btn active" (click)="removeFromWishlist($event, item.id)" title="Remove from Wishlist">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="offer-info">
+            <h3 class="offer-title">{{ item.title }}</h3>
+            <div class="offer-footer">
+              <span class="view-deal-btn">View Deal <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </ng-container>
+
+    <ng-template #loading>
+      <div class="state-message"><i class="fas fa-spinner fa-spin"></i><p>Loading your wishlist...</p></div>
+    </ng-template>
+
+    <ng-template #noItems>
+      <div class="state-message">
+        <i class="fas fa-heart-broken"></i>
+        <p>Your wishlist is empty.</p>
+        <a routerLink="/offers" class="btn btn-primary">Explore Offers</a>
+      </div>
+    </ng-template>
+  </main>
+</div>

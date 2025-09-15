@@ -6,9 +6,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.getToken();
 
-  // --- *** هذا هو الشرط الصحيح والنهائي *** ---
-  // A simple, robust, and future-proof condition:
-  // If the API URL includes '/dashboard/', it's a protected route.
+
   const isDashboardApiUrl = req.url.includes('/dashboard/');
 
   if (token && isDashboardApiUrl) {

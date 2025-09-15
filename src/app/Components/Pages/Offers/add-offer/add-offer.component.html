@@ -20,10 +20,12 @@
       </div>
 
       <div class="form-group">
-        <label for="image">Main Offer Image</label>
-        <input type="file" id="image" (change)="onFileChange($event)" formControlName="image" accept="image/*">
-        <div *ngIf="imagePreview" class="image-preview">
-          <img [src]="imagePreview" alt="Image Preview" width="200">
+        <label for="images">Offer Images</label>
+        <input type="file" id="images" (change)="onFileChange($event)" multiple formControlName="images" accept="image/*">
+
+        <!-- ** تم تصحيح اسم المتغير هنا ** -->
+        <div *ngIf="imagePreviews.length > 0" class="image-previews">
+          <img *ngFor="let preview of imagePreviews" [src]="preview" alt="Image Preview" class="preview-image">
         </div>
       </div>
 
@@ -34,11 +36,15 @@
         <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="item-row">
           <div class="form-group">
             <label for="productId-{{i}}">Product ID</label>
-            <input type="number" id="productId-{{i}}" formControlName="productId">
+            <input type="number" id="productId-{{i}}" formControlName="ProductId">
           </div>
           <div class="form-group">
             <label for="price-{{i}}">Offer Price</label>
-            <input type="number" id="price-{{i}}" formControlName="price">
+            <input type="number" id="price-{{i}}" formControlName="Price">
+          </div>
+           <div class="form-group">
+            <label for="available-{{i}}">Available Stock</label>
+            <input type="number" id="available-{{i}}" formControlName="Available">
           </div>
           <div class="item-actions">
             <button type="button" class="remove-btn" (click)="removeItem(i)" [disabled]="items.length === 1">

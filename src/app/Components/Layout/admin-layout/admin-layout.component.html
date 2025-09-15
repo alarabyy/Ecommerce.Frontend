@@ -1,0 +1,12 @@
+<div class="admin-container">
+  <app-sidebar [isOpen]="isSidebarOpen" (close)="isSidebarOpen = false"></app-sidebar>
+
+  <main class="admin-content" [class.sidebar-open]="isSidebarOpen">
+    <!-- يمكنك إضافة شريط علوي خاص بالأدمن هنا إذا أردت -->
+    <!-- <app-admin-navbar (sidebarToggle)="toggleSidebar()"></app-admin-navbar> -->
+
+    <div class="page-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

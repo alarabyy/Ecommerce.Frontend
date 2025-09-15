@@ -34,14 +34,16 @@
 
 .nav-start {
   justify-content: flex-start;
+  min-width: 200px; // To balance the layout
 }
 
 .nav-end {
   justify-content: flex-end;
+  min-width: 200px; // To balance the layout
 }
 
 .menu-toggle {
-  display: none; // يظهر فقط على الشاشات الصغيرة
+  display: none;
   background: none;
   border: none;
   font-size: 1.5rem;
@@ -173,45 +175,45 @@
   }
 }
 
-/* --- Responsive Design --- */
+// ** تنسيق زر Login **
+.login-btn {
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+}
 
-// For Laptops and large tablets
+/* --- Responsive Design --- */
 @media (max-width: 1200px) {
   .nav-links {
     display: none;
   }
+  .nav-start, .nav-end {
+      min-width: auto;
+  }
   .nav-center {
-    flex-grow: 0;
+      flex-grow: 1;
+      justify-content: flex-start;
   }
 }
 
-// For Tablets
 @media (max-width: 992px) {
-  .navbar {
-    padding: 0.75rem 1.5rem;
-  }
-  .menu-toggle {
-    display: flex;
-  }
+  .navbar { padding: 0.75rem 1.5rem; }
+  .menu-toggle { display: flex; }
+  .nav-center { justify-content: center; }
 }
 
-// For Mobile Phones
 @media (max-width: 768px) {
-  // ** تم إزالة السطر الذي كان يخفي أزرار الهيستوري **
-  // .history-nav { display: none; }
-
-  .theme-switcher {
-    display: none; // Hide less critical icons on small screens
+  .history-nav, .theme-switcher, .action-icon {
+    display: none;
   }
   .nav-center {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     .logo span {
-      display: none; // Hide text, keep icon
+      display: none;
     }
   }
   .nav-end {
-    margin-left: auto; // Push user actions to the far right
+    margin-left: auto;
   }
 }

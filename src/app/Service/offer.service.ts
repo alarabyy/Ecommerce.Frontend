@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { Offer, PaginatedOffers, OfferCreatePayload, OfferItemPayload, CreateOfferResponse } from '../Models/Offer';
+import {
+  Offer,
+  PaginatedOffers,
+  CreateOfferResponse,
+  OfferItemPayload
+} from '../Models/Offer'; // تأكد من صحة المسار
 import { environment } from '../Environments/environment';
 
 @Injectable({
@@ -13,19 +18,23 @@ export class OfferService {
 
   constructor(private http: HttpClient) {}
 
+  // دالة مساعدة لبناء الرابط الكامل للصورة
   private buildFullImageUrl(imageName: string | null): string {
     if (!imageName || imageName.startsWith('http')) {
-      return imageName || 'https://via.placeholder.com/400x225'; // Default placeholder
+      return imageName || 'https://via.placeholder.com/400x225/f4f7fc/a0aec0?text=ProStore+Offer';
     }
-    // Assuming offer images are stored in a specific path
+    // مسار الصور بناءً على الـ Backend
     return `${this.serverStaticFilesUrl}/images/offers/${imageName}`;
   }
+
+  // --- Public (Read) Operations ---
 
   // GET /api/offers (Public, paginated)
   getOffers(page: number = 1, itemsPerPage: number = 10): Observable<PaginatedOffers> {
     const params = new HttpParams()
       .set('Page', page.toString())
       .set('ItemsPerPage', itemsPerPage.toString());
+
     return this.http.get<PaginatedOffers>(`${this.apiUrl}/offers`, { params }).pipe(
         map(response => ({
             ...response,
@@ -47,20 +56,39 @@ export class OfferService {
     );
   }
 
-  // POST /api/dashboard/offers/create
-  addOffer(offer: OfferCreatePayload): Observable<CreateOfferResponse> {
-    return this.http.post<CreateOfferResponse>(`${this.apiUrl}/dashboard/offers/create`, offer);
+  // --- Dashboard (Write) Operations (Protected by Interceptor) ---
+
+  /**
+   * Creates a new offer shell with title, description, and items.
+   * Images must be uploaded separately using uploadOfferImage.
+   */
+  addOffer(title: string, description: string, items: { ProductId: number; Price: number; Available: number }[]): Observable<CreateOfferResponse> {
+    const params = new HttpParams()
+      .set('Title', title)
+      .set('Description', description)
+      .set('Items', JSON.stringify(items)); // Items are sent as a JSON string in params
+
+    // The body can be empty FormData if the API requires multipart, even without files.
+    const formData = new FormData();
+
+    return this.http.post<CreateOfferResponse>(`${this.apiUrl}/dashboard/offers/create`, formData, { params });
   }
 
-  // POST /api/dashboard/offers/image
+  /**
+   * Uploads an image for an existing offer.
+   */
   uploadOfferImage(offerId: number, imageFile: File): Observable<any> {
     const formData = new FormData();
     formData.append('ImageFile', imageFile);
+
     const params = new HttpParams().set('OfferId', offerId.toString());
+
     return this.http.post(`${this.apiUrl}/dashboard/offers/image`, formData, { params });
   }
 
-  // POST /api/dashboard/offers/item
+  /**
+   * Adds a single product item to an existing offer.
+   */
   addOfferItem(itemPayload: OfferItemPayload): Observable<any> {
     return this.http.post(`${this.apiUrl}/dashboard/offers/item`, itemPayload);
   }

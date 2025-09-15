@@ -50,7 +50,7 @@
   .item-count-badge {
     position: absolute;
     bottom: 1rem;
-    right: 1rem;
+    left: 1rem;
     background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
     padding: 0.4rem 0.8rem;
@@ -105,18 +105,48 @@
   i { margin-left: 0.5rem; }
 }
 
-.state-message {
-  // Styles for loading/empty messages
-}
-.page-header {
+.wishlist-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &.active {
+    background-color: #e53935;
+    color: #fff;
+  }
 }
 
-h1 {
-  color: var(--text-color-dark);
+.state-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: var(--text-color);
+  i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  p {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
 }

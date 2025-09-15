@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { forkJoin, switchMap, of } from 'rxjs';
 import { OfferService } from '../../../../Service/offer.service';
 
 @Component({
@@ -14,8 +14,8 @@ import { OfferService } from '../../../../Service/offer.service';
 })
 export class AddOfferComponent implements OnInit {
   offerForm!: FormGroup;
-  imagePreview: string | ArrayBuffer | null = null;
-  imageFile: File | null = null;
+  imagePreviews: string[] = []; // Can hold multiple image previews
+  imageFiles: File[] = []; // Can hold multiple files
   errorMessage: string | null = null;
   isSubmitting = false;
 
@@ -29,8 +29,8 @@ export class AddOfferComponent implements OnInit {
     this.offerForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      image: [null, Validators.required], // For the file input
-      items: this.fb.array([], Validators.required)
+      images: [null, Validators.required], // Validator for the file input
+      items: this.fb.array([], [Validators.required, Validators.minLength(1)])
     });
     this.addItem();
   }
@@ -41,8 +41,9 @@ export class AddOfferComponent implements OnInit {
 
   newItem(): FormGroup {
     return this.fb.group({
-      productId: [null, [Validators.required, Validators.min(1)]],
-      price: [null, [Validators.required, Validators.min(0.01)]]
+      ProductId: [null, [Validators.required, Validators.min(1)]],
+      Price: [null, [Validators.required, Validators.min(0.01)]],
+      Available: [0, [Validators.required, Validators.min(0)]]
     });
   }
 
@@ -57,17 +58,25 @@ export class AddOfferComponent implements OnInit {
   }
 
   onFileChange(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.imageFile = file;
-      const reader = new FileReader();
-      reader.onload = () => this.imagePreview = reader.result;
-      reader.readAsDataURL(file);
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.imageFiles = Array.from(input.files);
+      this.offerForm.patchValue({ images: this.imageFiles });
+      this.offerForm.get('images')?.updateValueAndValidity();
+
+      this.imagePreviews = []; // Clear previous previews
+      Array.from(input.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.imagePreviews.push(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      });
     }
   }
 
   onSubmit() {
-    if (this.offerForm.invalid || !this.imageFile) {
+    if (this.offerForm.invalid) {
       this.offerForm.markAllAsTouched();
       return;
     }
@@ -75,19 +84,25 @@ export class AddOfferComponent implements OnInit {
     this.isSubmitting = true;
     this.errorMessage = null;
 
-    const offerPayload = {
-      title: this.offerForm.get('title')?.value,
-      description: this.offerForm.get('description')?.value,
-      items: this.offerForm.get('items')?.value
-    };
+    const { title, description, items } = this.offerForm.value;
 
-    this.offerService.addOffer(offerPayload).pipe(
-      switchMap(response => {
-        if (response.success && response.data.id && this.imageFile) {
-          // If offer is created, upload the image
-          return this.offerService.uploadOfferImage(response.data.id, this.imageFile);
+    this.offerService.addOffer(title, description, items).pipe(
+      switchMap(createResponse => {
+        if (!createResponse.success || !createResponse.data) {
+          throw new Error('Failed to create the offer shell.');
+        }
+        const newOfferId = createResponse.data;
+
+        // If there are images to upload, create an array of upload observables
+        if (this.imageFiles.length > 0) {
+          const uploadObservables = this.imageFiles.map(file =>
+            this.offerService.uploadOfferImage(newOfferId, file)
+          );
+          // Use forkJoin to execute all upload requests in parallel
+          return forkJoin(uploadObservables);
         } else {
-          throw new Error(response.message || 'Failed to create offer.');
+          // If no images, just return an observable of null to continue
+          return of(null);
         }
       })
     ).subscribe({
@@ -95,7 +110,7 @@ export class AddOfferComponent implements OnInit {
         this.router.navigate(['/admin/offers']);
       },
       error: (err) => {
-        this.errorMessage = err.message || 'An error occurred.';
+        this.errorMessage = err.message || 'An error occurred during the process.';
         this.isSubmitting = false;
       }
     });

@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Output, HostListener } from '@angular/core';
+import { Component, EventEmitter, Output, HostListener, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Theme, ThemeService } from '../../../Service/theme.service'; // تأكد من صحة المسار
+import { Theme, ThemeService } from '../../../Service/theme.service'; // تأكد من المسار
+import { AuthService } from '../../../Service/auth.service'; // ** 1. استيراد AuthService **
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -10,41 +12,43 @@ import { Theme, ThemeService } from '../../../Service/theme.service'; // تأك�
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   @Output() sidebarToggle = new EventEmitter<void>();
   isScrolled = false;
   currentTheme: Theme;
+  isAuthenticated$!: Observable<boolean>; // ** 2. متغير جديد لحالة المصادقة **
 
   constructor(
     private themeService: ThemeService,
-    private location: Location // خدمة Angular للتحكم في هيستوري المتصفح
+    private location: Location,
+    private authService: AuthService // ** 3. حقن AuthService **
   ) {
     this.currentTheme = this.themeService.getCurrentTheme();
   }
 
-  // تتبع التمرير لإضافة تأثيرات على الـ Navbar
+  ngOnInit(): void {
+    // 4. ربط المتغير بحالة المصادقة من الخدمة
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
+  }
+
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isScrolled = window.scrollY > 10;
   }
 
-  // إرسال حدث لفتح/إغلاق الشريط الجانبي
   onToggleSidebar() {
     this.sidebarToggle.emit();
   }
 
-  // تغيير الثيم (نهاري/ليلي/تلقائي)
   setTheme(theme: Theme) {
     this.themeService.setTheme(theme);
     this.currentTheme = theme;
   }
 
-  // دالة للعودة إلى الصفحة السابقة
   goBack(): void {
     this.location.back();
   }
 
-  // دالة للذهاب إلى الصفحة التالية (إذا كانت موجودة في الهيستوري)
   goForward(): void {
     this.location.forward();
   }

@@ -1,0 +1,19 @@
+.admin-container {
+  display: flex;
+}
+
+.admin-content {
+  flex-grow: 1;
+  transition: margin-left 0.3s ease;
+
+  // عندما يكون الشريط الجانبي مفتوحًا على الشاشات الكبيرة
+  &.sidebar-open {
+    @media (min-width: 992px) {
+      margin-left: 260px; // نفس عرض الشريط الجانبي
+    }
+  }
+}
+
+.page-wrapper {
+  padding: 2rem;
+}

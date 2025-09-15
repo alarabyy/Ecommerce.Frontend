@@ -1,0 +1,14 @@
+<div *ngIf="isOpen" class="popup-overlay">
+  <div class="popup-content animate__animated animate__zoomIn">
+    <button class="btn-close" (click)="closePopup()"></button>
+    <h2 class="text-center text-primary">🎉 Welcome to Our Store!</h2>
+    <!-- <p class="text-center">
+      Enjoy <span class="fw-bold text-success">20% OFF</span> on your first order.
+    </p> -->
+    <div class="text-center">
+      <button class="btn btn-primary px-4" (click)="closePopup()">
+        Lets GO🚀
+      </button>
+    </div>
+  </div>
+</div>

@@ -9,7 +9,7 @@
       <div *ngIf="mails.length > 0; else noItems" class="mails-list">
         <!-- Mail Item Row -->
         <a *ngFor="let mail of mails"
-           [routerLink]="['/mails/reply', mail.id]"
+           [routerLink]="['/admin/mails/reply', mail.id]"
            class="mail-item"
            [class.replied]="mail.isReplied">
 

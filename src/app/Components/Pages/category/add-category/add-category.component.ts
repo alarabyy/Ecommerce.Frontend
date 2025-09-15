@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { CategoryService } from '../../../../Service/category.service'; 
+import { CategoryService } from '../../../../Service/category.service';
 
 @Component({
   selector: 'app-add-category',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
-  templateUrl: './add-category.component.html',
+  templateUrl: 'add-category.component.html',
   styleUrls: ['./add-category.component.scss']
 })
 export class AddCategoryComponent implements OnInit {

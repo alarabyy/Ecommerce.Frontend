@@ -1,0 +1,15 @@
+// Reusing the styles from all-offers.component for consistency
+@import '../offers/all-offers/all-offers.component.scss';
+
+// Specific style for the remove button on the wishlist page
+.wishlist-btn.active {
+    background-color: #e53935;
+    color: #fff;
+    &:hover {
+        background-color: darken(#e53935, 10%);
+    }
+}
+
+.state-message .btn {
+    margin-top: 1rem;
+}
