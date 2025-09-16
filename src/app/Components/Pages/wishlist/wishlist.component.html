@@ -8,7 +8,7 @@
     <ng-container *ngIf="wishlistItems$ | async as items; else loading">
       <div *ngIf="items.length > 0; else noItems" class="offers-grid">
         <!-- Reusing the offer-card design -->
-        <a *ngFor="let item of items" [routerLink]="['/offer', item.id]" class="offer-card">
+        <a *ngFor="let item of items" [routerLink]="['/admin/offer', item.id]" class="offer-card">
           <div class="offer-image-container">
             <img [src]="getOfferImage(item)" [alt]="item.title" class="offer-image">
             <button class="wishlist-btn active" (click)="removeFromWishlist($event, item.id)" title="Remove from Wishlist">
