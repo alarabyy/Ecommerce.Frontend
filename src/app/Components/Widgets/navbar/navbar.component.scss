@@ -32,15 +32,8 @@
   justify-content: center;
 }
 
-.nav-start {
-  justify-content: flex-start;
-  min-width: 200px; // To balance the layout
-}
-
-.nav-end {
-  justify-content: flex-end;
-  min-width: 200px; // To balance the layout
-}
+.nav-start { justify-content: flex-start; min-width: 200px; }
+.nav-end { justify-content: flex-end; min-width: 200px; }
 
 .menu-toggle {
   display: none;
@@ -84,20 +77,20 @@
   color: var(--text-color-dark);
   text-decoration: none;
 
-  i {
-    color: var(--primary-color);
-  }
+  i { color: var(--primary-color); }
 }
 
 .nav-links {
   display: flex;
   gap: 2rem;
+
   a {
     color: var(--text-color);
     text-decoration: none;
     font-weight: 500;
     position: relative;
     padding: 0.5rem 0;
+
     &::after {
       content: '';
       position: absolute;
@@ -110,18 +103,12 @@
     }
     &.active, &:hover {
       color: var(--primary-color);
-      &::after {
-        width: 100%;
-      }
+      &::after { width: 100%; }
     }
   }
 }
 
-.user-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
+.user-actions { display: flex; align-items: center; gap: 1.5rem; }
 
 .theme-switcher {
   display: flex;
@@ -153,9 +140,7 @@
   font-size: 1.6rem;
   transition: color 0.2s;
 
-  &:hover {
-    color: var(--primary-color);
-  }
+  &:hover { color: var(--primary-color); }
 
   .badge {
     position: absolute;
@@ -175,24 +160,13 @@
   }
 }
 
-// ** تنسيق زر Login **
-.login-btn {
-  padding: 0.5rem 1.5rem;
-  font-weight: 600;
-}
+.login-btn { padding: 0.5rem 1.5rem; font-weight: 600; }
 
 /* --- Responsive Design --- */
 @media (max-width: 1200px) {
-  .nav-links {
-    display: none;
-  }
-  .nav-start, .nav-end {
-      min-width: auto;
-  }
-  .nav-center {
-      flex-grow: 1;
-      justify-content: flex-start;
-  }
+  .nav-links { display: none; }
+  .nav-start, .nav-end { min-width: auto; }
+  .nav-center { flex-grow: 1; justify-content: flex-start; }
 }
 
 @media (max-width: 992px) {
@@ -202,18 +176,66 @@
 }
 
 @media (max-width: 768px) {
-  .history-nav, .theme-switcher, .action-icon {
-    display: none;
-  }
+  .history-nav, .theme-switcher, .action-icon { display: none; }
   .nav-center {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    .logo span {
-      display: none;
-    }
+    .logo span { display: none; }
   }
-  .nav-end {
-    margin-left: auto;
+  .nav-end { margin-left: auto; }
+}
+
+/* ✅ Sidebar Design */
+.mobile-sidebar {
+  position: fixed;
+  top: 0; left: -250px;
+  width: 250px;
+  height: 100%;
+  background: var(--bg-color-light);
+  box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  transition: left 0.3s ease;
+  z-index: 1050;
+
+  &.open { left: 0; }
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color);
   }
+}
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  a {
+    text-decoration: none;
+    color: var(--text-color-dark);
+    font-weight: 500;
+    &:hover { color: var(--primary-color); }
+  }
+}
+
+/* ✅ Overlay */
+.overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1040;
 }

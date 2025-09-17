@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output, HostListener, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Theme, ThemeService } from '../../../Service/theme.service'; // تأكد من المسار
-import { AuthService } from '../../../Service/auth.service'; // ** 1. استيراد AuthService **
+import { Theme, ThemeService } from '../../../Service/theme.service';
+import { AuthService } from '../../../Service/auth.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -16,18 +16,18 @@ export class NavbarComponent implements OnInit {
   @Output() sidebarToggle = new EventEmitter<void>();
   isScrolled = false;
   currentTheme: Theme;
-  isAuthenticated$!: Observable<boolean>; // ** 2. متغير جديد لحالة المصادقة **
+  isAuthenticated$!: Observable<boolean>;
+  isMobileMenuOpen = false; // ✅ حالة فتح/غلق السايد بار
 
   constructor(
     private themeService: ThemeService,
     private location: Location,
-    private authService: AuthService // ** 3. حقن AuthService **
+    private authService: AuthService
   ) {
     this.currentTheme = this.themeService.getCurrentTheme();
   }
 
   ngOnInit(): void {
-    // 4. ربط المتغير بحالة المصادقة من الخدمة
     this.isAuthenticated$ = this.authService.isAuthenticated$;
   }
 
@@ -51,5 +51,13 @@ export class NavbarComponent implements OnInit {
 
   goForward(): void {
     this.location.forward();
+  }
+
+  toggleMobileMenu() { // ✅ فتح/غلق السايد بار
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu() { // ✅ قفل السايد بار عند الضغط على لينك
+    this.isMobileMenuOpen = false;
   }
 }

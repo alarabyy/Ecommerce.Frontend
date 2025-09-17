@@ -1,7 +1,8 @@
 <nav class="navbar" [class.scrolled]="isScrolled">
-  <!-- الجزء الأيسر: زر القائمة وأزرار الهيستوري -->
+  <!-- الجزء الأيسر -->
   <div class="nav-section nav-start">
-    <button class="menu-toggle" (click)="onToggleSidebar()" aria-label="Toggle Sidebar">
+    <!-- ✅ زرار الموبايل -->
+    <button class="menu-toggle" (click)="toggleMobileMenu()" aria-label="Toggle Sidebar">
       <i class="fas fa-bars"></i>
     </button>
     <div class="history-nav">
@@ -14,24 +15,24 @@
     </div>
   </div>
 
-  <!-- الجزء الأوسط: الشعار والروابط الرئيسية -->
+  <!-- الجزء الأوسط -->
   <div class="nav-section nav-center">
     <div class="logo">
       <a routerLink="/home"><i class="fas fa-bolt"></i><span>ProStore</span></a>
     </div>
     <div class="nav-links">
       <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-      <!-- <a routerLink="/products" routerLinkActive="active">Products</a> -->
-      <a routerLink="/admin/offers" routerLinkActive="active">offers</a>
+      <a routerLink="/admin/offers" routerLinkActive="active">Offers</a>
     </div>
   </div>
 
+  <!-- الجزء الأيمن -->
   <div class="nav-section nav-end">
     <div class="user-actions">
       <div class="theme-switcher">
-        <button (click)="setTheme('light')" [class.active]="currentTheme === 'light'" title="Light Mode" aria-label="Switch to light mode"><i class="fas fa-sun"></i></button>
-        <button (click)="setTheme('dark')" [class.active]="currentTheme === 'dark'" title="Dark Mode" aria-label="Switch to dark mode"><i class="fas fa-moon"></i></button>
-        <button (click)="setTheme('auto')" [class.active]="currentTheme === 'auto'" title="System Default" aria-label="Switch to system theme"><i class="fas fa-desktop"></i></button>
+        <button (click)="setTheme('light')" [class.active]="currentTheme === 'light'" title="Light Mode"><i class="fas fa-sun"></i></button>
+        <button (click)="setTheme('dark')" [class.active]="currentTheme === 'dark'" title="Dark Mode"><i class="fas fa-moon"></i></button>
+        <button (click)="setTheme('auto')" [class.active]="currentTheme === 'auto'" title="System Default"><i class="fas fa-desktop"></i></button>
       </div>
 
       <ng-container *ngIf="isAuthenticated$ | async; else guestActions">
@@ -42,8 +43,28 @@
       <ng-template #guestActions>
         <a routerLink="/login" class="btn btn-primary login-btn">Login</a>
       </ng-template>
-      <!-- **************************************** -->
-
     </div>
   </div>
 </nav>
+
+<!-- ✅ السايد بار للموبايل -->
+<div class="mobile-sidebar" [class.open]="isMobileMenuOpen">
+  <div class="sidebar-header">
+    <span>Menu</span>
+    <button class="close-btn" (click)="closeMobileMenu()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="sidebar-links">
+    <a routerLink="/home" (click)="closeMobileMenu()">Home</a>
+    <a routerLink="/admin/offers" (click)="closeMobileMenu()">Offers</a>
+    <ng-container *ngIf="isAuthenticated$ | async; else guestLinks">
+      <a routerLink="/admin" (click)="closeMobileMenu()">Dashboard</a>
+      <a href="#" (click)="closeMobileMenu()">My Account</a>
+    </ng-container>
+    <ng-template #guestLinks>
+      <a routerLink="/login" (click)="closeMobileMenu()">Login</a>
+    </ng-template>
+  </div>
+</div>
+
+<!-- ✅ خلفية شفافة عند فتح السايد بار -->
+<div class="overlay" *ngIf="isMobileMenuOpen" (click)="closeMobileMenu()"></div>
